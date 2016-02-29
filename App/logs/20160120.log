@@ -1,0 +1,34 @@
+[ 2016-01-20 18:17:42 ][NORMAL]Type:Exception Info:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+[ 2016-01-20 18:18:31 ][SQL]SELECT "id","user_id","title","comment_count","reply_id" FROM "topic"
+[ 2016-01-20 18:18:31 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:31 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:31 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:31 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:31 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:31 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:48 ][SQL]SELECT "id","user_id","title","comment_count","reply_id" FROM "topic"
+[ 2016-01-20 18:18:48 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:48 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:48 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:48 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:48 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:48 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:18:50 ][SQL]SELECT "topic"."id","topic"."user_id","topic"."title","topic"."reply_id","user"."username" FROM "topic" INNER JOIN "user" ON "topic"."user_id" = "user"."id" WHERE "topic"."id" = '2'
+[ 2016-01-20 18:18:50 ][SQL]SELECT "topic_id","content" FROM "topic_content" WHERE "topic_id" = '2'
+[ 2016-01-20 18:18:50 ][NORMAL]Type:Unknown Info:Non-static method EventHandle::gtParse() should not be called statically, assuming $this from incompatible context Line:55 File:/Users/Kotori/Documents/htdocs/v2ex/App/Controller/TopicController.class.php
+[ 2016-01-20 18:18:50 ][NORMAL]Type:Unknown Info:Non-static method EventHandle::hrefParse() should not be called statically, assuming $this from incompatible context Line:56 File:/Users/Kotori/Documents/htdocs/v2ex/App/Controller/TopicController.class.php
+[ 2016-01-20 18:18:50 ][SQL]SELECT "comment"."id","comment"."user_id","comment"."content","user"."username" FROM "comment" INNER JOIN "user" ON "comment"."user_id" = "user"."id" ORDER BY "comment"."id" ASC
+[ 2016-01-20 18:32:42 ][SQL]SELECT "id","user_id","title","comment_count","reply_id" FROM "topic"
+[ 2016-01-20 18:32:42 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:32:42 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:32:42 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:32:42 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:32:42 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 18:32:42 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 21:37:55 ][SQL]SELECT "id","user_id","title","comment_count","reply_id" FROM "topic"
+[ 2016-01-20 21:37:55 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 21:37:55 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 21:37:55 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 21:37:55 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 21:37:55 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-20 21:37:55 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'

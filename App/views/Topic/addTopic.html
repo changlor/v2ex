@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="private" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/codemirror.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/neo.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/select2.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <?php $this->need('Public/header'); ?>
+    <div id="Wrapper">
+        <div class="content">    
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo); ?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box" id="box">
+                    <div class="cell">
+                        <a href="<?php echo $this->route->url('/'); ?>">V2EX</a>
+                        <span class="chevron">&nbsp;›&nbsp;</span>
+                        创作新主题
+                    </div>
+                    <form method="post" action="<?php echo $this->route->url('Topic/addTopic'); ?>" id="compose">
+                    <?php if(isset($output)): ?>
+                        <div class="problem">
+                            保存新主题过程中遇到一些问题：
+                            <ul>
+                        <?php foreach ($output as $key => $value): ?>
+                            <?php 
+                                if ($value['event'] == 'exist'){
+                                    $pos = 'exist_title';
+                                } 
+                            ?>
+                            <?php if ($value['msg'] != 'pass'): ?>
+                            <li><?=$value['msg']; ?></li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                            </ul>
+                            <?php if (isset($pos)): ?>
+                                <div class="sep20"></div>
+                                以下文章标题重复，你可以点击标题在新窗口中查看其内容：
+                                <ul>
+                                    <li>
+                                        <a href="/t/211955#reply10" target="_blank">1</a>
+                                        by
+                                        <a href="/member/gb527" target="_blank">gb527</a> 
+                                        - 
+                                        <span class="fade">161 天前</span>
+                                    </li>
+                                </ul>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                        <div class="cell">
+                            <div class="fr fade" id="title_remaining">120</div>
+                            主题标题
+                        </div>
+                        <div class="cell" style="padding: 0px; background-color: #fff;">
+                            <textarea class="msl" rows="1" maxlength="120" id="topic_title" name="title" autofocus="autofocus" placeholder="请输入主题标题，如果标题能够表达完整内容，则正文可以为空"></textarea>
+                        </div>
+                        <div class="cell">
+                            <div class="fr fade" id="content_remaining">20000</div>
+                            正文
+                        </div>
+                        <div style="text-align: left; border-bottom: 1px solid #e2e2e2; font-size: 14px; line-height: 120%;">
+                            <textarea maxlength="20000" id="editor" name="content"></textarea>
+                        </div>
+                        <?php $this->need('Public/node'); ?>
+                        <div class="cell">
+                            最热节点 &nbsp; <a href="javascript:chooseNode('qna')" class="node">问与答</a> &nbsp;<a href="javascript:chooseNode('all4all')" class="node">二手交易</a> &nbsp;<a href="javascript:chooseNode('share')" class="node">分享发现</a> &nbsp;<a href="javascript:chooseNode('jobs')" class="node">酷工作</a> &nbsp;<a href="javascript:chooseNode('programmer')" class="node">程序员</a> &nbsp;<a href="javascript:chooseNode('macosx')" class="node">Mac OS X</a> &nbsp;<a href="javascript:chooseNode('create')" class="node">分享创造</a> &nbsp;<a href="javascript:chooseNode('python')" class="node">Python</a> &nbsp;<a href="javascript:chooseNode('shadowsocks')" class="node">shadowsocks</a> &nbsp;<a href="javascript:chooseNode('iphone')" class="node">iPhone</a> &nbsp;<a href="javascript:chooseNode('in')" class="node">分享邀请码</a> &nbsp;
+                        </div>
+                        <input type="hidden" name="content" value="" id="topic_content" />
+                        <input type="hidden" name="once" value="10301" />
+                    </form>
+                    <div class="cell">
+                        <div class="fr">
+                            <span id="error_message"></span> 
+                            &nbsp; 
+                            <button type="button" class="super normal button" onclick="publishTopic();">
+                                <li class="fa icon-magic"></li> 
+                                &nbsp;发布主题
+                            </button>
+                        </div>
+                        <button class="super normal button" onclick="previewTopic();">
+                            <li class="fa icon-eye-open"></li> 
+                            &nbsp;预览主题
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="c"></div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer'); ?>
+    <script>
+        var LOCAL = "<?php echo $this->route->url(); ?>";
+    </script>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/codemirror.js"></script>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/markdown.js"></script>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/select2.min.js"></script>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/v2ex.js"></script>
+    <script>
+        var editor;
+        $(document).ready(function() {
+            $("#nodes").select2();
+            editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+            lineNumbers: true,
+            mode: "markdown",
+            theme: "neo",
+            indentUnit: 4,
+            lineWrapping: true
+        });
+        editor.on('change', function(cm, change) {
+            var text = cm.getValue();
+            var max = 20000;
+            var remaining = max - text.length;
+            var r = $("#content_remaining");
+            r.html(remaining);
+        });
+        $("#topic_title").keyup(function(e) {
+            var s = $("#topic_title");
+            var text = s.val()
+            var max = 120;
+            var remaining = max - text.length;
+            var r = $("#title_remaining");
+            r.html(remaining);
+        });
+    });
+    function chooseNode(node) {
+        $("#nodes").select2("val", node);
+    }
+    </script>
+</body>
+</html>

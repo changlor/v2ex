@@ -1,0 +1,56 @@
+<div id="Top">
+    <div class="content">
+        <div style="padding-top: 6px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="110" align="left">
+                            <a href="<?php echo $this->route->url('/'); ?>" name="top" title="way to explore">
+                                <img src="<?php echo PUBLIC_DIR; ?>/img/logo.png" border="0" align="default"
+                                alt="V2EX" width="94" height="30" />
+                            </a>
+                        </td>
+                        <td width="auto" align="left">
+                            <div id="Search">
+                                <form onsubmit="return dispatch()">
+                                    <div style="width: 276px; height: 28px; background-size: 276px 28px; background-image: url(<?php echo PUBLIC_DIR; ?>/img/search.png); background-repeat: no-repeat; display: inline-block;">
+                                        <input type="text" maxlength="40" name="q" id="q" value="" />
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                        <?php
+                            $menu = array(
+                                '首页' => $this->route->url('/'),
+                                '老金' => 'javascript:;',
+                                '工作空间' => 'javascript:;',
+                                '记事本' => 'javascript:;', 
+                                '时间轴' => 'javascript:;', 
+                                '设置' => 'javascript:;',
+                            );
+                            if (rCookie('NA') == '') {
+                                $menu = array(
+                                    '首页' => $this->route->url('/'),
+                                    '注册' => $this->route->url('signup'),
+                                    '登录' => $this->route->url('signin'),
+                                );
+                            }
+                        ?>
+                        <td width="570" align="right" style="padding-top: 2px;">
+                        <?php foreach ($menu as $key => $value): ?>
+                            <a href="<?=$value; ?>" class="top">
+                                <?=$key; ?>
+                                &nbsp;
+                            </a>
+                        <?php endforeach; ?>
+                            <a href="#;" onclick="if (confirm('确定要从 V2EX 登出？')) { location.href= '/signout?once=72690'; }"
+                            class="top">
+                                登出
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

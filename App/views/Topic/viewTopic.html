@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+    <head>
+        <title>
+            V2EX
+        </title>
+        <meta charset="utf-8">
+        <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+    <?php $this->need('Public/header'); ?>
+        <div id="Wrapper">
+            <div class="content">
+                <div id="Leftbar">
+                </div>
+                <div id="Rightbar">
+                <?php $this->need('Public/rightBar',$rightBarInfo); ?>
+                </div>
+                <div id="Main">
+                    <div class="sep20">
+                    </div>
+                    <?php if (isset($output)): ?>
+                    <div class="box">
+                        <div class="header">
+                            <a href="<?php echo $this->route->url('/'); ?>">V2EX</a>
+                            <span class="chevron">&nbsp;›&nbsp;</span>
+                            <a href="<?php echo $this->route->url('t/' . $topic['id']); ?>"><?=$topic['title']; ?></a>
+                            <span class="chevron">&nbsp;›&nbsp;</span>
+                            创建新回复
+                        </div>
+                        <div class="problem">
+                            创建新回复过程中遇到一些问题：
+                            <ul>
+                                <li>你上一条回复的内容和这条相同</li>
+                            </ul>
+                        </div>
+                        <div class="box">
+                            <div class="cell">
+                                <form method="post" action="/t/220185">
+                                    <textarea name="content" maxlength="10000" class="mll" id="reply_content">##测试</textarea>
+                                    <div class="sep10"></div>
+                                    <input value="29553" name="once" type="hidden">
+                                    <input value="回复" class="super normal button" type="submit">
+                                </form>
+                            </div>
+                            <div class="inner">
+                                <div class="fr"><a href="/">← V2EX</a></div>
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <?php else: ?>
+                    <div class="box" style="border-bottom: 0px;">
+                        <div class="header">
+                            <div class="fr">
+                                <a data-id="<?=$topic['user_id']; ?>" href="/member/anthonyeef">
+                                    <img src="<?php echo PUBLIC_DIR ?>/img/Changle.jpeg" class="avatar" border="0" align="default" />
+                                </a>
+                            </div>
+                            <a href="/">V2EX</a>
+                            <span class="chevron">&nbsp;›&nbsp;</span>
+                            <a href="/go/programmer">程序员</a>
+                            <div class="sep10"></div>
+                            <h1><?=$topic['title']; ?></h1>
+                            <div id="topic_<?=$topic['id']; ?>_votes" class="votes">
+                                <a href="javascript:" onclick="upVoteTopic(<?=$topic['id']; ?>);" class="vote">
+                                    <li class="fa icon-chevron-up"></li>
+                                </a>&nbsp;
+                                <a href="javascript:" onclick="downVoteTopic(<?=$topic['id']; ?>);" class="vote">
+                                    <li class="fa icon-chevron-down"></li>
+                                </a>
+                            </div>
+                            &nbsp;
+                            <small class="gray">
+                                <a data-id="<?=$topic['user_id']; ?>" href="/member/anthonyeef"><?=$topic['username']; ?></a>
+                                · 19 分钟前用 Android 发布 · 110 次点击 &nbsp;
+                            </small>
+                        </div>
+                        <div class="cell">
+                            <div class="topic_content"><?=$topic['content']; ?></div>
+                        </div>
+                        <div class="topic_buttons">
+                            <div class="fr gray f11" style="line-height: 12px; padding-top: 3px; text-shadow: 0px 1px 0px #fff;">
+                                110 次点击 &nbsp;
+                            </div>
+                            <a href="/favorite/topic/248521?t=gorpqfesvvjfgtcjfutdwbhiqftspifx" class="tb">
+                                加入收藏
+                            </a>
+                            &nbsp;
+                            <a href="#;" onclick="window.open('https://twitter.com/share?url=http://www.v2ex.com/t/248521?r\u003Dchanglers&related=v2ex&hashtags=programmer&text=果壳的「知性社区」404 not found', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'twitter.com');"
+                            class="tb">
+                                Tweet
+                            </a>
+                            &nbsp;
+                            <a href="#;" onclick="window.open('http://service.weibo.com/share/share.php?url=http://www.v2ex.com/t/248521?r\u003Dchanglers&title=V2EX%20-%20果壳的「知性社区」404 not found', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');"
+                            class="tb">
+                                Weibo
+                            </a>
+                            &nbsp;
+                            <a href="#;" onclick="if (confirm('确定不想再看到这个主题？')) { location.href = '/ignore/topic/248521?once=88529'; }"
+                            class="tb">
+                                忽略主题
+                            </a>
+                            &nbsp;
+                            <div id="topic_thank">
+                                <a href="#;" onclick="if (confirm('你确定要向本主题创建者发送谢意？')) { thankTopic(248521, 'gorpqfesvvjfgtcjfutdwbhiqftspifx'); }"
+                                class="tb">
+                                    感谢
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <?php if(!isset($output)): ?>
+                    <div class="sep20">
+                    </div>
+                    <div class="box">
+                        <div class="cell">
+                            <div class="fr" style="margin: -3px -5px 0px 0px;">
+                                <a href="/tag/羞羞" class="tag">
+                                    <li class="fa icon-tag"></li> 羞羞
+                                </a>
+                                <a href="/tag/found" class="tag">
+                                    <li class="fa icon-tag"></li> found
+                                </a>
+                                <a href="/tag/果壳" class="tag">
+                                    <li class="fa icon-tag"></li> 果壳
+                                </a>
+                                <a href="/tag/社区" class="tag">
+                                    <li class="fa icon-tag"></li> 社区
+                                </a>
+                            </div>
+                            <span class="gray">
+                                1 回复 &nbsp;
+                                <strong class="snow">
+                                    |
+                                </strong>
+                                &nbsp;直到 2016-01-05 16:17:40 +08:00
+                            </span>
+                        </div>
+                        <?php foreach ($comment as $key => $value): ?>
+                        <div id="r_2445799" class="<?php echo $topic['reply_id'] == $value['id'] ? 'inner' :'cell'; ?>">  
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td width="48" valign="top" align="center">
+                                            <img src="//cdn.v2ex.co/gravatar/8a095a4db45486e4f2f51237d10681f5?s=48&amp;d=retro" class="avatar" border="0" align="default">
+                                        </td>
+                                        <td width="10" valign="top"></td>
+                                        <td width="auto" valign="top" align="left">
+                                            <div class="fr">
+                                                <div id="thank_area_2445799" class="thank_area">
+                                                    <a href="#;" onclick="if (confirm('确认要不再显示来自 @mingyun 的这条回复？')) { ignoreReply(2445799, '95308'); }" class="thank" style="color: #ccc;">隐藏</a> 
+                                                    &nbsp; &nbsp; &nbsp; 
+                                                    <a href="#;" onclick="if (confirm('确认花费 10 个铜币向 @mingyun 的这条回复发送感谢？')) { thankReply(2445799, 'tuprgvpphtpywjewqpgkxiieyvgnddlh'); }" class="thank">
+                                                        感谢回复者
+                                                    </a>
+                                                </div>
+                                                &nbsp;
+                                                <a href="#;" onclick="replyOne('mingyun');">
+                                                    <img src="//cdn.v2ex.com/static/img/reply.png" align="absmiddle" border="0" alt="Reply">
+                                                </a>
+                                                &nbsp;&nbsp;
+                                                <span class="no">70</span>
+                                            </div>
+                                            <div class="sep3"></div>
+                                            <strong>
+                                                <a href="/member/mingyun" class="dark"><?=$value['username']; ?></a>
+                                            </strong>
+                                            &nbsp; &nbsp;
+                                            <span class="fade small">121 天前</span> 
+                                            <div class="sep5"></div>
+                                            <div class="reply_content"><?=$value['content']; ?></div>
+                                        </td>
+                                     </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="sep20">
+                    </div>
+                    <div class="box">
+                        <div class="cell">
+                            <div class="fr">
+                                <a href="#">
+                                    <strong>
+                                        ↑
+                                    </strong>
+                                    回到顶部
+                                </a>
+                            </div>
+                            添加一条新回复
+                        </div>
+                        <div class="cell">
+                            <form method="post" action="<?php echo $this->route->url('t/' . $topic['id']); ?>">
+                                <textarea name="content" maxlength="10000" class="mll" id="reply_content" style="overflow: hidden; word-wrap: break-word; resize: none; height: 112px;"></textarea>
+                                <div class="sep10">
+                                </div>
+                                <div class="fr">
+                                    <div class="sep5">
+                                    </div>
+                                    <span class="gray">
+                                        请尽量让自己的回复能够对别人有帮助
+                                    </span>
+                                </div>
+                                <input type="hidden" value="88529" name="once" />
+                                <input type="submit" value="回复" class="super normal button" />
+                            </form>
+                        </div>
+                        <div class="inner">
+                            <div class="fr">
+                                <a href="/">
+                                    ← V2EX
+                                </a>
+                            </div>
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="sep20">
+                    </div>
+                    <div class="box">
+                        <div class="inner">
+                            <div class="fr">
+                            </div>
+                            <a href="#;" onclick="if (confirm('你确认需要报告这个主题？')) { location.href = '/report/topic/248521?t=1426670324'; }">
+                                报告这个主题
+                            </a>
+                            &nbsp;
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="c">
+            </div>
+            <div class="sep20"></div>
+        </div>
+    <?php $this->need('Public/footer'); ?>
+    <?php if(isset($output)): ?>
+        <script type="text/javascript">
+            $("#reply_content").keydown(function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.which === 13) {
+                    e.preventDefault();
+                    $("#reply_content").parent().submit();
+                }
+            });
+        </script>
+    <?php endif; ?>
+    </body>
+</html>

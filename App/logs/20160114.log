@@ -1,0 +1,27 @@
+[ 2016-01-14 19:16:35 ][SQL]SELECT "type","source_id","target_id" FROM "favorite" WHERE "source_id" = 1
+[ 2016-01-14 19:16:35 ][SQL]SELECT title,id FROM topic WHERE id in (1,2)
+[ 2016-01-14 19:16:35 ][SQL]SELECT "favorite_node_count","favorite_topic_count","favorite_user_count" FROM "user_info" WHERE "user_id" = 1
+[ 2016-01-14 19:16:35 ][SQL]SELECT "id","user_id","title","comment_count","reply_id" FROM "topic"
+[ 2016-01-14 19:16:35 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-14 19:16:35 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-14 19:16:35 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-14 19:16:35 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-14 19:16:35 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-14 19:16:35 ][SQL]SELECT "id","username" FROM "user" WHERE "id" = '1'
+[ 2016-01-14 19:16:52 ][SQL]SELECT "type","source_id","target_id" FROM "favorite" WHERE "source_id" = 1
+[ 2016-01-14 19:16:52 ][SQL]SELECT title,id FROM topic WHERE id in (1,2)
+[ 2016-01-14 19:16:52 ][SQL]SELECT "favorite_node_count","favorite_topic_count","favorite_user_count" FROM "user_info" WHERE "user_id" = 1
+[ 2016-01-14 19:16:52 ][SQL]SELECT "topic"."id","topic"."user_id","topic"."title","user"."username" FROM "topic" INNER JOIN "user" ON "topic"."user_id" = "user"."id" WHERE "topic"."id" = '1'
+[ 2016-01-14 19:16:52 ][SQL]SELECT "topic_id","content" FROM "topic_content" WHERE "topic_id" = '1'
+[ 2016-01-14 19:19:09 ][SQL]SELECT "id" FROM "user" WHERE "username" = 'test123'
+[ 2016-01-14 19:19:09 ][SQL]SELECT "id" FROM "user" WHERE "email" = 'test@qq.com'
+[ 2016-01-14 19:19:09 ][NORMAL]Type:Notice Info:Undefined index: legal Line:21 File:/Users/Kotori/Documents/htdocs/v2ex/App/common.php
+[ 2016-01-14 19:19:36 ][SQL]SELECT "id" FROM "user" WHERE "username" = 'test123'
+[ 2016-01-14 19:19:36 ][SQL]SELECT "id" FROM "user" WHERE "email" = 'test@qq.com'
+[ 2016-01-14 19:19:36 ][NORMAL]Type:Notice Info:Undefined index: legal Line:21 File:/Users/Kotori/Documents/htdocs/v2ex/App/common.php
+[ 2016-01-14 19:20:24 ][SQL]SELECT "id" FROM "user" WHERE "username" = 'test123'
+[ 2016-01-14 19:20:24 ][SQL]SELECT "id" FROM "user" WHERE "email" = 'test@qq.com'
+[ 2016-01-14 19:20:24 ][NORMAL]Type:Notice Info:Undefined index: legal Line:21 File:/Users/Kotori/Documents/htdocs/v2ex/App/common.php
+[ 2016-01-14 19:23:41 ][SQL]SELECT "id" FROM "user" WHERE "username" = 'test123'
+[ 2016-01-14 19:23:41 ][SQL]SELECT "id" FROM "user" WHERE "email" = 'test@qq.com'
+[ 2016-01-14 19:23:41 ][NORMAL]Type:Notice Info:Undefined index: legal Line:21 File:/Users/Kotori/Documents/htdocs/v2ex/App/common.php
