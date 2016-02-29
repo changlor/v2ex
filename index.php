@@ -3,7 +3,7 @@ require './Kotori.php';
 
 $app = new Kotori();
 
-$config['APP_PATH'] = './App/';
+$config['APP_PATH'] = './app/';
 $config['DB_HOST'] = '127.0.0.1';
 $config['DB_USER'] = 'root';
 $config['DB_PWD'] = 'root';
