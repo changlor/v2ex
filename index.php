@@ -12,8 +12,14 @@ $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
     't/([^/]+)' => 'Topic/viewTopic/$1',
-    'signup' => 'User/register',
-    'signin' => 'User/login',
+    'signup' => array(
+        'get' => 'User/signup',
+        'post' => 'User/register',
+    ),
+    'signin' => array(
+        'User/signin',
+        'User/login',
+    ),
     'balance' => 'User/balance',
     'new' => 'Topic/addTopic',
 );

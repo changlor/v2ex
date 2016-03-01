@@ -1,11 +1,26 @@
 <?php
 class User extends Base
 {
-    protected $user = array('input', 'output');
     public function __construct()
     {
         parent::__construct();
     }
+
+    public function signin()
+    {
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        $this->view->assign('rightBarInfo', $this->rightBarInfo);
+        $this->view->assign('referer', $referer);
+        $this->view->display();
+    }
+
+    public function signup()
+    {
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        $this->view->assign('rightBarInfo', $this->rightBarInfo);
+        $this->view->display();
+    }
+
     public function login()
     {
         $referer = array();
