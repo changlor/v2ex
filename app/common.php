@@ -46,7 +46,7 @@ function custom_error($level, $event, $value = '')
     );
     return $errors[$level][$event];
 }
-function rCookie($key = '', $value = '', $expire = 36000, $path = '/')
+function rcookie($key = '', $value = '', $expire = 36000, $path = '/')
 {
     if ('' === $value) {
         if (isset($_COOKIE[$key])) {
@@ -164,7 +164,15 @@ function hashValidate($from, $to)
         return md5($from) === $to;
     }
 }
+
 function getuid()
 {
     return BaseController::getInstance()->uid;
+}
+
+function eventGenerate($level, $event, $value = '')
+{
+    $handler['event'] = $event;
+    $handler['msg'] = custom_error($level, $event, $value);
+    return $handler;
 }

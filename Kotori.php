@@ -162,7 +162,15 @@ class Kotori_Common
      */
     public static function autoload($class)
     {
-        Kotori_Common::import(Kotori_Config::getInstance()->get('APP_FULL_PATH') . '/libraries/' . $class . '.php');
+        $baseRoot = Kotori_Config::getInstance()->get('APP_FULL_PATH');
+
+        if (!Kotori_Common::import($baseRoot . '/libraries/' . $class . '.php'))
+        {
+            if (!Kotori_Common::import($baseRoot . '/controllers/' . $class . '.php'))
+            {
+                Kotori_Common::import($baseRoot . '/models/' . $class . '.php');
+            }
+        }
     }
 
 /**
@@ -323,6 +331,18 @@ class Kotori_Config
             self::$_instance = new self();
         }
         return self::$_instance;
+    }
+
+    /**
+     * Class constructor
+     *
+     * Initialize Config.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        Kotori_Hook::listen('Kotori_Config');
     }
 
     /**
@@ -604,8 +624,8 @@ function open_link(url){
                 break;
         }
 
-        $text = '<b>Error Type:</b>' . $errtype . '<br>' . '<b>Info:</b>' . $errstr . '<br>' . '<b>Line:</b>' . $errline . '<br>' . '<b>File:</b>' . $errfile;
-        $txt = 'Type:' . $errtype . ' Info:' . $errstr . ' Line:' . $errline . ' File:' . $errfile;
+        $text = '<b>Error Type: </b>' . $errtype . '<br>' . '<b>Info: </b>' . $errstr . '<br>' . '<b>Line: </b>' . $errline . '<br>' . '<b>File: </b>' . $errfile;
+        $txt = 'Type: ' . $errtype . ' Info: ' . $errstr . ' Line: ' . $errline . ' File: ' . $errfile;
         array_push(self::$errors, $txt);
         Kotori_Log::normal($txt);
     }
@@ -623,7 +643,7 @@ function open_link(url){
     public static function exception($exception)
     {
         $text = '<b>Exception:</b>' . $exception->getMessage();
-        $txt = 'Type:Exception' . ' Info:' . $exception->getMessage();
+        $txt = 'Type: Exception' . ' Info: ' . $exception->getMessage();
         Kotori_Log::normal($txt);
         self::halt($text, 500);
     }
@@ -646,8 +666,8 @@ function open_link(url){
         if (isset($last_error) &&
             ($last_error['type'] & (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING)))
         {
-            $text = '<b>Error Type:</b>' . $last_error['type'] . '<br>' . '<b>Info:</b>' . $last_error['message'] . '<br>' . '<b>Line:</b>' . $last_error['line'] . '<br>' . '<b>File:</b>' . $last_error['file'];
-            $txt = 'Type:' . $last_error['type'] . ' Info:' . $last_error['message'] . ' Line:' . $last_error['line'] . ' File:' . $last_error['file'];
+            $text = '<b>Error Type: </b>' . $last_error['type'] . '<br>' . '<b>Info: </b>' . $last_error['message'] . '<br>' . '<b>Line: </b>' . $last_error['line'] . '<br>' . '<b>File: </b>' . $last_error['file'];
+            $txt = 'Type: ' . $last_error['type'] . ' Info: ' . $last_error['message'] . ' Line: ' . $last_error['line'] . ' File: ' . $last_error['file'];
             Kotori_Log::normal($txt);
             self::halt($text, 500);
         }
@@ -728,6 +748,20 @@ class Kotori_Route
     private $_uri = '';
 
     /**
+     * Parsed URI Array
+     *
+     * @var array
+     */
+    private $_uris = array();
+
+    /**
+     * Parsed params
+     *
+     * @var array
+     */
+    private $_params = array();
+
+    /**
      * get singleton
      *
      * @return object
@@ -764,6 +798,7 @@ class Kotori_Route
         {
             $this->_uri = '';
         }
+        Kotori_Hook::listen('Kotori_Route');
     }
 
     /**
@@ -790,15 +825,14 @@ class Kotori_Route
             $this->_uri = $parsedRoute;
         }
 
-        $uriArray = ('' != $this->_uri) ? explode('/', trim($this->_uri, '/')) : array();
+        $this->_uris = ('' != $this->_uri) ? explode('/', trim($this->_uri, '/')) : array();
 
-        $this->_controller = $this->getController($uriArray);
-        $this->_action = $this->getAction($uriArray);
+        $this->_controller = $this->getController();
+        $this->_action = $this->getAction();
         //Define some variables
         define('CONTROLLER_NAME', $this->_controller);
         define('ACTION_NAME', $this->_action);
         define('PUBLIC_DIR', Kotori_Request::getInstance()->getBaseUrl() . 'public');
-        unset($uriArray[0], $uriArray[1]);
 
         //If is already initialized
         if ($this->_controller == 'System')
@@ -811,8 +845,6 @@ class Kotori_Route
         }
         else
         {
-            Kotori_Common::import(Kotori_Config::getInstance()->get('APP_FULL_PATH') .
-                '/controllers/' . 'Base.php');
             Kotori_Common::import(Kotori_Config::getInstance()->get('APP_FULL_PATH') .
                 '/controllers/' . $this->_controller . '.php');
             $class = new $this->_controller();
@@ -829,9 +861,9 @@ class Kotori_Route
             throw new Kotori_Exception('Request Action ' . $this->_action . ' is not Found.');
         }
         //Parse params from uri
-        $params = $this->getParams($uriArray);
+        $this->_params = $this->getParams();
         //Do some final cleaning of the params
-        $_GET = array_merge($params, $_GET);
+        $_GET = array_merge($this->_params, $_GET);
         $_REQUEST = array_merge($_POST, $_GET, $_COOKIE);
         //Endtime
         define('END_TIME', microTime(true));
@@ -839,21 +871,20 @@ class Kotori_Route
         header('X-Powered-By: Kotori');
         header('Cache-control: private');
         //Call the requested method
-        call_user_func_array(array($class, $this->_action), $params);
+        call_user_func_array(array($class, $this->_action), $this->_params);
 
     }
 
     /**
      * Returns the controller name
      *
-     * @param array $uriArray parsed uri array
      * @return string
      */
-    private function getController($uriArray)
+    private function getController()
     {
-        if (isset($uriArray[0]) && '' !== $uriArray[0])
+        if (isset($this->_uris[0]) && '' !== $this->_uris[0])
         {
-            $_controller = $uriArray[0];
+            $_controller = $this->_uris[0];
         }
         else
         {
@@ -865,14 +896,13 @@ class Kotori_Route
     /**
      * Returns the action name
      *
-     * @param array $uriArray parsed uri array
      * @return string
      */
-    private function getAction($uriArray)
+    private function getAction()
     {
-        if (isset($uriArray[1]))
+        if (isset($this->_uris[1]))
         {
-            $_action = $uriArray[1];
+            $_action = $this->_uris[1];
         }
         else
         {
@@ -884,14 +914,11 @@ class Kotori_Route
     /**
      * Returns the request params
      *
-     * @param array $uriArray parsed uri array
      * @return array
      */
-    private function getParams($uriArray)
+    private function getParams()
     {
-        $params = array();
-        $params = $uriArray;
-        return $params;
+        return $this->_uris;
     }
 
     /**
@@ -995,7 +1022,7 @@ class Kotori_Route
  * @author      Kokororin
  * @link        https://kotori.love
  */
-class Kotori_Controller
+abstract class Kotori_Controller
 {
     /**
      * Instance Handle
@@ -1030,6 +1057,7 @@ class Kotori_Controller
         $this->route = Kotori_Route::getInstance();
         $this->db = Kotori_Database::getInstance();
         $this->model = Kotori_Model_Provider::getInstance();
+        Kotori_Hook::listen('Kotori_Controller');
     }
 
 }
@@ -1044,6 +1072,18 @@ class Kotori_Controller
  */
 class Kotori_Model
 {
+    /**
+     * Class constructor
+     *
+     * Initialize Model.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        Kotori_Hook::listen('Kotori_Model');
+    }
+
     /**
      * __get magic
      *
@@ -1094,6 +1134,18 @@ class Kotori_Model_Provider
             self::$_instance = new self();
         }
         return self::$_instance;
+    }
+
+    /**
+     * Class constructor
+     *
+     * Initialize Model Provider.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        Kotori_Hook::listen('Kotori_Model_Provider');
     }
 
     /**
@@ -1191,7 +1243,7 @@ class Kotori_View
         {
             $this->_tplDir = $tplDir;
         }
-
+        Kotori_Hook::listen('Kotori_View');
     }
 
     /**
@@ -1297,6 +1349,18 @@ class Kotori_Request
             self::$_instance = new self();
         }
         return self::$_instance;
+    }
+
+    /**
+     * Class constructor
+     *
+     * Initialize Request.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        Kotori_Hook::listen('Kotori_Request');
     }
 
     /**
@@ -1675,6 +1739,18 @@ class Kotori_Response
     }
 
     /**
+     * Class constructor
+     *
+     * Initialize Response.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        Kotori_Hook::listen('Kotori_Response');
+    }
+
+    /**
      * Set HTTP Status Header
      *
      * @param int $code Status code
@@ -1781,6 +1857,7 @@ class Kotori_Trace
     private $traceTabs = array(
         'BASE' => 'Basic',
         'FILE' => 'File',
+        'CLASS' => 'Class',
         'ERROR' => 'Error',
         'SQL' => 'SQL',
         'SUPPORT' => 'Support',
@@ -1808,6 +1885,18 @@ class Kotori_Trace
     }
 
     /**
+     * Class constructor
+     *
+     * Initialize Trace.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        Kotori_Hook::listen('Kotori_Trace');
+    }
+
+    /**
      * Get Page Trace
      *
      * @return array
@@ -1815,10 +1904,16 @@ class Kotori_Trace
     private function getTrace()
     {
         $files = get_included_files();
+
         $info = array();
         foreach ($files as $key => $file)
         {
             $info[] = $file . ' ( ' . number_format(filesize($file) / 1024, 2) . ' KB )';
+        }
+        $class = Kotori_Hook::getTags();
+        foreach ($class as $key => $value)
+        {
+            $class[$key] = ' ( ' . $value . ' s )';
         }
         $error = Kotori_Handle::$errors;
         $database = Kotori_Database::getInstance();
@@ -1837,7 +1932,7 @@ class Kotori_Trace
         $support = array(
             '<a target="_blank" href="https://github.com/kokororin/Kotori.php">GitHub</a>',
             '<a target="_blank" href="https://kotori.love/archives/kotori-php-framework.html">Blog</a>',
-            '<a id="kotori_page_trace_check_update" target="_blank" href="' . Kotori_Route::getInstance()->url(array('System', 'checkUpdate')) . '" download="' . Kotori_Route::getInstance()->url(array('System', 'downloadUpdate')) . '">Check for Updates</a>',
+            '<a id="kotori_page_trace_check_update" target="_blank" href="' . Kotori_Route::getInstance()->url(array('System', 'checkUpdate')) . '" data-download="' . Kotori_Route::getInstance()->url(array('System', 'downloadUpdate')) . '">Check for Updates</a>',
         );
 
         $trace = array();
@@ -1851,6 +1946,9 @@ class Kotori_Trace
                 case 'FILE':
                     $trace[$title] = $info;
                     break;
+                case 'CLASS':
+                    $trace[$title] = $class;
+                    break;
                 case 'ERROR':
                     $trace[$title] = $error;
                     break;
@@ -1860,6 +1958,13 @@ class Kotori_Trace
                 case 'SUPPORT':
                     $trace[$title] = $support;
                     break;
+            }
+        }
+        foreach ($trace as $key => $value)
+        {
+            if (empty(array_filter($value)))
+            {
+                unset($trace[$key]);
             }
         }
         return $trace;
@@ -1896,11 +2001,10 @@ class Kotori_Trace
             {
                 foreach ($info as $k => $val)
                 {
-                    $tag = ($key == 'Support') ? $val : htmlentities($val, ENT_COMPAT, 'utf-8');
+                    $tag = (in_array($key, array('Support'))) ? $val : htmlentities($val, ENT_COMPAT, 'utf-8');
                     $tpl .= '<li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">' . (is_numeric($k) ? '' : $k . ' : ') . $tag . '</li>';
                 }
             }
-
             $tpl .= '</ol>
     </div>';
         }
@@ -1925,7 +2029,7 @@ class Kotori_Trace
 var tab_tit  = document.getElementById(\'kotori_page_trace_tab_tit\').getElementsByTagName(\'span\');
 var tab_cont = document.getElementById(\'kotori_page_trace_tab_cont\').getElementsByTagName(\'div\');
 var open     = document.getElementById(\'kotori_page_trace_open\');
-var close    = document.getElementById(\'kotori_page_trace_close\').childNodes[0];
+var close    = document.getElementById(\'kotori_page_trace_close\').children[0];
 var trace    = document.getElementById(\'kotori_page_trace_tab\');
 var update   = document.getElementById(\'kotori_page_trace_check_update\');
 var cookie   = document.cookie.match(/kotori_show_page_trace=(\d\|\d)/);
@@ -1959,7 +2063,7 @@ for(var i = 0; i < tab_tit.length; i++) {
     })(i);
 }
 parseInt(history[0]) && open.click();
-(tab_tit[history[1]] || tab_tit[0]).click();
+tab_tit[history[1]].click();
 update.onclick = function() {
     this.innerHTML = \'Checking...\';
     get({
@@ -1972,7 +2076,7 @@ update.onclick = function() {
             else if (data.status == \'not_latest\'){
                 if (confirm(data.text)) {
                     get({
-                        url: update.attributes[\'download\'].nodeValue,
+                        url: update.attributes[\'data-download\'].nodeValue,
                         success: function(data) {
                             if (data == \'success\') {
                                 update.innerHTML = \'Update complete\';
@@ -2026,6 +2130,45 @@ var get = function(o) {
 })();
 </script>';
         return $tpl;
+    }
+}
+
+/**
+ * Hook Class
+ *
+ * @package     Kotori
+ * @subpackage  Hook
+ * @author      Kokororin
+ * @link        https://kotori.love
+ */
+class Kotori_Hook
+{
+    /**
+     * Hook tags
+     *
+     * @var array
+     */
+    private static $tags = array();
+
+/**
+ * get the tags
+ *
+ * @return array
+ */
+    public static function getTags()
+    {
+        return self::$tags;
+    }
+
+    /**
+     * Start Hook listen
+     *
+     * @param  string $name Hook name
+     * @return void
+     */
+    public static function listen($name)
+    {
+        self::$tags[$name] = microtime(true) - START_TIME;
     }
 }
 
@@ -2270,6 +2413,7 @@ class Kotori_Database
         {
             throw new Kotori_Exception($e->getMessage());
         }
+        Kotori_Hook::listen('Kotori_Database');
     }
 
     public function query($query)

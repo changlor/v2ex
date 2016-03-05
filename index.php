@@ -17,8 +17,8 @@ $config['URL_ROUTE'] = array(
         'post' => 'User/register',
     ),
     'signin' => array(
-        'User/signin',
-        'User/login',
+        'get' => 'User/signin',
+        'post' => 'User/login',
     ),
     'balance' => 'User/balance',
     'new' => 'Topic/addTopic',

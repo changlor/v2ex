@@ -95,4 +95,48 @@ class User_model extends Kotori_Model
             array('user_id' => $uid)
         );
     }
+
+    public function checkUsername($username)
+    {
+        $event = 'legal';
+        //用户名太长
+        if (strlen($username) > 16) {
+            $event = 'long';
+        }
+        //用户名不合法
+        $pattern = '/[a-zA-Z0-9]+/i';
+        if (!preg_match($pattern, $username)) {
+            $event = 'illegal';
+        }
+        //用户名存在
+        $id = $this->checkExist('username', $username);
+        if (isset($id[0]['id'])) {
+            $event = 'exist';
+        }
+        //未输入用户名
+        if ($username == '') {
+            $event = 'undefined';
+        }
+        return eventGenerate('username', $event, $username);
+    }
+
+    public function checkEmail($email)
+    {
+        $event = 'legal';
+        //邮箱格式错误
+        $pattern = '/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/i';
+        if (!preg_match($pattern, $email)) {
+            $event = 'illegal';
+        }
+        //邮箱存在
+        $id = $this->checkExist('email', $email);
+        if (isset($id[0]['id'])) {
+            $event = 'exist';
+        }
+        //未输入邮箱
+        if ($email == '') {
+            $event = 'undefined';
+        }
+        return eventGenerate('email', $event, $email);
+    }
 }

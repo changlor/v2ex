@@ -62,40 +62,39 @@ class User extends Base
     public function register()
     {
         if ($this->request->isPost()) {
-            $this->user['input']['username'] = $this->request->input('post.username');
-            $this->user['input']['username'] = trim($this->user['input']['username']);
-            $this->user['input']['password'] = $this->request->input('post.password');
-            $this->user['input']['email'] = $this->request->input('post.email');
+            $username = $this->request->input('post.username');
+            $password = $this->request->input('post.password');
+            $email = $this->request->input('post.email');
             $verifycode = $this->request->input('post.c');
-            $this->_checkUsername();
-            $this->_checkEmail();
-            $pos = 'pass';
-            foreach ($this->user['output'] as $key => $value) {
+            $username = trim($username);
+            $handler['username'] = $this->model->User->checkUsername($username);
+            $handler['email'] = $this->model->User->checkEmail($email);
+            $isPass = false;
+            foreach ($handler as $key => $value) {
                 if ($value['msg'] != 'pass') {
-                    $pos = 'failure';
+                    $isPass = false;
+                    break;
                 }
+                $isPass = true;
             }
-            if ($pos == 'failure') {
-                $this->view->assign('output', $this->user['output']);
-            }
-            if ($pos == 'pass') {
-                $password = hashString($this->user['input']['password']);
-                $this->user['input']['password_hash'] = $password['hash'];
-                $this->user['input']['auth_key'] = $password['salt'];
-                unset($this->user['input']['password']);
-                $last_id = $this->model->User->signin($this->user['input']);
+            if ($isPass) {
+                $password = hashString($password);
+                $user['password_hash'] = $password['hash'];
+                $user['auth_key'] = $password['salt'];
+                $user['username'] = $username;
+                $user['email'] = $email;
+                $user['created_at'] = strtotime(date('Y:m:d H:i:s'));
+                $last_id = $this->model->User->signin($user);
                 if ($last_id != 0) {
                     $url = $this->route->url('User/balance');
-                    rCookie('NA', $this->user['input']['username']);
+                    rcookie('NA', $user['username']);
                     $this->response->redirect($url, true);
                 }
+            } else {
+                $this->rightBarInfo['rightBar'] = array('myInfo');
+                $this->view->assign('handler', $handler)->assign('rightBarInfo', $this->rightBarInfo)->display('User/signup');
             }
         }
-        //$user_info = $this->model->User->getUserInfo(1);
-        //$rightBarInfo['user_info'] = $user_info;
-        $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('rightBarInfo', $this->rightBarInfo);
-        $this->view->display();
     }
 
     public function balance()
@@ -105,57 +104,5 @@ class User extends Base
         $this->rightBarInfo['rightBar'] = array('myInfo', 'referral');
         $this->view->assign('rightBarInfo', $this->rightBarInfo);
         $this->view->display();
-    }
-
-    protected function _checkUsername()
-    {
-        $event = 'legal';
-        $username = $this->user['input']['username'];
-        //用户名太长
-        if (strlen($username) > 16) {
-            $event = 'long';
-        }
-        //用户名不合法
-        $pattern = '/[a-zA-Z0-9]+/i';
-        if (!preg_match($pattern, $this->user['input']['username'])) {
-            $event = 'illegal';
-        }
-        //用户名存在
-        $id = $this->model->User->checkExist('username', $username);
-        if (isset($id[0]['id'])) {
-            $event = 'exist';
-        }
-        //未输入用户名
-        if ($username == '') {
-            $event = 'undefined';
-        }
-        $this->_eventGenerate('username', $event, $username);
-    }
-
-    protected function _checkEmail()
-    {
-        $event = 'legal';
-        $email = $this->user['input']['email'];
-        //邮箱格式错误
-        $pattern = '/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/i';
-        if (!preg_match($pattern, $email)) {
-            $event = 'illegal';
-        }
-        //邮箱存在
-        $id = $this->model->User->checkExist('email', $email);
-        if (isset($id[0]['id'])) {
-            $event = 'exist';
-        }
-        //未输入邮箱
-        if ($email == '') {
-            $event = 'undefined';
-        }
-        $this->_eventGenerate('email', $event, $email);
-    }
-
-    protected function _eventGenerate($level, $event, $value = '')
-    {
-        $this->user['output'][$level]['event'] = $event;
-        $this->user['output'][$level]['msg'] = custom_error($level, $event, $value);
     }
 }

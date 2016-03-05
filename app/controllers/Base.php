@@ -2,6 +2,7 @@
 class Base extends Kotori_Controller
 {
     protected $uid = '';
+    protected $handler;
     protected $rightBarInfo = array('user_info', 'rightBar');
     public function __construct()
     {
@@ -10,10 +11,10 @@ class Base extends Kotori_Controller
         $this->redirect_login();
         $this->initRightBarInfo();
     }
-
+    
     public function redirect_login()
     {
-        if (rCookie('NA') == '') {
+        if (rcookie('NA') == '') {
             $needLogin = array('balance');
             if (ACTION_NAME == 'balance') {
                 $url = $this->route->url('signin?referer=balance');
@@ -31,12 +32,12 @@ class Base extends Kotori_Controller
 
     public function decryptUserName()
     {
-        $username = rCookie('NA');
+        $username = rcookie('NA');
         if ($username != '') {
             $uid = $this->model->User->checkExist('username', $username);
             $this->uid = $uid[0]['id'];
             if ($this->uid == '') {
-                rCookie('NA', null);
+                rcookie('NA', null);
             }
         }
     }
