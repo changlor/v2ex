@@ -8,11 +8,9 @@ class Index extends Base
     //测试一下注释功能
     public function index()
     {
-        if ($this->uid != '') {
-            $favorite = $this->model->User->getUserFavor($this->uid);
-        }
-        //echo'<pre>';print_r($favorite);echo'</pre>';
-        //$user_info = $this->UserModel->getUserInfo($this->uid);
+        //if ($this->uid != '') {
+        //    $favorite = $this->model->User->getUserFavor($this->uid);
+        //}
         $topic = $this->model->Topic->getTopicInfo();
         foreach ($topic as $key => $value) {
             $author = $this->model->List->getUserInfo($value['user_id']);

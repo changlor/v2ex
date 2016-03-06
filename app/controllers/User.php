@@ -9,9 +9,12 @@ class User extends Base
     public function signin()
     {
         $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('rightBarInfo', $this->rightBarInfo);
-        $this->view->assign('referer', $referer);
-        $this->view->display();
+        $referer = $this->request->input('get.referer');
+        $isReferer = false;
+        if ($referer != '') {
+            $isReferer = true;
+        }
+        $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('isReferer', $referer)->assign('referer', $referer)->display();
     }
 
     public function signup()
@@ -23,40 +26,29 @@ class User extends Base
 
     public function login()
     {
-        $referer = array();
-        $referer = $this->request->input('get.referer');
-        if ($referer != '') {
-            $getReferer = 'y';
-            $this->view->assign('getReferer', $getReferer);
-        }
         if ($this->request->isPost()) {
-            $event = '';
+            $isReferer = false;
             $referer = $this->request->input('post.referer');
+            if ($referer != '') {
+                $isReferer = true;
+            }
+            $referer = empty($referer) ? '/' : $referer;
             $username = $this->request->input('post.u');
             $password = $this->request->input('post.p');
             $userpass = $this->model->User->checkPass($username);
             $password = hashString($password, $userpass[0]['auth_key']);
-            if ($userpass[0]['password_hash'] != $password['hash']) {
-                $event = 'unmatch';
-                $this->_eventGenerate('password', $event);
-                $this->view->assign('output', $this->user['output']);
-            }
             if ($userpass[0]['password_hash'] == $password['hash']) {
                 $url = $this->route->url($referer);
-                rCookie('NA', $username);
+                rcookie('NA', $username);
                 $this->response->redirect($url, true);
+            } else {
+                $handler['password'] = eventGenerate('password', 'unmatch');
+                $this->rightBarInfo['rightBar'] = array('myInfo');
+                $this->view->assign('handler', $handler)->assign('isReferer', $isReferer)->assign('rightBarInfo', $this->rightBarInfo)->assign('referer', $referer)->display('User/signin');
             }
+        } else {
+            echo '403';
         }
-        if (rCookie('referer') != '') {
-            $referer = rCookie('referer');
-            rCookie('referer', null);
-        }
-        //$user_info = $this->model->User->getUserInfo(1);
-        //$rightBarInfo['user_info'] = $user_info;
-        $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('rightBarInfo', $this->rightBarInfo);
-        $this->view->assign('referer', $referer);
-        $this->view->display();
     }
 
     public function register()
@@ -94,6 +86,8 @@ class User extends Base
                 $this->rightBarInfo['rightBar'] = array('myInfo');
                 $this->view->assign('handler', $handler)->assign('rightBarInfo', $this->rightBarInfo)->display('User/signup');
             }
+        } else {
+            echo '403';
         }
     }
 
