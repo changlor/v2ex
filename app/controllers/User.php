@@ -47,6 +47,7 @@ class User extends Base
                 $this->view->assign('handler', $handler)->assign('isReferer', $isReferer)->assign('rightBarInfo', $this->rightBarInfo)->assign('referer', $referer)->display('User/signin');
             }
         } else {
+            $this->response->setStatus('403');
             echo '403';
         }
     }
@@ -87,6 +88,7 @@ class User extends Base
                 $this->view->assign('handler', $handler)->assign('rightBarInfo', $this->rightBarInfo)->display('User/signup');
             }
         } else {
+            $this->response->setStatus('403');
             echo '403';
         }
     }
