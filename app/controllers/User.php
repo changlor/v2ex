@@ -49,8 +49,9 @@ class User extends Base
                 $this->response->redirect($url, true);
             } else {
                 $handler['password'] = eventGenerate('password', 'unmatch');
+                $problem = $this->model->Error->signin_error($handler);
                 $this->rightBarInfo['rightBar'] = array('myInfo');
-                $this->view->assign('handler', $handler)->assign('isReferer', $isReferer)->assign('rightBarInfo', $this->rightBarInfo)->assign('referer', $referer)->display('User/signin');
+                $this->view->assign('problem', $problem)->assign('isReferer', $isReferer)->assign('rightBarInfo', $this->rightBarInfo)->assign('referer', $referer)->display('User/signin');
             }
         } else {
             $this->response->setStatus('403');
@@ -90,8 +91,9 @@ class User extends Base
                     $this->response->redirect($url, true);
                 }
             } else {
+                $problem = $this->model->Error->signup_error($handler);
                 $this->rightBarInfo['rightBar'] = array('myInfo');
-                $this->view->assign('handler', $handler)->assign('rightBarInfo', $this->rightBarInfo)->display('User/signup');
+                $this->view->assign('problem', $problem)->assign('rightBarInfo', $this->rightBarInfo)->display('User/signup');
             }
         } else {
             $this->response->setStatus('403');

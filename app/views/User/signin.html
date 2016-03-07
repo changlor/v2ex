@@ -22,22 +22,13 @@
                 <div class="sep20"></div>
 <div class="box">
     <div class="header"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> 登录 &nbsp;<li class="fa icon-lock"></li></div>
-    <?php if (isset($handler)): ?>
-        <div class="problem">
-        请解决以下问题然后再提交：
-        <ul>
-    <?php foreach ($handler as $key => $value): ?>
-        <?php if ($value['msg'] != 'pass'): ?>
-        <li><?=$value['msg'];?></li>
-        <?php endif;?>
-    <?php endforeach;?>
-        </ul>
-        </div>
+    <?php if (isset($problem)): ?>
+        <?=$problem; ?>
     <?php endif;?>
-    <?php if ($isReferer && !isset($handler)): ?>
+    <?php if ($isReferer && !isset($problem)): ?>
         <div class="message" onclick="$(this).slideUp();">你要查看的页面需要先登录</div>
     <?php endif;?>
-    <?php if (rcookie('NA') != '' && !isset($handler)): ?>
+    <?php if (rcookie('NA') != '' && !isset($problem)): ?>
         <div class="message" onclick="$(this).slideUp();">你已经登录，再次登录的话会覆盖原帐号</div>
     <?php endif;?>
     <div class="cell">
