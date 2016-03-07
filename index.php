@@ -20,6 +20,7 @@ $config['URL_ROUTE'] = array(
         'get' => 'User/signin',
         'post' => 'User/login',
     ),
+    'signout' => 'User/signout',
     'balance' => 'User/balance',
     'new' => 'Topic/addTopic',
 );

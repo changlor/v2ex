@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+    <head>
+        <title>
+            V2EX
+        </title>
+        <meta charset="utf-8">
+        <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+            <?php $this->need('Public/rightBar', $rightBarInfo); ?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <?php if (rcookie('NA') == ''): ?>        
+                <div class="box">
+                    <div class="header">
+                        <a href="/">V2EX</a> 
+                        <span class="chevron">&nbsp;›&nbsp;</span> 
+                        登出
+                    </div>
+                    <div class="inner">
+                        你已经完全登出，没有任何个人信息留在这台电脑上。
+                        <div class="sep20"></div>
+                        <input type="button" class="super normal button" onclick="location.href = '/signin';" value="重新登录">
+                    </div>
+                </div>
+                <?php elseif (rcookie('NA') != ''): ?>
+                <div class="box">
+                    <div class="header">
+                        <a href="/">V2EX</a> 
+                        <span class="chevron">&nbsp;›&nbsp;</span> 
+                        登出
+                    </div>
+                    <div class="inner">
+                        登出过程中遇到一些问题，请点击下面的按钮重试。
+                        <div class="sep20"></div>
+                        <input type="button" class="super normal button" onclick="location.href = '/signout';" value="Retry Sign Out" />
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="c"></div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer');?>
+    </body>
+</html>

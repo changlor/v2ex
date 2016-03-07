@@ -20,8 +20,14 @@ class User extends Base
     public function signup()
     {
         $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('rightBarInfo', $this->rightBarInfo);
-        $this->view->display();
+        $this->view->assign('rightBarInfo', $this->rightBarInfo)->display();
+    }
+
+    public function signout()
+    {
+        rcookie('NA', null);
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        $this->view->assign('rightBarInfo', $this->rightBarInfo)->display();
     }
 
     public function login()
