@@ -22,7 +22,10 @@ $config['URL_ROUTE'] = array(
     ),
     'signout' => 'User/signout',
     'balance' => 'User/balance',
-    'new' => 'Topic/addTopic',
+    'new' => array(
+        'get' => 'Topic/addTopic',
+        'post' => 'Topic/insertTopic',
+    ),
 );
 $config['ERROR_TPL'] = 'Public/404';
 

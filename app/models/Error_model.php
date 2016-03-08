@@ -20,4 +20,9 @@ class Error_model extends Kotori_Model
     {
         return $this->signin_error($handler);
     }
+
+    public function addTopic_error($handler)
+    {
+        return $this->signin_error($handler);
+    }
 }

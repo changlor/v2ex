@@ -1,7 +1,6 @@
 <?php
 class Topic extends Base
 {
-    protected $topic = array('input', 'output');
     public function __construct()
     {
         parent::__construct();
@@ -9,42 +8,6 @@ class Topic extends Base
 
     public function viewTopic($topic_id = '')
     {
-        if ($this->request->isPost()) {
-            $this->topic['input']['content'] = $this->request->input('post.content');
-            $this->topic['input']['user_id'] = $this->uid;
-            $this->topic['input']['topic_id'] = $topic_id;
-            EventHandle::checkUserId();
-            EventHandle::checkTopicId();
-            //print_r($this->topic['input']);
-            EventHandle::preventReComment();
-            $pos = 'pass';
-            foreach ($this->topic['output'] as $key => $value) {
-                if ($value['msg'] != 'pass') {
-                    $pos = 'failure';
-                }
-            }
-            if ($pos == 'pass') {
-                $this->topic['input']['id'] = $this->model->Comment->addCommentId();
-                $newInfo = array('reply_id' => $this->topic['input']['id']);
-                $last_id = $this->model->Topic->updateTopicInfo($newInfo, $topic_id);
-                if ($last_id == 0) {
-                    $pos = 'failure';
-                }
-            }
-            if ($pos == 'pass') {
-                $last_id = $this->model->Comment->addComment($this->topic['input']);
-            }
-            if (!isset($last_id)) {
-                $last_id = 0;
-            }
-            if ($pos == 'failure' || $last_id == 0) {
-                $this->view->assign('output', $this->topic['output']);
-            }
-            if ($pos == 'pass') {
-                $url = $this->route->url('t/' . $topic_id);
-                $this->response->redirect($url, true);
-            }
-        }
         $topic_info = $this->model->Topic->getTopicInfo($topic_id);
         $topic_content = $this->model->Topic->getTopicContent($topic_info[0]['id']);
         $topic = '';
@@ -52,8 +15,8 @@ class Topic extends Base
             $topic[$key] = $value;
         }
         $topic['content'] = $topic_content[0]['content'];
-        $md = EventHandle::gtParse($topic['content']);
-        $md = EventHandle::hrefParse($md);
+        $md = $this->model->Topic->mdTagParse($topic['content']);
+        $md = $this->model->Topic->mdAttributeParse($md);
         $md = Markdown::convert($md);
         $md = str_replace('&amp;gt;', '&gt;', $md);
         $topic['content'] = str_replace('&amp;lt;', '&lt;', $md);
@@ -67,53 +30,53 @@ class Topic extends Base
 
     public function addTopic()
     {
+        $this->rightBarInfo['rightBar'] = array('tips', 'rules');
+        $this->view->assign('rightBarInfo', $this->rightBarInfo)->display();
+    }
+
+    public function previewTopic()
+    {
         if ($this->request->isAjax()) {
             $md = $this->request->input('post.md');
-            //$md = htmlspecialchars_decode($md);
-            $md = EventHandle::gtParse($md);
-            $md = EventHandle::hrefParse($md);
+            $md = $this->model->Topic->mdTagParse($md);
+            $md = $this->model->Topic->mdAttributeParse($md);
             $md = Markdown::convert($md);
             $md = str_replace('&amp;gt;', '&gt;', $md);
             $md = str_replace('&amp;lt;', '&lt;', $md);
-            //$md = htmlspecialchars($md);
             $this->response->throwJson($md);
         }
+    }
+
+    public function insertTopic()
+    {
         if ($this->request->isPost()) {
-            $this->topic['input']['title'] = $this->request->input('post.title');
-            $this->topic['input']['title'] = trim($this->topic['input']['title']);
-            $this->topic['input']['content'] = $this->request->input('post.content');
-            EventHandle::checkTitle();
-            EventHandle::checkContent();
-            EventHandle::preventReComment();
-            $pos = 'pass';
-            foreach ($this->topic['output'] as $key => $value) {
+            $title = $this->request->input('post.title');
+            $title = trim($title);
+            $content = $this->request->input('post.content');
+            $handler['title'] = $this->model->Topic->validateTitle($title);
+            $handler['content'] = $this->model->Topic->validateContent($title);
+            $isPass = false;
+            foreach ($handler as $key => $value) {
                 if ($value['msg'] != 'pass') {
-                    $pos = 'failure';
+                    $isPass = false;
+                    break;
                 }
+                $isPass = true;
             }
-            if ($pos == 'failure') {
-                $this->view->assign('output', $this->topic['output']);
-                //print_r($this->topic['output']);
-                //$this->view->display();
-            }
-            if ($pos == 'pass') {
-                $this->topic['input']['user_id'] = $this->uid;
-                $last_id = $this->model->Topic->addTopic($this->topic['input']);
-                $topic_id = $last_id['topic_id'];
-                if ($last_id['effect'] != 0) {
-                    $newInfo = array('topic_count[+]' => '1');
-                    $last_id = $this->model->User->updateUserInfo($newInfo, $this->uid);
-                    if ($last_id != 0) {
-                        $url = $this->route->url('t/' . $topic_id);
-                        $this->response->redirect($url, true);
-                    }
-                }
+            if ($isPass) {
+                $topic['title'] = $title;
+                $topic['user_id'] = $this->uid;
+                $topic['content'] = $content;
+                $topic_id = $this->model->Topic->insertTopic($topic);
+                $newInfo = array('topic_count[+]' => '1');
+                $this->model->User->updateUserInfo($newInfo, $this->uid);
+                $url = $this->route->url('t/' . $topic_id);
+                $this->response->redirect($url, true);
+            } else {
+                $problem = $this->model->Error->addTopic_error($handler);
+                $this->rightBarInfo['rightBar'] = array('tips', 'rules');
+                $this->view->assign('problem', $problem)->assign('rightBarInfo', $this->rightBarInfo)->view->display('Topic/addTopic');
             }
         }
-        //$user_info = $this->model->User->getUserInfo($this->uid);
-        //$rightBarInfo['user_info'] = $user_info;
-        $this->rightBarInfo['rightBar'] = array('tips', 'rules');
-        $this->view->assign('rightBarInfo', $this->rightBarInfo);
-        $this->view->display();
     }
 }

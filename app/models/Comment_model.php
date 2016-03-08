@@ -36,4 +36,25 @@ class Comment_model extends Kotori_Model
             )
         );
     }
+
+    public function preventReComment($pos = 0)
+    {
+        $event = 'legal';
+        $topic_id = $this->topic['input']['topic_id'];
+        $user_id = $this->topic['input']['user_id'];
+        $content = $this->topic['input']['content'];
+        $uid = $this->model->User->checkExist('id', $user_id);
+        $tid = $this->model->Topic->checkExist('id', $topic_id);
+        if ($uid[0]['id'] != '' && $tid[0]['id'] != '') {
+            $last_id = $this->model->Topic->checkContent('comment', $content);
+            if ($last_id != '') {
+                $event = 'illegal';
+            }
+        }
+        //允许重复提交
+        if ($pos == 1) {
+            $event = 'legal';
+        }
+        $this->_eventGenerate('recomment', $event, $content);
+    }
 }
