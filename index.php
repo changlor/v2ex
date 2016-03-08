@@ -26,6 +26,9 @@ $config['URL_ROUTE'] = array(
         'get' => 'Topic/addTopic',
         'post' => 'Topic/insertTopic',
     ),
+    'preview/markdown' => array(
+        'post' => 'Topic/previewTopic',
+    ),
 );
 $config['ERROR_TPL'] = 'Public/404';
 
