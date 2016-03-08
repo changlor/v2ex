@@ -28,7 +28,7 @@
                                 '时间轴' => 'javascript:;', 
                                 '设置' => 'javascript:;',
                             );
-                            if (rCookie('NA') == '') {
+                            if (rcookie('NA') == '') {
                                 $menu = array(
                                     '首页' => $this->route->url('/'),
                                     '注册' => $this->route->url('signup'),
@@ -43,10 +43,12 @@
                                 &nbsp;
                             </a>
                         <?php endforeach; ?>
+                        <?php if (rcookie('NA') != ''): ?>
                             <a href="javascript:;" onclick="if (confirm('确定要从 V2EX 登出？')) { location.href= '/signout'; }"
                             class="top">
                                 登出
                             </a>
+                        <?php endif; ?>
                         </td>
                     </tr>
                 </tbody>
