@@ -67,13 +67,14 @@ class Topic extends Base
                 $topic['title'] = $title;
                 $topic['user_id'] = $this->uid;
                 $topic['content'] = $content;
+                $topic['created_at'] = strtotime(date('Y-m-d H:m:s'));
                 $topic_id = $this->model->Topic->insertTopic($topic);
                 $newInfo = array('topic_count[+]' => '1');
                 $this->model->User->updateUserInfo($newInfo, $this->uid);
                 $url = $this->route->url('t/' . $topic_id);
                 $this->response->redirect($url, true);
             } else {
-                $problem = $this->model->Error->addTopic_error($handler);
+                $problem = $this->model->Error->addTopic_error($handler, $title);
                 $this->rightBarInfo['rightBar'] = array('tips', 'rules');
                 $this->view->assign('problem', $problem)->assign('rightBarInfo', $this->rightBarInfo)->view->display('Topic/addTopic');
             }
