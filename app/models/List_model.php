@@ -9,6 +9,7 @@ class List_model extends Kotori_Model
                     'id',
                     'user_id',
                     'title',
+                    'created_at',
                 )
             );
         }
@@ -17,6 +18,7 @@ class List_model extends Kotori_Model
                 'id',
                 'user_id',
                 'title',
+                'created_at',
                 'comment_count',
                 'reply_id',
             )

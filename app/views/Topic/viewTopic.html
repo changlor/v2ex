@@ -76,7 +76,7 @@
                             &nbsp;
                             <small class="gray">
                                 <a data-id="<?=$topic['user_id']; ?>" href="/member/anthonyeef"><?=$topic['username']; ?></a>
-                                · 19 分钟前用 Android 发布 · 110 次点击 &nbsp;
+                                · <?=fadeTime($topic['created_at']); ?> 用 Android 发布 · 110 次点击 &nbsp;
                             </small>
                         </div>
                         <div class="cell">
@@ -138,7 +138,7 @@
                                 <strong class="snow">
                                     |
                                 </strong>
-                                &nbsp;直到 2016-01-05 16:17:40 +08:00
+                                &nbsp;直到 <?=date('Y-m-d H:i:s'); ?> +08:00
                             </span>
                         </div>
                         <?php foreach ($comment as $key => $value): ?>
@@ -147,7 +147,7 @@
                                 <tbody>
                                     <tr>
                                         <td width="48" valign="top" align="center">
-                                            <img src="//cdn.v2ex.co/gravatar/8a095a4db45486e4f2f51237d10681f5?s=48&amp;d=retro" class="avatar" border="0" align="default">
+                                            <img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" class="avatar" border="0" align="default">
                                         </td>
                                         <td width="10" valign="top"></td>
                                         <td width="auto" valign="top" align="left">
@@ -171,7 +171,7 @@
                                                 <a href="/member/mingyun" class="dark"><?=$value['username']; ?></a>
                                             </strong>
                                             &nbsp; &nbsp;
-                                            <span class="fade small">121 天前</span> 
+                                            <span class="fade small"><?=fadeTime($value['created_at']); ?></span>
                                             <div class="sep5"></div>
                                             <div class="reply_content"><?=$value['content']; ?></div>
                                         </td>

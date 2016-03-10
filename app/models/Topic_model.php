@@ -33,6 +33,7 @@ class Topic_model extends Kotori_Model
                     'topic.user_id',
                     'topic.title',
                     'topic.reply_id',
+                    'topic.created_at',
                     'user.username',
                 ),
                 array(
@@ -45,6 +46,7 @@ class Topic_model extends Kotori_Model
                 'id',
                 'user_id',
                 'title',
+                'created_at',
                 'comment_count',
                 'reply_id',
             )

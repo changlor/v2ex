@@ -26,6 +26,7 @@ class Comment_model extends Kotori_Model
                 'comment.id',
                 'comment.user_id',
                 'comment.content',
+                'comment.created_at',
                 'user.username',
             ),
             array(

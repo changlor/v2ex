@@ -62,7 +62,7 @@
                                                 <strong>
                                                     <a href="/member/<?=$value['author']; ?>"><?=$value['author']; ?></a>
                                                 </strong>
-                                                &nbsp;•&nbsp; 1 天前 &nbsp;
+                                                &nbsp;•&nbsp; <?=fadeTime($value['created_at']); ?> &nbsp;
                                                 <?php if (isset($value['last_reply_name'])): ?>
                                                 •&nbsp;最后回复来自
                                                 <strong>
