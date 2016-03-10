@@ -29,7 +29,8 @@ class Comment_model extends Kotori_Model
                 'user.username',
             ),
             array(
-                "ORDER" => 'comment.id ASC',
+                'comment.topic_id' => $topic_id,
+                'ORDER' => 'comment.id ASC',
             )
         );
     }
