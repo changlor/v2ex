@@ -11,9 +11,9 @@ function custom_error($level, $event, $value = '')
         'legal' => 'pass',
         'undefined' => '主题未找到',
     );
-    $errors['recomment'] = array(
+    $errors['comment'] = array(
         'legal' => 'pass',
-        'illegal' => '你上一条回复的内容和这条相同',
+        'repeated' => '你上一条回复的内容和这条相同',
     );
     $errors['username'] = array(
         'legal' => 'pass',

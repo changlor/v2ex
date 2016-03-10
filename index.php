@@ -11,7 +11,10 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
-    't/([^/]+)' => 'Topic/viewTopic/$1',
+    't/([^/]+)' => array(
+        'get' => 'Topic/viewTopic/$1',
+        'post' => 'Comment/insertComment/$1',
+    ),
     'signup' => array(
         'get' => 'User/signup',
         'post' => 'User/register',

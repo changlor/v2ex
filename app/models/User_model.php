@@ -140,14 +140,14 @@ class User_model extends Kotori_Model
         return eventGenerate('email', $event, $email);
     }
 
-    public function checkUserId()
+    public function validateUserId($user_id)
     {
         $event = 'legal';
         //用户不存在
-        $id = $this->model->User->checkExist('id', $this->uid);
+        $id = $this->model->User->checkExist('id', $user_id);
         if ($id[0]['id'] == '') {
             $event = 'undefined';
         }
-        $this->_eventGenerate('user', $event, $this->uid);
+        return eventGenerate('user', $event, $user_id);
     }
 }

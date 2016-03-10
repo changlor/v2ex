@@ -1,14 +1,14 @@
 <?php
 class Topic_model extends Kotori_Model
 {
-    public function checkExist($level, $value)
+    public function checkExist($field, $value)
     {
         return $this->db->select('topic',
             array(
                 'id',
             ),
             array(
-                $level => $value,
+                $field => $value,
             )
         );
     }
@@ -160,5 +160,15 @@ class Topic_model extends Kotori_Model
             }
         }
         return $md;
+    }
+
+    public function validateTopicId($topic_id)
+    {
+        $event = 'legal';
+        $id = $this->checkExist('id', $topic_id);
+        if (!isset($id[0]['id'])) {
+            $event = 'undefined';
+        }
+        return eventGenerate('topic', $event, $topic_id);
     }
 }

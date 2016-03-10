@@ -65,4 +65,18 @@ class Error_model extends Kotori_Model
         $problem .= '</div>';
         return $problem;
     }
+
+    public function addComment_error($handler)
+    {
+        $problem = '<div class="problem">创建新回复过程中遇到一些问题：';
+        $problem .= '<ul>';
+        foreach ($handler as $key => $value) {
+            if ($value['msg'] != 'pass') {
+                $problem .= '<li>' . $value['msg'] . '</li>';
+            }
+        }
+        $problem .= '</ul>';
+        $problem .= '</div>';
+        return $problem;
+    }
 }

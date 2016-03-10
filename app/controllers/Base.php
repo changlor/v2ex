@@ -2,7 +2,6 @@
 class Base extends Kotori_Controller
 {
     protected $uid = '';
-    protected $handler;
     protected $rightBarInfo = array('user_info', 'rightBar');
     public function __construct()
     {
@@ -11,7 +10,7 @@ class Base extends Kotori_Controller
         $this->redirect_login();
         $this->initRightBarInfo();
     }
-    
+
     public function redirect_login()
     {
         if (rcookie('NA') == '') {

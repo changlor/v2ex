@@ -4,39 +4,35 @@ class Comment extends Base
     public function insertComment($topic_id = '')
     {
         if ($this->request->isPost()) {
-            $this->topic['input']['content'] = $this->request->input('post.content');
-            $this->topic['input']['user_id'] = $this->uid;
-            $this->topic['input']['topic_id'] = $topic_id;
-            EventHandle::checkUserId();
-            EventHandle::checkTopicId();
-            //print_r($this->topic['input']);
-            EventHandle::preventReComment();
-            $pos = 'pass';
-            foreach ($this->topic['output'] as $key => $value) {
+            $content = $this->request->input('post.content');
+            $user_id = $this->uid;
+            $handler['topic'] = $this->model->Topic->validateTopicId($topic_id);
+            $handler['comment'] = $this->model->Comment->validateComment($topic_id, $user_id, $content);
+            $isPass = false;
+            foreach ($handler as $key => $value) {
                 if ($value['msg'] != 'pass') {
-                    $pos = 'failure';
+                    $isPass = false;
+                    break;
                 }
+                $isPass = true;
             }
-            if ($pos == 'pass') {
-                $this->topic['input']['id'] = $this->model->Comment->addCommentId();
-                $newInfo = array('reply_id' => $this->topic['input']['id']);
-                $last_id = $this->model->Topic->updateTopicInfo($newInfo, $topic_id);
-                if ($last_id == 0) {
-                    $pos = 'failure';
-                }
-            }
-            if ($pos == 'pass') {
-                $last_id = $this->model->Comment->addComment($this->topic['input']);
-            }
-            if (!isset($last_id)) {
-                $last_id = 0;
-            }
-            if ($pos == 'failure' || $last_id == 0) {
-                $this->view->assign('output', $this->topic['output']);
-            }
-            if ($pos == 'pass') {
+            if ($isPass) {
+                $comment['id'] = $this->model->Comment->addCommentId();
+                $newInfo = array('reply_id' => $user_id);
+                $comment['content'] = $content;
+                $comment['created_at'] = strtotime(date('Y-m-d H:i:s'));
+                $comment['user_id'] = $user_id;
+                $comment['topic_id'] = $topic_id;
+                $this->model->Topic->updateTopicInfo($newInfo, $topic_id);
+                $this->model->Comment->addComment($comment);
                 $url = $this->route->url('t/' . $topic_id);
                 $this->response->redirect($url, true);
+            } else {
+                $topic_info = $this->model->Topic->getTopicInfo($topic_id);
+                $topic = $topic_info[0];
+                $this->rightBarInfo['rightBar'] = array('myInfo');
+                $problem = $this->model->Error->addComment_error($handler);
+                $this->view->assign('problem', $problem)->assign('topic', $topic)->assign('rightBarInfo', $this->rightBarInfo)->assign('repeated_comment', $content)->display('Comment/addComment');
             }
         }
     }
