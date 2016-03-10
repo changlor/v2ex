@@ -57,7 +57,7 @@ class Error_model extends Kotori_Model
                 $problem .= 'by';
                 $problem .= '<a href="javascript:;" target="_blank"> ' . $value['author'] . ' </a>';
                 $problem .= '-';
-                $problem .= '<span class="fade"> ' . $value['created_at'] . ' </span>';
+                $problem .= '<span class="fade"> ' . fadeTime($value['created_at']) . ' </span>';
                 $problem .= '</li>';
             }
             $problem .= '</ul>';

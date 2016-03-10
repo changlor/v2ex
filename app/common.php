@@ -176,3 +176,29 @@ function eventGenerate($level, $event, $value = '')
     $handler['msg'] = custom_error($level, $event, $value);
     return $handler;
 }
+
+function fadeTime($time)
+{
+    $dT = strtotime(date('Y-m-d H:i:s')) - $time;
+    $y = round($dT / 60 / 60 / 24 / 30 / 12);
+    $m = round($dT / 60 / 60 / 24 / 30);
+    $d = round($dT / 60 / 60 / 24);
+    $h = round($dT / 60 / 60);
+    $i = round($dT / 60);
+    $s = $dT;
+    if ($y > 0) {
+        return $y . '年前';
+    } elseif ($m > 0) {
+        return $m . '月前';
+    } elseif ($d > 0) {
+        return $d . '天前';
+    } elseif ($h > 0) {
+        return $h . '小时前';
+    } elseif ($i > 0) {
+        return $i . '分钟前';
+    } elseif ($s > 10) {
+        return $s . '秒前';
+    } elseif ($s > 0 && $s <= 10) {
+        return '刚刚';
+    }
+}
