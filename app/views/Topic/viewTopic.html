@@ -22,37 +22,6 @@
                 <div id="Main">
                     <div class="sep20">
                     </div>
-                    <?php if (isset($problem)): ?>
-                    <div class="box">
-                        <div class="header">
-                            <a href="<?php echo $this->route->url('/'); ?>">V2EX</a>
-                            <span class="chevron">&nbsp;›&nbsp;</span>
-                            <a href="<?php echo $this->route->url('t/' . $topic['id']); ?>"><?=$topic['title']; ?></a>
-                            <span class="chevron">&nbsp;›&nbsp;</span>
-                            创建新回复
-                        </div>
-                        <div class="problem">
-                            创建新回复过程中遇到一些问题：
-                            <ul>
-                                <li>你上一条回复的内容和这条相同</li>
-                            </ul>
-                        </div>
-                        <div class="box">
-                            <div class="cell">
-                                <form method="post" action="/t/220185">
-                                    <textarea name="content" maxlength="10000" class="mll" id="reply_content">##测试</textarea>
-                                    <div class="sep10"></div>
-                                    <input value="29553" name="once" type="hidden">
-                                    <input value="回复" class="super normal button" type="submit">
-                                </form>
-                            </div>
-                            <div class="inner">
-                                <div class="fr"><a href="/">← V2EX</a></div>
-                                &nbsp;
-                            </div>
-                        </div>
-                    </div>
-                    <?php else: ?>
                     <div class="box" style="border-bottom: 0px;">
                         <div class="header">
                             <div class="fr">
@@ -113,8 +82,6 @@
                             </div>
                         </div>
                     </div>
-                    <?php endif; ?>
-                    <?php if(!isset($output)): ?>
                     <div class="sep20">
                     </div>
                     <div class="box">
@@ -183,6 +150,7 @@
                     </div>
                     <div class="sep20">
                     </div>
+                    <?php if (rcookie('NA' != '')): ?>
                     <div class="box">
                         <div class="cell">
                             <div class="fr">
