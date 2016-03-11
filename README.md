@@ -9,6 +9,6 @@ git clone https://github.com/changlor/v2ex
 
 ## 在线Demo
 此Demo会自动同步上游最新版
-[v2ex](htt://v2ex.ml/
+[v2ex](http://v2ex.ml)
 
 ### Proudly powered by Kotori-Framework
