@@ -13,6 +13,7 @@ function custom_error($level, $event, $value = '')
     );
     $errors['comment'] = array(
         'legal' => 'pass',
+        'undefined' => '回复内容不能为空',
         'repeated' => '你上一条回复的内容和这条相同',
     );
     $errors['username'] = array(
