@@ -41,9 +41,9 @@ class User extends Base
             $referer = empty($referer) ? '/' : $referer;
             $username = $this->request->input('post.u');
             $password = $this->request->input('post.p');
-            $userpass = $this->model->User->checkPass($username);
-            $password = hashString($password, $userpass[0]['auth_key']);
-            if ($userpass[0]['password_hash'] == $password['hash']) {
+            $userpass = $this->model->User->validatePass($username);
+            $password = hashString($password, $userpass['auth_key']);
+            if ($userpass['password_hash'] == $password['hash']) {
                 $url = $this->route->url($referer);
                 rcookie('NA', $username);
                 $this->response->redirect($url, true);

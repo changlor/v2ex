@@ -52,7 +52,19 @@ class User_model extends Kotori_Model
 
     public function getUserInfo($user_id)
     {
-        $user_info = $this->db->select('user_info',
+        $user_info = $this->db->select('user',
+            array(
+                'id', 'username',
+            ),
+            array(
+                'id' => $user_id,
+            )
+        );
+    }
+
+    public function getUserRecord($user_id)
+    {
+        $user_record = $this->db->select('user_record',
             array(
                 'favorite_node_count',
                 'favorite_topic_count',
@@ -62,7 +74,7 @@ class User_model extends Kotori_Model
                 'user_id' => $user_id,
             )
         );
-        return $user_info[0];
+        return $user_record[0];
     }
 
     public function signin($user)
@@ -72,31 +84,44 @@ class User_model extends Kotori_Model
         );
     }
 
-    public function checkExist($level, $value)
+    public function updateUserRecord($updateInfo, $uid)
     {
-        return $this->db->select('user',
-            array('id'),
-            array($level => $value)
-        );
-    }
-
-    public function checkPass($username)
-    {
-        return $this->db->select('user',
-            array('password_hash', 'auth_key'),
-            array('username' => $username)
-        );
-    }
-
-    public function updateUserInfo($newInfo, $uid)
-    {
-        return $this->db->update('user_info',
-            $newInfo,
+        return $this->db->update('user_record',
+            $updateInfo,
             array('user_id' => $uid)
         );
     }
 
-    public function checkUsername($username)
+    public function getUserId($field, $value)
+    {
+        $user_id = $this->db->select('user',
+            array('id'),
+            array(
+                $field => $value,
+            )
+        );
+        return $user_id[0]['id'];
+    }
+
+    public function validateUser($field, $value)
+    {
+        return $this->db->has('user',
+            array(
+                $field => $value,
+            )
+        );
+    }
+
+    public function validatePass($username)
+    {
+        $auth_key = $this->db->select('user',
+            array('password_hash', 'auth_key'),
+            array('username' => $username)
+        );
+        return $auth_key[0];
+    }
+
+    public function validateUsername($username)
     {
         $event = 'legal';
         //用户名太长
@@ -109,8 +134,11 @@ class User_model extends Kotori_Model
             $event = 'illegal';
         }
         //用户名存在
-        $id = $this->checkExist('username', $username);
-        if (isset($id[0]['id'])) {
+        if ($this->db->has('user',
+            array(
+                'username' => $username,
+            )
+        )) {
             $event = 'exist';
         }
         //未输入用户名
@@ -120,7 +148,7 @@ class User_model extends Kotori_Model
         return eventGenerate('username', $event, $username);
     }
 
-    public function checkEmail($email)
+    public function validateEmail($email)
     {
         $event = 'legal';
         //邮箱格式错误
@@ -129,8 +157,11 @@ class User_model extends Kotori_Model
             $event = 'illegal';
         }
         //邮箱存在
-        $id = $this->checkExist('email', $email);
-        if (isset($id[0]['id'])) {
+        if ($this->db->has('user',
+            array(
+                'email' => $email,
+            )
+        )) {
             $event = 'exist';
         }
         //未输入邮箱
@@ -144,8 +175,11 @@ class User_model extends Kotori_Model
     {
         $event = 'legal';
         //用户不存在
-        $id = $this->model->User->checkExist('id', $user_id);
-        if ($id[0]['id'] == '') {
+        if (!$this->db->has('user',
+            array(
+                'id' => $user_id,
+            )
+        )) {
             $event = 'undefined';
         }
         return eventGenerate('user', $event, $user_id);

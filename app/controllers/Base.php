@@ -2,7 +2,7 @@
 class Base extends Kotori_Controller
 {
     protected $uid = '';
-    protected $rightBarInfo = array('user_info', 'rightBar');
+    protected $rightBarInfo = array('user_record', 'rightBar');
     public function __construct()
     {
         parent::__construct();
@@ -25,7 +25,7 @@ class Base extends Kotori_Controller
     public function initRightBarInfo()
     {
         if ($this->uid != '') {
-            $this->rightBarInfo['user_info'] = $this->model->User->getUserInfo($this->uid);
+            $this->rightBarInfo['user_record'] = $this->model->User->getUserRecord($this->uid);
         }
     }
 
@@ -33,9 +33,10 @@ class Base extends Kotori_Controller
     {
         $username = rcookie('NA');
         if ($username != '') {
-            $uid = $this->model->User->checkExist('username', $username);
-            $this->uid = $uid[0]['id'];
-            if ($this->uid == '') {
+            if ($this->model->User->validateUser('username', $username)) {
+                $user_id = $this->model->User->getUserId('username', $username);
+                $this->uid = $user_id;
+            } else {
                 rcookie('NA', null);
             }
         }

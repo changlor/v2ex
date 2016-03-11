@@ -18,18 +18,18 @@ class Comment extends Base
             }
             if ($isPass) {
                 $comment['id'] = $this->model->Comment->addCommentId();
-                $newInfo = array('reply_id' => $user_id);
                 $comment['content'] = $content;
                 $comment['created_at'] = strtotime(date('Y-m-d H:i:s'));
                 $comment['user_id'] = $user_id;
                 $comment['topic_id'] = $topic_id;
-                $this->model->Topic->updateTopicInfo($newInfo, $topic_id);
+                $updateInfo = array('reply_id' => $user_id);
+                $this->model->Topic->updateTopicInfo($updateInfo, $topic_id);
                 $this->model->Comment->addComment($comment);
                 $url = $this->route->url('t/' . $topic_id);
                 $this->response->redirect($url, true);
             } else {
                 $topic_info = $this->model->Topic->getTopicInfo($topic_id);
-                $topic = $topic_info[0];
+                $topic = $topic_info;
                 $this->rightBarInfo['rightBar'] = array('myInfo');
                 $problem = $this->model->Error->addComment_error($handler);
                 $this->view->assign('problem', $problem)->assign('topic', $topic)->assign('rightBarInfo', $this->rightBarInfo)->assign('repeated_comment', $content)->display('Comment/addComment');

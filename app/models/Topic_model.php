@@ -1,18 +1,6 @@
 <?php
 class Topic_model extends Kotori_Model
 {
-    public function checkExist($field, $value)
-    {
-        return $this->db->select('topic',
-            array(
-                'id',
-            ),
-            array(
-                $field => $value,
-            )
-        );
-    }
-
     public function updateTopicInfo($newInfo, $topic_id)
     {
         return $this->db->update('topic',
@@ -24,7 +12,7 @@ class Topic_model extends Kotori_Model
     public function getTopicInfo($topic_id = '')
     {
         if ($topic_id != '') {
-            return $this->db->select('topic',
+            $topic_info = $this->db->select('topic',
                 array(
                     '[><]user' => array('user_id' => 'id'),
                 ),
@@ -40,6 +28,7 @@ class Topic_model extends Kotori_Model
                     'topic.id' => $topic_id,
                 )
             );
+            return $topic_info[0];
         }
         return $this->db->select('topic',
             array(
@@ -94,8 +83,11 @@ class Topic_model extends Kotori_Model
             $event = 'long';
         }
         //标题存在
-        $id = $this->model->Topic->checkExist('title', $title);
-        if (isset($id[0]['id'])) {
+        if ($this->db->has('topic',
+            array(
+                'title' => $title,
+            )
+        )) {
             $event = 'exist';
         }
         //未输入标题
@@ -167,8 +159,11 @@ class Topic_model extends Kotori_Model
     public function validateTopicId($topic_id)
     {
         $event = 'legal';
-        $id = $this->checkExist('id', $topic_id);
-        if (!isset($id[0]['id'])) {
+        if (!$this->db->has('topic',
+            array(
+                'id' => $topic_id,
+            )
+        )) {
             $event = 'undefined';
         }
         return eventGenerate('topic', $event, $topic_id);

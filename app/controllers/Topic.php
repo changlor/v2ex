@@ -12,7 +12,7 @@ class Topic extends Base
         $topic_content = $this->model->Topic->getTopicContent($topic_id);
         $comment = $this->model->Comment->getTopicComment($topic_id);
         $topic = false;
-        $topic = $topic_info[0];
+        $topic = $topic_info;
         $topic['content'] = $topic_content[0]['content'];
         $md = $this->model->Topic->mdTagParse($topic['content']);
         $md = $this->model->Topic->mdAttributeParse($md);

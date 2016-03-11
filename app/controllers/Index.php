@@ -9,15 +9,13 @@ class Index extends Base
     {
         $topic = $this->model->Topic->getTopicInfo();
         foreach ($topic as $key => $value) {
-            $author = $this->model->List->getUserInfo($value['user_id']);
-            $topic[$key]['author'] = $author['0']['username'];
+            $author = $this->model->User->getUserInfo($value['user_id']);
+            $topic[$key]['author'] = $author['username'];
             if ($value['reply_id'] != 0) {
-                $user = $this->model->List->getUserInfo($value['reply_id']);
-                $topic[$key]['last_reply_name'] = $user['0']['username'];
+                $user = $this->model->User->getUserInfo($value['reply_id']);
+                $topic[$key]['last_reply_name'] = $user['username'];
             }
         }
-        $this->view->assign('rightBarInfo', $this->rightBarInfo);
-        $this->view->assign('topic', $topic);
-        $this->view->display();
+        $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->display();
     }
 }

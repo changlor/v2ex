@@ -635,7 +635,7 @@ function open_link(url){
         }
 
         $text = '<b>Error Type: </b>' . $errtype . '<br>' . '<b>Info: </b>' . $errstr . '<br>' . '<b>Line: </b>' . $errline . '<br>' . '<b>File: </b>' . $errfile;
-        $txt = 'Type: ' . $errtype . ' Info: ' . $errstr . ' Line: ' . $errline . ' File: ' . $errfile;
+        $txt = '[Type] ' . $errtype . ' [Info] ' . $errstr . ' [Line] ' . $errline . ' [File] ' . $errfile;
         array_push(self::$errors, $txt);
         Kotori_Log::normal($txt);
     }
@@ -653,7 +653,7 @@ function open_link(url){
     public static function exception($exception)
     {
         $text = '<b>Exception:</b>' . $exception->getMessage();
-        $txt = 'Type: Exception' . ' Info: ' . $exception->getMessage();
+        $txt = '[Type] Exception' . ' [Info] ' . $exception->getMessage();
         Kotori_Log::normal($txt);
         self::halt($text, 500);
     }
@@ -677,7 +677,7 @@ function open_link(url){
             ($last_error['type'] & (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING)))
         {
             $text = '<b>Error Type: </b>' . $last_error['type'] . '<br>' . '<b>Info: </b>' . $last_error['message'] . '<br>' . '<b>Line: </b>' . $last_error['line'] . '<br>' . '<b>File: </b>' . $last_error['file'];
-            $txt = 'Type: ' . $last_error['type'] . ' Info: ' . $last_error['message'] . ' Line: ' . $last_error['line'] . ' File: ' . $last_error['file'];
+            $txt = '[Type] ' . $last_error['type'] . ' [Info] ' . $last_error['message'] . ' [Line] ' . $last_error['line'] . ' [File] ' . $last_error['file'];
             Kotori_Log::normal($txt);
             self::halt($text, 500);
         }
@@ -877,7 +877,7 @@ class Kotori_Route
         $_GET = array_merge($this->_params, $_GET);
         $_REQUEST = array_merge($_POST, $_GET, $_COOKIE);
         //Endtime
-        define('END_TIME', microTime(true));
+        define('END_TIME', microtime(true));
         define('RUN_TIME', END_TIME - START_TIME);
         header('X-Powered-By: Kotori');
         header('Cache-control: private');
@@ -1871,6 +1871,8 @@ class Kotori_Trace
     private $traceTabs = array(
         'BASE' => 'Basic',
         'CONFIG' => 'Config',
+        'SERVER' => 'Server',
+        'COOKIE' => 'Cookie',
         'FILE' => 'File',
         'CLASS' => 'Class',
         'ERROR' => 'Error',
@@ -1920,6 +1922,8 @@ class Kotori_Trace
     {
         $files = get_included_files();
         $config = Kotori_Config::getInstance()->getArray();
+        $server = $_SERVER;
+        $cookie = $_COOKIE;
         $info = array();
         foreach ($files as $key => $file)
         {
@@ -1928,7 +1932,7 @@ class Kotori_Trace
         $class = Kotori_Hook::getTags();
         foreach ($class as $key => $value)
         {
-            $class[$key] = ' ( ' . $value . ' s )';
+            $class[$key] = ' ( ' . $value . ' μs )';
         }
         $error = Kotori_Handle::$errors;
         $database = Kotori_Database::getInstance();
@@ -1936,7 +1940,7 @@ class Kotori_Trace
 
         $base = array(
             'Request Info' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']) . ' ' . $_SERVER['SERVER_PROTOCOL'] . ' ' . $_SERVER['REQUEST_METHOD'] . ' : ' . $_SERVER['PHP_SELF'],
-            'Run Time' => RUN_TIME . 's',
+            'Run Time' => round(RUN_TIME * pow(10, 6)) . 'μs',
             'TPR' => number_format(1 / RUN_TIME, 2) . 'req/s',
             'Memory Uses' => number_format(memory_get_usage() / 1024, 2) . ' kb',
             'SQL Queries' => count($sql) . ' queries ',
@@ -1960,6 +1964,12 @@ class Kotori_Trace
                     break;
                 case 'CONFIG':
                     $trace[$title] = $config;
+                    break;
+                case 'SERVER':
+                    $trace[$title] = $server;
+                    break;
+                case 'COOKIE':
+                    $trace[$title] = $cookie;
                     break;
                 case 'FILE':
                     $trace[$title] = $info;
@@ -2035,7 +2045,7 @@ class Kotori_Trace
         $errorCount = count(Kotori_Handle::$errors);
         if ($errorCount == 0)
         {
-            $tpl .= round(RUN_TIME * 1000) . 'ms';
+            $tpl .= round(RUN_TIME * pow(10, 6)) . 'μs';
         }
         else
         {
@@ -2187,7 +2197,7 @@ class Kotori_Hook
      */
     public static function listen($name)
     {
-        self::$tags[$name] = microtime(true) - START_TIME;
+        self::$tags[$name] = round((microtime(true) - START_TIME) * pow(10, 6));
     }
 }
 
@@ -2207,7 +2217,7 @@ class Kotori_System extends Kotori_Controller
      *
      * @var string
      */
-    protected $url = 'http://kotori.sinaapp.com/framework/latest';
+    protected $url = 'http://api.kotori.love/framework/latest.php';
 
     /**
      * For Check Update
@@ -3311,7 +3321,7 @@ class Kotori_Log
             {
                 mkdir($logPath, 0755, true);
             }
-            file_put_contents($logPath . '/' . date('Ymd') . '.log', FILE_APPEND);
+            file_put_contents($logPath . '/' . date('Ymd') . '.log', $msg, FILE_APPEND);
         }
     }
 
