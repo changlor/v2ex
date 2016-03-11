@@ -38,6 +38,9 @@ class Topic_model extends Kotori_Model
                 'created_at',
                 'comment_count',
                 'reply_id',
+            ),
+            array(
+                'ORDER' => 'id DESC',
             )
         );
     }
