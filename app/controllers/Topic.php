@@ -52,7 +52,7 @@ class Topic extends Base
             $title = trim($title);
             $content = $this->request->input('post.content');
             $handler['title'] = $this->model->Topic->validateTitle($title);
-            $handler['content'] = $this->model->Topic->validateContent($title);
+            $handler['content'] = $this->model->Topic->validateContent($content);
             $isPass = false;
             foreach ($handler as $key => $value) {
                 if ($value['msg'] != 'pass') {
@@ -66,10 +66,10 @@ class Topic extends Base
                 $topic['user_id'] = $this->uid;
                 $topic['content'] = $content;
                 $topic['created_at'] = strtotime(date('Y-m-d H:i:s'));
-                $topic_id = $this->model->Topic->insertTopic($topic);
+                $insert_topic_id = $this->model->Topic->insertTopic($topic);
                 $updateInfo = array('topic_count[+]' => '1');
                 $this->model->User->updateUserRecord($updateInfo, $this->uid);
-                $url = $this->route->url('t/' . $topic_id);
+                $url = $this->route->url('t/' . $insert_topic_id);
                 $this->response->redirect($url, true);
             } else {
                 $problem = $this->model->Error->addTopic_error($handler, $title);
