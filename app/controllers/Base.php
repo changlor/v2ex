@@ -14,10 +14,18 @@ class Base extends Kotori_Controller
     public function redirect_login()
     {
         if (rcookie('NA') == '') {
-            $needLogin = array('balance');
-            if (ACTION_NAME == 'balance') {
-                $url = $this->route->url('signin?referer=balance');
-                $this->response->redirect($url, true);
+            $need_login_method = array(
+                'balance' => 'balance',
+                'insertTopic' => '%2F',
+                'previewTopic' => '%2F',
+                'addTopic' => 'new',
+                'insertComment' => '%2F',
+            );
+            foreach ($need_login_method as $key => $value) {
+                if (ACTION_NAME == $key) {
+                    $url = $this->route->url('signin?referer=' . $need_login_method[ACTION_NAME]);
+                    $this->response->redirect($url, true);
+                }
             }
         }
     }

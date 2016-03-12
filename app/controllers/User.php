@@ -113,8 +113,6 @@ class User extends Base
 
     public function balance()
     {
-        //$user_info = $this->model->User->getUserInfo(1);
-        //$rightBarInfo['user_info'] = $user_info;
         $this->rightBarInfo['rightBar'] = array('myInfo', 'referral');
         $this->view->assign('rightBarInfo', $this->rightBarInfo);
         $this->view->display();
