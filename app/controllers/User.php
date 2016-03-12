@@ -14,7 +14,17 @@ class User extends Base
         if ($referer != '') {
             $isReferer = true;
         }
-        $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('isReferer', $referer)->assign('referer', $referer)->display();
+        if (!$isReferer) {
+            $pattern = '/' . urlencode($this->route->url()) . '/i';
+            $referer = preg_replace($pattern, '', urlencode($_SERVER['HTTP_REFERER']));
+            $referer_page_parse = preg_split('/%3F|%2F/i', $referer);
+            $referer_page_method = $referer_page_parse[0];
+            $redirect_index_page = array('signin', 'signup', 'signout', '');
+            if (in_array($referer_page_method, $redirect_index_page)) {
+                $referer = '/';
+            }
+        }
+        $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('isReferer', $isReferer)->assign('referer', $referer)->display();
     }
 
     public function signup()
@@ -38,7 +48,7 @@ class User extends Base
             if ($referer != '') {
                 $isReferer = true;
             }
-            $referer = empty($referer) ? '/' : $referer;
+            $referer = empty($referer) ? '/' : urldecode($referer);
             $username = $this->request->input('post.u');
             $password = $this->request->input('post.p');
             $userpass = $this->model->User->validatePass($username);

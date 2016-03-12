@@ -74,7 +74,7 @@ class Topic extends Base
             } else {
                 $problem = $this->model->Error->addTopic_error($handler, $title);
                 $this->rightBarInfo['rightBar'] = array('tips', 'rules');
-                $this->view->assign('problem', $problem)->assign('rightBarInfo', $this->rightBarInfo)->view->display('Topic/addTopic');
+                $this->view->assign('problem', $problem)->assign('rightBarInfo', $this->rightBarInfo)->display('Topic/addTopic');
             }
         }
     }
