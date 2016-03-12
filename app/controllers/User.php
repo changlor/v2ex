@@ -77,8 +77,8 @@ class User extends Base
             $email = $this->request->input('post.email');
             $verifycode = $this->request->input('post.c');
             $username = trim($username);
-            $handler['username'] = $this->model->User->checkUsername($username);
-            $handler['email'] = $this->model->User->checkEmail($email);
+            $handler['username'] = $this->model->User->validateUsername($username);
+            $handler['email'] = $this->model->User->validateEmail($email);
             $isPass = false;
             foreach ($handler as $key => $value) {
                 if ($value['msg'] != 'pass') {
