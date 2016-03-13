@@ -25,7 +25,7 @@
     <?php if (isset($problem)): ?>
         <?=$problem; ?>
     <?php endif;?>
-    <?php if ($isReferer && !isset($problem)): ?>
+    <?php if ($isReferer && !isset($problem) && rcookie('NA') == ''): ?>
         <div class="message" onclick="$(this).slideUp();">你要查看的页面需要先登录</div>
     <?php endif;?>
     <?php if (rcookie('NA') != '' && !isset($problem)): ?>
