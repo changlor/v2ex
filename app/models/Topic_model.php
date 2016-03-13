@@ -104,7 +104,7 @@ class Topic_model extends Kotori_Model
     {
         $event = 'legal';
         //内容太长
-        if (strlen($content) > 2000) {
+        if (strlen($content) > 20000) {
             $event = 'long';
         }
         return eventGenerate('content', $event, $content);
