@@ -129,8 +129,7 @@ class User_model extends Kotori_Model
             $event = 'long';
         }
         //用户名不合法
-        $pattern = '/[a-zA-Z0-9]+/i';
-        if (!preg_match($pattern, $username)) {
+        if (!ctype_alnum($username)) {
             $event = 'illegal';
         }
         //用户名存在
