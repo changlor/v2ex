@@ -94,12 +94,12 @@ class User extends Base
                 $user['username'] = $username;
                 $user['email'] = $email;
                 $user['created_at'] = strtotime(date('Y:m:d H:i:s'));
-                $last_id = $this->model->User->signin($user);
-                if ($last_id != 0) {
-                    $url = $this->route->url('User/balance');
-                    rcookie('NA', $user['username']);
-                    $this->response->redirect($url, true);
-                }
+                $this->model->User->signin($user);
+                $user_id = $this->model->User->getUserId('username', $username);
+                $this->model->User->createUserRecord($user_id);
+                $url = $this->route->url('User/balance');
+                rcookie('NA', $username);
+                $this->response->redirect($url, true);
             } else {
                 $problem = $this->model->Error->signup_error($handler);
                 $this->rightBarInfo['rightBar'] = array('myInfo');

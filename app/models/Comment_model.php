@@ -52,9 +52,9 @@ class Comment_model extends Kotori_Model
             if ($pos == 1) {
                 $event = 'legal';
             }
-            if (trim($content) == '') {
-                $event = 'undefined';
-            }
+        }
+        if (trim($content) == '') {
+            $event = 'undefined';
         }
         return eventGenerate('comment', $event, $content);
     }

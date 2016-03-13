@@ -83,6 +83,12 @@ class User_model extends Kotori_Model
             $user
         );
     }
+    public function createUserRecord($user_id)
+    {
+        return $this->db->insert('user_record',
+            array('user_id' => $user_id)
+        );
+    }
 
     public function updateUserRecord($updateInfo, $uid)
     {
