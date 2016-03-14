@@ -8,6 +8,8 @@ class Topic extends Base
 
     public function viewTopic($topic_id = '')
     {
+        $updateInfo = array('hits[+]' => 1);
+        $this->model->Topic->updateTopicInfo($updateInfo, $topic_id);
         $topic_info = $this->model->Topic->getTopicInfo($topic_id);
         $topic_content = $this->model->Topic->getTopicContent($topic_id);
         $comment = $this->model->Comment->getTopicComment($topic_id);
@@ -19,12 +21,9 @@ class Topic extends Base
         $md = Markdown::convert($md);
         $md = str_replace('&amp;gt;', '&gt;', $md);
         $topic['content'] = str_replace('&amp;lt;', '&lt;', $md);
-        $this->view->assign('comment', $comment);
         $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('rightBarInfo', $this->rightBarInfo);
-        $this->view->assign('topic', $topic);
-        $this->view->display();
-    }
+        $this->view->assign('comment', $comment)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->display();
+    }   
 
     public function addTopic()
     {

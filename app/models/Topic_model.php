@@ -1,10 +1,10 @@
 <?php
 class Topic_model extends Kotori_Model
 {
-    public function updateTopicInfo($newInfo, $topic_id)
+    public function updateTopicInfo($updateInfo, $topic_id)
     {
         return $this->db->update('topic',
-            $newInfo,
+            $updateInfo,
             array('id' => $topic_id)
         );
     }
@@ -22,6 +22,7 @@ class Topic_model extends Kotori_Model
                     'topic.title',
                     'topic.reply_id',
                     'topic.created_at',
+                    'topic.hits',
                     'user.username',
                 ),
                 array(
