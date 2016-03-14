@@ -40,11 +40,12 @@ class Topic_model extends Kotori_Model
                 'topic.title',
                 'topic.created_at',
                 'topic.comment_count',
+                'topic.replied_at',
                 'topic.reply_id',
                 'user.username(author)',
             ),
             array(
-                'ORDER' => 'topic.id DESC',
+                'ORDER' => 'topic.ranked_at DESC',
             )
         );
         $last_reply_user = $this->db->select('topic',
@@ -56,7 +57,7 @@ class Topic_model extends Kotori_Model
                 'user.username(last_reply_name)',
             ),
             array(
-                'ORDER' => 'topic.id DESC',
+                'ORDER' => 'topic.ranked_at DESC',
             )
         );
         foreach ($topic as $key => $value) {

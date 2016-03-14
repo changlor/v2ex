@@ -66,6 +66,7 @@ class Topic extends Base
                 $topic['user_id'] = $this->uid;
                 $topic['content'] = $content;
                 $topic['created_at'] = strtotime(date('Y-m-d H:i:s'));
+                $topic['ranked_at'] = $topic['created_at'];
                 $insert_topic_id = $this->model->Topic->insertTopic($topic);
                 $updateInfo = array('topic_count[+]' => '1');
                 $this->model->User->updateUserRecord($updateInfo, $this->uid);

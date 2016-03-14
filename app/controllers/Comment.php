@@ -22,7 +22,11 @@ class Comment extends Base
                 $comment['created_at'] = strtotime(date('Y-m-d H:i:s'));
                 $comment['user_id'] = $user_id;
                 $comment['topic_id'] = $topic_id;
-                $updateInfo = array('reply_id' => $user_id);
+                $updateInfo = array(
+                    'reply_id' => $user_id,
+                    'replied_at' => $comment['created_at'],
+                    'ranked_at' => $comment['created_at'],
+                );
                 $this->model->Topic->updateTopicInfo($updateInfo, $topic_id);
                 $this->model->Comment->addComment($comment);
                 $url = $this->route->url('t/' . $topic_id);
