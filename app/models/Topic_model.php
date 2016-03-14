@@ -30,19 +30,44 @@ class Topic_model extends Kotori_Model
             );
             return $topic_info[0];
         }
-        return $this->db->select('topic',
+        $topic = $this->db->select('topic',
             array(
-                'id',
-                'user_id',
-                'title',
-                'created_at',
-                'comment_count',
-                'reply_id',
+                '[><]user' => array('user_id' => 'id'),
             ),
             array(
-                'ORDER' => 'id DESC',
+                'topic.id',
+                'topic.user_id',
+                'topic.title',
+                'topic.created_at',
+                'topic.comment_count',
+                'topic.reply_id',
+                'user.username(author)',
+            ),
+            array(
+                'ORDER' => 'topic.id DESC',
             )
         );
+        $last_reply_user = $this->db->select('topic',
+            array(
+                '[><]user' => array('reply_id' => 'id'),
+            ),
+            array(
+                'topic.reply_id',
+                'user.username(last_reply_name)',
+            ),
+            array(
+                'ORDER' => 'topic.id DESC',
+            )
+        );
+        foreach ($topic as $key => $value) {
+            foreach ($last_reply_user as $ke => $val) {
+                if ($value['reply_id'] !== 0 && $value['reply_id'] == $val['reply_id']) {
+                    $topic[$key]['last_reply_name'] = $val['last_reply_name'];
+                    break;
+                }
+            }
+        }
+        return $topic;
     }
 
     public function getTopicContent($topic_id = '')
