@@ -26,6 +26,7 @@ class Comment extends Base
                     'reply_id' => $user_id,
                     'replied_at' => $comment['created_at'],
                     'ranked_at' => $comment['created_at'],
+                    'comment_count[+]' => 1,
                 );
                 $this->model->Topic->updateTopicInfo($updateInfo, $topic_id);
                 $this->model->Comment->addComment($comment);

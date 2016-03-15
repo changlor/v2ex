@@ -221,13 +221,13 @@ function parseUA($ua)
     } elseif (preg_match('/Windows NT 5.2/i', $ua) && preg_match('/Win64/i', $ua)) {
         $os = "Windows XP 64 bit";
     } elseif (preg_match('/Android ([0-9.]+)/i', $ua, $matches)) {
-        $os = "Android " . $matches[1];
+        $os = "Android" . $matches[1];
     } elseif (preg_match('/iPhone OS ([_0-9]+)/i', $ua, $matches)) {
-        $os = 'iPhone ' . $matches[1];
+        $os = 'iPhone' . $matches[1];
     } elseif (preg_match('/Ubuntu/i', $ua, $matches)) {
-        $os = 'Ubuntu ';
+        $os = 'Ubuntu';
     } elseif (preg_match('/Mac OS X ([0-9_]+)/i', $ua, $matches)) {
-        $os = 'Mac OS ' . $matches[1];
+        $os = 'Mac OS' . $matches[1];
     } elseif (preg_match('/Linux/i', $ua, $matches)) {
         $os = 'Linux';
     } else {
