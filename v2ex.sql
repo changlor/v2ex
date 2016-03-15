@@ -268,6 +268,7 @@ CREATE TABLE `topic` (
   `title` char(120) NOT NULL,
   `ranked_at` int(10) unsigned NOT NULL,
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `client` varchar(12) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `alllist` (`alltop`,`replied_at`,`id`),
   KEY `nodelist` (`node_id`,`top`,`replied_at`,`id`),
@@ -277,11 +278,12 @@ CREATE TABLE `topic` (
   KEY `user_id` (`user_id`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `topic` (`id`, `created_at`, `updated_at`, `replied_at`, `node_id`, `user_id`, `reply_id`, `alltop`, `top`, `invisible`, `closed`, `comment_closed`, `comment_count`, `favorite_count`, `views`, `title`, `ranked_at`, `hits`) VALUES
-(37,  1457945143, 0,  1457947379, 0,  12, 12, 0,  0,  0,  0,  0,  0,  0,  0,  '测试主题', 1457947379, 19),
-(38,  1457946691, 0,  1457947361, 0,  12, 12, 0,  0,  0,  0,  0,  0,  0,  0,  '继续测试一发', 1457947361, 12),
-(39,  1457949845, 0,  0,  0,  12, 0,  0,  0,  0,  0,  0,  0,  0,  0,  '嘻嘻，我就是要测试一下发帖的功能', 1457949845, 14),
-(40,  1458019257, 0,  0,  0,  12, 0,  0,  0,  0,  0,  0,  0,  0,  0,  '发布新主题',  1458019257, 2);
+INSERT INTO `topic` (`id`, `created_at`, `updated_at`, `replied_at`, `node_id`, `user_id`, `reply_id`, `alltop`, `top`, `invisible`, `closed`, `comment_closed`, `comment_count`, `favorite_count`, `views`, `title`, `ranked_at`, `hits`, `client`) VALUES
+(37,  1457945143, 0,  1457947379, 0,  12, 12, 0,  0,  0,  0,  0,  0,  0,  0,  '测试主题', 1457947379, 22, ''),
+(38,  1457946691, 0,  1457947361, 0,  12, 12, 0,  0,  0,  0,  0,  0,  0,  0,  '继续测试一发', 1457947361, 16, ''),
+(39,  1457949845, 0,  0,  0,  12, 0,  0,  0,  0,  0,  0,  0,  0,  0,  '嘻嘻，我就是要测试一下发帖的功能', 1457949845, 42, 'Android'),
+(40,  1458019257, 0,  0,  0,  12, 0,  0,  0,  0,  0,  0,  0,  0,  0,  '发布新主题',  1458019257, 19, ''),
+(41,  1458025274, 0,  0,  0,  12, 0,  0,  0,  0,  0,  0,  0,  0,  0,  '嘻嘻', 1458025274, 12, 'Windows 10');
 
 DROP TABLE IF EXISTS `topic_content`;
 CREATE TABLE `topic_content` (
@@ -294,7 +296,8 @@ INSERT INTO `topic_content` (`topic_id`, `content`) VALUES
 (38,  '继续测试啊'),
 (37,  '测试完就删了'),
 (39,  ''),
-(40,  '');
+(40,  ''),
+(41,  '');
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -338,9 +341,9 @@ CREATE TABLE `user_record` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `user_record` (`user_id`, `last_login_at`, `last_login_ip`, `reg_ip`, `topic_count`, `comment_count`, `favorite_count`, `favorite_node_count`, `favorite_topic_count`, `favorite_user_count`, `website`, `about`) VALUES
-(12,  0,  0,  0,  29, 0,  0,  0,  0,  0,  '', ''),
+(12,  0,  0,  0,  30, 0,  0,  0,  0,  0,  '', ''),
 (14,  0,  0,  0,  0,  0,  0,  0,  0,  0,  '', ''),
 (15,  0,  0,  0,  0,  0,  0,  0,  0,  0,  '', ''),
 (16,  0,  0,  0,  2,  0,  0,  0,  0,  0,  '', '');
 
--- 2016-03-15 05:24:36
+-- 2016-03-15 07:34:39
