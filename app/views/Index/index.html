@@ -11,12 +11,12 @@
 </head>
 
 <body>
-    <?php $this->need('Public/header'); ?>
+    <?php $this->need('Public/header');?>
     <div id="Wrapper">
         <div class="content">
             <div id="Leftbar"></div>
             <div id="Rightbar">
-                <?php $this->need('Public/rightBar', $rightBarInfo); ?>
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
             </div>
             <div id="Main">
                 <div class="sep20">
@@ -48,7 +48,7 @@
                                     </td>
                                     <td width="auto" valign="middle">
                                         <span class="item_title">
-                                                <a href="<?php echo $this->route->url('t/'.$value['id']); ?>"><?=$value['title']; ?></a>
+                                                <a href="<?php echo $this->route->url('t/' . $value['id']); ?>"><?=$value['title'];?></a>
                                             </span>
                                         <div class="sep5">
                                         </div>
@@ -60,15 +60,19 @@
                                                 </a>
                                                 &nbsp;•&nbsp;
                                                 <strong>
-                                                    <a href="/member/<?=$value['author']; ?>"><?=$value['author']; ?></a>
+                                                    <a href="/member/<?=$value['author'];?>"><?=$value['author'];?></a>
                                                 </strong>
-                                                &nbsp;•&nbsp; <?=fadeTime($value['replied_at']); ?> &nbsp;
+                                            <?php if ($value['replied_at'] == '' || $value['replied_at'] == 0): ?>
+                                                &nbsp;•&nbsp; <?=fadeTime($value['created_at']);?> &nbsp;
+                                            <?php else: ?>
+                                                &nbsp;•&nbsp; <?=fadeTime($value['replied_at']);?> &nbsp;
+                                            <?php endif;?>
                                                 <?php if (isset($value['last_reply_name'])): ?>
                                                 •&nbsp;最后回复来自
                                                 <strong>
-                                                    <a href="/member/<?=$value['last_reply_name']; ?>"><?=$value['last_reply_name']; ?></a>
+                                                    <a href="/member/<?=$value['last_reply_name'];?>"><?=$value['last_reply_name'];?></a>
                                                 </strong>
-                                                <?php endif; ?>
+                                                <?php endif;?>
                                             </span>
                                     </td>
                                     <td width="70" align="right" valign="middle">
@@ -80,7 +84,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php endforeach; ?>
+                    <?php endforeach;?>
                     <div class="inner">
                         <div class="fr">
                             <a href="/feed/tab/tech.xml" target="_blank">
@@ -159,7 +163,7 @@
         <div class="sep20">
         </div>
     </div>
-    <?php $this->need('Public/footer'); ?>
+    <?php $this->need('Public/footer');?>
 </body>
 
 </html>
