@@ -60,7 +60,7 @@
                                                 </a>
                                                 &nbsp;•&nbsp;
                                                 <strong>
-                                                    <a href="/member/<?=$value['author'];?>"><?=$value['author'];?></a>
+                                                    <a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><?=$value['author'];?></a>
                                                 </strong>
                                             <?php if ($value['replied_at'] == '' || $value['replied_at'] == 0): ?>
                                                 &nbsp;•&nbsp; <?=fadeTime($value['created_at']);?> &nbsp;
@@ -70,7 +70,7 @@
                                                 <?php if (isset($value['last_reply_name'])): ?>
                                                 •&nbsp;最后回复来自
                                                 <strong>
-                                                    <a href="/member/<?=$value['last_reply_name'];?>"><?=$value['last_reply_name'];?></a>
+                                                    <a href="<?php echo $this->route->url('member/' . $value['last_reply_name']); ?>"><?=$value['last_reply_name'];?></a>
                                                 </strong>
                                                 <?php endif;?>
                                             </span>

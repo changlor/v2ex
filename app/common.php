@@ -270,5 +270,5 @@ function parseUA($ua)
     }
     $client['os'] = $os;
     $client['browser'] = $browser;
-    return $client;
+    return $client['os'];
 }

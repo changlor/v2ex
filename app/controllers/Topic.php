@@ -23,7 +23,7 @@ class Topic extends Base
         $topic['content'] = str_replace('&amp;lt;', '&lt;', $md);
         $this->rightBarInfo['rightBar'] = array('myInfo');
         $this->view->assign('comment', $comment)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->display();
-    }   
+    }
 
     public function addTopic()
     {
@@ -66,6 +66,7 @@ class Topic extends Base
                 $topic['content'] = $content;
                 $topic['created_at'] = strtotime(date('Y-m-d H:i:s'));
                 $topic['ranked_at'] = $topic['created_at'];
+                $topic['client'] = parseUA($_SERVER['HTTP_USER_AGENT']);
                 $insert_topic_id = $this->model->Topic->insertTopic($topic);
                 $updateInfo = array('topic_count[+]' => '1');
                 $this->model->User->updateUserRecord($updateInfo, $this->uid);
