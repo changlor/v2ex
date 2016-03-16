@@ -10,6 +10,9 @@ class Tag_model extends Kotori_Model
             array(
                 'tag.name',
                 'tag.id',
+            ),
+            array(
+                'topic_id' => $topic_id,
             )
         );
     }

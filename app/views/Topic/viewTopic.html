@@ -91,10 +91,12 @@
                     </div>
                 </div>
                 <div class="sep20"></div>
+                <?php endif;?>
+                <?php if (count($topic_tags) > 0): ?>
                 <div class="box">
                     <div class="inner">
                         <?php foreach ($topic_tags as $key => $value): ?>
-                        <a href="/tag/羞羞" class="tag">  
+                        <a href="/tag/羞羞" class="tag">
                             <?=$value['name'];?>
                         </a>
                         <?php endforeach;?>
