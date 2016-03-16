@@ -97,7 +97,7 @@ class User extends Base
                 $this->model->User->signin($user);
                 $user_id = $this->model->User->getUserId('username', $username);
                 $this->model->User->createUserRecord($user_id);
-                $url = $this->route->url('User/balance');
+                $url = $this->route->url('balance');
                 rcookie('NA', $username);
                 $this->response->redirect($url, true);
             } else {
