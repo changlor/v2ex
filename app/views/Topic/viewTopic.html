@@ -92,24 +92,24 @@
                 </div>
                 <div class="sep20"></div>
                 <div class="box">
-                    <div class="inner"><a href="/tag/TCP" class="tag">TCP</a><a href="/tag/inode" class="tag">inode</a><a href="/tag/proc" class="tag">proc</a><a href="/tag/sys" class="tag">sys</a></div>
+                    <div class="inner">
+                        <?php foreach ($topic_tags as $key => $value): ?>
+                        <a href="/tag/羞羞" class="tag">  
+                            <?=$value['name'];?>
+                        </a>
+                        <?php endforeach;?>
+                    </div>
                 </div>
                 <?php else: ?>
                 <div class="box">
                     <div class="cell">
                         <div class="fr" style="margin: -3px -5px 0px 0px;">
+                            <?php foreach ($topic_tags as $key => $value): ?>
                             <a href="/tag/羞羞" class="tag">
-                                <li class="fa icon-tag"></li> 羞羞
+                                <li class="fa icon-tag"></li>
+                                <?=$value['name'];?>
                             </a>
-                            <a href="/tag/found" class="tag">
-                                <li class="fa icon-tag"></li> found
-                            </a>
-                            <a href="/tag/果壳" class="tag">
-                                <li class="fa icon-tag"></li> 果壳
-                            </a>
-                            <a href="/tag/社区" class="tag">
-                                <li class="fa icon-tag"></li> 社区
-                            </a>
+                            <?php endforeach;?>
                         </div>
                         <span class="gray">
                                 <?=$topic['comment_count'];?> 回复 &nbsp;

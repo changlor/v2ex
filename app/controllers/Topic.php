@@ -10,6 +10,7 @@ class Topic extends Base
     {
         $updateInfo = array('hits[+]' => 1);
         $this->model->Topic->updateTopicInfo($updateInfo, $topic_id);
+        $topic_tags = $this->model->Tag->getTopicTag($topic_id);
         $topic_info = $this->model->Topic->getTopicInfo($topic_id);
         $topic_content = $this->model->Topic->getTopicContent($topic_id);
         $comment = $this->model->Comment->getTopicComment($topic_id);
@@ -22,7 +23,7 @@ class Topic extends Base
         $md = str_replace('&amp;gt;', '&gt;', $md);
         $topic['content'] = str_replace('&amp;lt;', '&lt;', $md);
         $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('comment', $comment)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->display();
+        $this->view->assign('comment', $comment)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->assign('topic_tags', $topic_tags)->display();
     }
 
     public function addTopic()
@@ -70,6 +71,19 @@ class Topic extends Base
                 $insert_topic_id = $this->model->Topic->insertTopic($topic);
                 $updateInfo = array('topic_count[+]' => '1');
                 $this->model->User->updateUserRecord($updateInfo, $this->uid);
+                $topicTitleTags = get_tags_arr($title);
+                $topicContentTags = get_tags_arr($content);
+                $tags = $topicTitleTags;
+                foreach ($topicContentTags as $key => $value) {
+                    $tags[] = $value;
+                }
+                unset($tags[0]);
+                foreach ($tags as $key => $value) {
+                    if ($key > 4) {
+                        unset($tags[$key]);
+                    }
+                }
+                $this->model->Tag->insertTag($tags, $insert_topic_id);
                 $url = $this->route->url('t/' . $insert_topic_id);
                 $this->response->redirect($url, true);
             } else {
