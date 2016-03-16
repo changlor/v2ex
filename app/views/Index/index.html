@@ -75,11 +75,13 @@
                                                 <?php endif;?>
                                             </span>
                                     </td>
+                                    <?php if ($value['comment_count'] != 0): ?>
                                     <td width="70" align="right" valign="middle">
                                         <a href="/t/247454#reply7" class="count_livid">
-                                                7
-                                            </a>
+                                            <?=$value['comment_count'];?>
+                                        </a>
                                     </td>
+                                    <?php endif;?>
                                 </tr>
                             </tbody>
                         </table>
