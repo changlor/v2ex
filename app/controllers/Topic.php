@@ -77,9 +77,8 @@ class Topic extends Base
                 foreach ($topicContentTags as $key => $value) {
                     $tags[] = $value;
                 }
-                unset($tags[0]);
                 foreach ($tags as $key => $value) {
-                    if ($key > 4) {
+                    if ($key > 3) {
                         unset($tags[$key]);
                     }
                 }
