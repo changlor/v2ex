@@ -90,9 +90,9 @@
                         <span style="color: rgba(0, 0, 0, 0.25);">目前尚无回复</span>
                     </div>
                 </div>
-                <div class="sep20"></div>
                 <?php endif;?>
                 <?php if (count($topic_tags) > 0 && $topic['comment_count'] == 0): ?>
+                <div class="sep20"></div>
                 <div class="box">
                     <div class="inner">
                         <?php foreach ($topic_tags as $key => $value): ?>
@@ -107,7 +107,7 @@
                 <div class="box">
                     <div class="cell">
                         <?php endif;?>
-                        <?php if (count($topic_tags) > 0 && $topic[comment_count] > 0): ?>
+                        <?php if (count($topic_tags) > 0 && $topic['comment_count'] > 0): ?>
                         <div class="fr" style="margin: -3px -5px 0px 0px;">
                             <?php foreach ($topic_tags as $key => $value): ?>
                             <a href="/tag/羞羞" class="tag">
@@ -116,14 +116,14 @@
                             </a>
                             <?php endforeach;?>
                         </div>
-                    <?php endif;?>
-                    <?php if ($topic['comment_count'] > 0): ?>
+                        <?php endif;?>
+                        <?php if ($topic['comment_count'] > 0): ?>
                         <span class="gray">
                                 <?=$topic['comment_count'];?> 回复 &nbsp;
                                 <strong class="snow">
                                     |
                                 </strong>
-                                &nbsp;直到 <?=date('Y-m-d H:i:s');?> +08:00
+                                &nbsp;直到 <?=date('Y-m-d H:i:s', $topic['created_at']);?> +08:00
                             </span>
                     </div>
                     <?php foreach ($comment as $key => $value): ?>
@@ -166,10 +166,10 @@
                     </div>
                     <?php endforeach;?>
                 </div>
-                <div class="sep20">
-                </div>
                 <?php endif;?>
                 <?php if (rcookie('NA') != ''): ?>
+                <div class="sep20">
+                </div>
                 <div class="box">
                     <div class="cell">
                         <div class="fr">
