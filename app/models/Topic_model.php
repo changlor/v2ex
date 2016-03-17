@@ -23,6 +23,7 @@ class Topic_model extends Kotori_Model
                     'topic.client',
                     'topic.comment_count',
                     'topic.reply_id',
+                    'topic.replied_at',
                     'topic.created_at',
                     'topic.hits',
                     'user.username',
