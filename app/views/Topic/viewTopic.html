@@ -102,9 +102,12 @@
                         <?php endforeach;?>
                     </div>
                 </div>
-                <?php else: ?>
+                <?php endif;?>
+                <?php if ($topic['comment_count'] > 0): ?>
                 <div class="box">
                     <div class="cell">
+                        <?php endif;?>
+                        <?php if (count($topic_tags) > 0 && $topic[comment_count] > 0): ?>
                         <div class="fr" style="margin: -3px -5px 0px 0px;">
                             <?php foreach ($topic_tags as $key => $value): ?>
                             <a href="/tag/羞羞" class="tag">
@@ -113,6 +116,8 @@
                             </a>
                             <?php endforeach;?>
                         </div>
+                    <?php endif;?>
+                    <?php if ($topic['comment_count'] > 0): ?>
                         <span class="gray">
                                 <?=$topic['comment_count'];?> 回复 &nbsp;
                                 <strong class="snow">
@@ -161,9 +166,9 @@
                     </div>
                     <?php endforeach;?>
                 </div>
-                <?php endif;?>
                 <div class="sep20">
                 </div>
+                <?php endif;?>
                 <?php if (rcookie('NA') != ''): ?>
                 <div class="box">
                     <div class="cell">
@@ -220,16 +225,6 @@
         <div class="sep20"></div>
     </div>
     <?php $this->need('Public/footer');?>
-    <?php if (isset($output)): ?>
-    <script type="text/javascript">
-    $("#reply_content").keydown(function(e) {
-        if ((e.ctrlKey || e.metaKey) && e.which === 13) {
-            e.preventDefault();
-            $("#reply_content").parent().submit();
-        }
-    });
-    </script>
-    <?php endif;?>
 </body>
 
 </html>
