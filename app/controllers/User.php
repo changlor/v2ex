@@ -17,7 +17,9 @@ class User extends Base
         if (!$isReferer) {
             $pattern = '/' . urlencode($this->route->url()) . '/i';
             $referer = preg_replace($pattern, '', urlencode($_SERVER['HTTP_REFERER']));
-            $referer_page_parse = preg_split('/%3F|%2F/i', $referer);
+            $referer_page_url = trim(preg_replace('/%3F|%2F/i', ' ', $referer));
+            $referer_page_url = preg_replace('/[ ]+/i', ' ', $referer_page_url);
+            $referer_page_parse = explode(' ', $referer_page_url);
             $referer_page_method = $referer_page_parse[0];
             $redirect_index_page = array('signin', 'signup', 'signout', '');
             if (in_array($referer_page_method, $redirect_index_page)) {

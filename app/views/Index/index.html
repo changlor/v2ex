@@ -48,7 +48,7 @@
                                     </td>
                                     <td width="auto" valign="middle">
                                         <span class="item_title">
-                                                <a href="<?php echo $this->route->url('t/' . $value['id']); ?>"><?=$value['title'];?></a>
+                                                <a href="<?php echo $this->route->url('t/' . $value['id']); ?>#reply<?=$value['comment_count'];?>"><?=$value['title'];?></a>
                                             </span>
                                         <div class="sep5">
                                         </div>
@@ -77,7 +77,7 @@
                                     </td>
                                     <?php if ($value['comment_count'] != 0): ?>
                                     <td width="70" align="right" valign="middle">
-                                        <a href="/t/247454#reply7" class="count_livid">
+                                        <a href="<?php echo $this->route->url('t/' . $value['id']); ?>#reply<?=$value['comment_count'];?>" class="count_livid">
                                             <?=$value['comment_count'];?>
                                         </a>
                                     </td>
