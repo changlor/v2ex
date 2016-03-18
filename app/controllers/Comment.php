@@ -29,8 +29,8 @@ class Comment extends Base
                     'comment_count[+]' => 1,
                 );
                 $this->model->Topic->updateTopicInfo($updateInfo, $topic_id);
-                $this->model->Comment->addComment($comment);
-                $url = $this->route->url('t/' . $topic_id);
+                $insert_comment_count = $this->model->Comment->addComment($comment);
+                $url = $this->route->url('t/' . $topic_id . '#reply' . $insert_comment_count);
                 $this->response->redirect($url, true);
             } else {
                 $topic_info = $this->model->Topic->getTopicInfo($topic_id);

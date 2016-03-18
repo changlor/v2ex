@@ -3,7 +3,16 @@ class Comment_model extends Kotori_Model
 {
     public function addComment($comment)
     {
-        return $this->db->insert('comment', $comment);
+        $this->db->insert('comment', $comment);
+        $topic_comment_count = $this->db->select('topic',
+            array(
+                'comment_count',
+            ),
+            array(
+                'id' => $comment['topic_id'],
+            )
+        );
+        return $topic_comment_count[0]['comment_count'];
     }
 
     public function addCommentId()

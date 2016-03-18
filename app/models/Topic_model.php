@@ -15,7 +15,7 @@ class Topic_model extends Kotori_Model
             $topic_info = $this->db->select('topic',
                 array(
                     '[><]user' => array('user_id' => 'id'),
-                ),
+                ),  
                 array(
                     'topic.id',
                     'topic.user_id',
