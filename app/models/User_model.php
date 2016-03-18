@@ -13,6 +13,23 @@ class User_model extends Kotori_Model
         );
     }
 
+    public function getRecentActivity($user_id)
+    {
+        $recentActivity['comments'] = $this->db->select('comment',
+            array(
+                '[><]topic' => array('topic_id' => 'id'),
+            ),
+            array(
+                'comment.created_at',
+                'comment.topic_id',
+                'comment.content',
+                'topic.title',
+                'topic.author',
+            )
+        );
+        return $recentActivity;
+    }
+
     public function getUserRecord($user_id)
     {
         $user_record = $this->db->select('user_record',
