@@ -27,9 +27,7 @@
                 <div class="box" style="border-bottom: 0px;">
                     <div class="header">
                         <div class="fr">
-                            <a data-id="<?=$topic['user_id'];?>" href="/member/anthonyeef">
-                                    <img src="<?php echo PUBLIC_DIR ?>/img/Changle.jpeg" class="avatar" border="0" align="default" />
-                                </a>
+                            <a data-id="<?=$topic['user_id'];?>" href="/member/anthonyeef"><img src="<?php echo PUBLIC_DIR ?>/img/Changle.jpeg" class="avatar" border="0" align="default" /></a>
                         </div>
                         <a href="/">V2EX</a>
                         <span class="chevron">&nbsp;›&nbsp;</span>
@@ -37,12 +35,8 @@
                         <div class="sep10"></div>
                         <h1><?=$topic['title'];?></h1>
                         <div id="topic_<?=$topic['id'];?>_votes" class="votes">
-                            <a href="javascript:" onclick="upVoteTopic(<?=$topic['id'];?>);" class="vote">
-                                <li class="fa icon-chevron-up"></li>
-                            </a>&nbsp;
-                            <a href="javascript:" onclick="downVoteTopic(<?=$topic['id'];?>);" class="vote">
-                                <li class="fa icon-chevron-down"></li>
-                            </a>
+                            <a href="javascript:" onclick="upVoteTopic(<?=$topic['id'];?>);" class="vote"><li class="fa fa-chevron-up"></li></a>&nbsp;
+                            <a href="javascript:" onclick="downVoteTopic(<?=$topic['id'];?>);" class="vote"><li class="fa fa-chevron-down"></li></a>
                         </div>
                         &nbsp;
                         <small class="gray">
@@ -54,11 +48,13 @@
                                 · <?=$topic['hits'];?> 次点击 &nbsp;
                             </small>
                     </div>
+                    <?php if (trim($topic['content']) != ''): ?>
                     <div class="cell">
                         <div class="topic_content">
                             <?=$topic['content'];?>
                         </div>
                     </div>
+                    <?php endif;?>
                     <div class="topic_buttons">
                         <div class="fr gray f11" style="line-height: 12px; padding-top: 3px; text-shadow: 0px 1px 0px #fff;">
                             <?=$topic['hits'];?> 次点击 &nbsp;
@@ -144,9 +140,7 @@
                                                     </a>
                                             </div>
                                             &nbsp;
-                                            <a href="javascript:;" onclick="replyOne('mingyun');">
-                                                <img src="//cdn.v2ex.com/static/img/reply.png" align="absmiddle" border="0" alt="Reply">
-                                            </a>
+                                            <a href="javascript:;" onclick="replyOne('mingyun');"><img src="<?php echo PUBLIC_DIR; ?>/img/reply.png" align="absmiddle" border="0" alt="Reply"></a>
                                             &nbsp;&nbsp;
                                             <span class="no"><?=$value['position'];?></span>
                                         </div>

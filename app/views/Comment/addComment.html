@@ -1,40 +1,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="zh-CN">
-    <head>
-        <title>
-            V2EX
-        </title>
-        <meta charset="utf-8">
-        <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8">
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
     <?php $this->need('Public/header');?>
     <div id="Wrapper">
         <div class="content">
             <div id="Leftbar"></div>
             <div id="Rightbar">
-            <?php $this->need('Public/rightBar', $rightBarInfo); ?>
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
             </div>
             <div id="Main">
-                <div class="sep20"></div> 
+                <div class="sep20"></div>
                 <div class="box">
                     <div class="header">
-                        <a href="/">V2EX</a> 
-                        <span class="chevron">&nbsp;›&nbsp;</span> 
-                        <a href="/t/261999"><?=$topic['title']; ?></a> 
-                        <span class="chevron">&nbsp;›&nbsp;</span> 
-                        创建新回复
+                        <a href="/">V2EX</a>
+                        <span class="chevron">&nbsp;›&nbsp;</span>
+                        <a href="<?php echo $this->route->url('t/' . $topic['id']); ?>">
+                            <?=$topic['title'];?>
+                        </a>
+                        <span class="chevron">&nbsp;›&nbsp;</span> 创建新回复
                     </div>
-                    <?php if(isset($problem)): ?>
-                        <?=$problem; ?>
-                    <?php endif; ?>
+                    <?php if (isset($problem)): ?>
+                        <?=$problem;?>
+                    <?php endif;?>
                     <div class="box">
                         <div class="cell">
                             <form method="post" action="<?php echo $this->route->url('t/' . $topic['id']); ?>">
-                                <textarea name="content" maxlength="10000" class="mll" id="reply_content"><?=$repeated_comment; ?></textarea>
+                                <textarea name="content" maxlength="10000" class="mll" id="reply_content">
+                                    <?=$repeated_comment;?>
+                                </textarea>
                                 <div class="sep10"></div>
                                 <input type="hidden" value="97701" name="once">
                                 <input type="submit" value="回复" class="super normal button">
@@ -53,12 +58,13 @@
     </div>
     <?php $this->need('Public/footer');?>
     <script type="text/javascript">
-        $("#reply_content").keydown(function(e) {
-            if ((e.ctrlKey || e.metaKey) && e.which === 13) {
-                e.preventDefault();
-                $("#reply_content").parent().submit();
-            }
-        });
+    $("#reply_content").keydown(function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.which === 13) {
+            e.preventDefault();
+            $("#reply_content").parent().submit();
+        }
+    });
     </script>
-    </body>
+</body>
+
 </html>

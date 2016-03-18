@@ -10,101 +10,90 @@ $defaultRightBar = array(
 );
 $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
 ?>
-<?php if (in_array('myInfo', $rightBar) && rCookie('NA') != ''): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="cell">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <tbody>
-                <tr>
-                    <td width="48" valign="top">
-                        <a href="/member/changlers">
-                            <img src="<?php echo PUBLIC_DIR ?>/img/Changle.jpeg" class="avatar" border="0" align="default" style="max-width: 48px; max-height: 48px;"
-                            />
-                        </a>
-                    </td>
-                    <td width="10" valign="top">
-                    </td>
-                    <td width="auto" align="left">
-                        <span class="bigger">
+    <?php if (in_array('myInfo', $rightBar) && rCookie('NA') != ''): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="cell">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="48" valign="top">
+                            <a href="/member/changlers"><img src="<?php echo PUBLIC_DIR ?>/img/Changle.jpeg" class="avatar" border="0" align="default" style="max-width: 48px; max-height: 48px;" /></a>
+                        </td>
+                        <td width="10" valign="top">
+                        </td>
+                        <td width="auto" align="left">
+                            <span class="bigger">
                             <a href="/member/">
                                 <?php echo rCookie('NA'); ?>
                             </a>
                         </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="sep10">
-        </div>
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <tbody>
-                <tr>
-                    <td width="33%" align="center">
-                        <a href="/my/nodes" class="dark" style="display: block;">
-                            <span class="bigger"><?=$user_record['favorite_node_count']; ?></span>
-                            <div class="sep3">
-                            </div>
-                            <span class="fade">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="sep10">
+            </div>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="33%" align="center">
+                            <a href="/my/nodes" class="dark" style="display: block;">
+                                <span class="bigger"><?=$user_record['favorite_node_count'];?></span>
+                                <div class="sep3">
+                                </div>
+                                <span class="fade">
                                 节点收藏
                             </span>
-                        </a>
-                    </td>
-                    <td width="34%" style="border-left: 1px solid rgba(100, 100, 100, 0.4); border-right: 1px solid rgba(100, 100, 100, 0.4);"
-                    align="center">
-                        <a href="/my/topics" class="dark" style="display: block;">
-                            <span class="bigger"><?=$user_record['favorite_topic_count']; ?></span>
-                            <div class="sep3">
-                            </div>
-                            <span class="fade">
+                            </a>
+                        </td>
+                        <td width="34%" style="border-left: 1px solid rgba(100, 100, 100, 0.4); border-right: 1px solid rgba(100, 100, 100, 0.4);" align="center">
+                            <a href="/my/topics" class="dark" style="display: block;">
+                                <span class="bigger"><?=$user_record['favorite_topic_count'];?></span>
+                                <div class="sep3">
+                                </div>
+                                <span class="fade">
                                 主题收藏
                             </span>
-                        </a>
-                    </td>
-                    <td width="33%" align="center">
-                        <a href="/my/following" class="dark" style="display: block;">
-                            <span class="bigger"><?=$user_record['favorite_user_count']; ?></span>
-                            <div class="sep3">
-                            </div>
-                            <span class="fade">
+                            </a>
+                        </td>
+                        <td width="33%" align="center">
+                            <a href="/my/following" class="dark" style="display: block;">
+                                <span class="bigger"><?=$user_record['favorite_user_count'];?></span>
+                                <div class="sep3">
+                                </div>
+                                <span class="fade">
                                 特别关注
                             </span>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="cell">
-        <div style="width: 250px; background-color: #f0f0f0; height: 3px; display: inline-block; vertical-align: middle;">
-            <div style="width: 50px; background-color: #ccc; height: 3px; display: inline-block;">
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="cell">
+            <div style="width: 250px; background-color: #f0f0f0; height: 3px; display: inline-block; vertical-align: middle;">
+                <div style="width: 50px; background-color: #ccc; height: 3px; display: inline-block;">
+                </div>
             </div>
         </div>
-    </div>
-    <div class="cell" style="padding: 5px;">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <tbody>
-                <tr>
-                    <td width="32">
-                        <a href="/new">
-                            <img src="<?php echo PUBLIC_DIR; ?>/img/write.png" width="32" border="0"
-                            />
-                        </a>
-                    </td>
-                    <td width="10">
-                    </td>
-                    <td width="auto" valign="middle" align="left">
-                        <a href="<?php echo $this->route->url('new'); ?>">
-                            创作新主题
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="inner">
-        <div class="fr" id="money">
-            <a href="/balance" class="balance_area" style="">
+        <div class="cell" style="padding: 5px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="32">
+                            <a href="/new"><img src="<?php echo PUBLIC_DIR; ?>/img/write.png" width="32" border="0" /></a>
+                        </td>
+                        <td width="10">
+                        </td>
+                        <td width="auto" valign="middle" align="left"><a href="<?php echo $this->route->url('new'); ?>">创作新主题</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="inner">
+            <div class="fr" id="money">
+                <a href="/balance" class="balance_area" style="">
                 21
                 <img src="<?php echo PUBLIC_DIR; ?>/img/silver.png" alt="S" align="absmiddle"
                 border="0" style="padding-bottom: 2px;" />
@@ -112,254 +101,247 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
                 <img src="<?php echo PUBLIC_DIR; ?>/img/bronze.png" alt="B" align="absmiddle"
                 border="0" />
             </a>
-        </div>
-        <a href="/notifications" class="fade">
+            </div>
+            <a href="/notifications" class="fade">
             0 条未读提醒
         </a>
+        </div>
     </div>
-</div>
-<?php elseif (in_array('myInfo', $rightBar)): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="cell">
-        <strong>V2EX = way to explore</strong>
-        <div class="sep5"></div>
-        <span class="fade">V2EX 是一个关于分享和探索的地方</span>
-    </div>
-    <div class="inner">
-        <div class="sep5"></div>
-        <div align="center">
-            <a href="/signup" class="super normal button">现在注册</a>
+    <?php elseif (in_array('myInfo', $rightBar)): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="cell">
+            <strong>V2EX = way to explore</strong>
             <div class="sep5"></div>
+            <span class="fade">V2EX 是一个关于分享和探索的地方</span>
+        </div>
+        <div class="inner">
+            <div class="sep5"></div>
+            <div align="center">
+                <a href="/signup" class="super normal button">现在注册</a>
+                <div class="sep5"></div>
+                <div class="sep10"></div>
+                已注册用户请 &nbsp;
+                <a href="/signin">登录</a>
+            </div>
+        </div>
+    </div>
+    <?php endif;?>
+    <?php if (in_array('referral', $rightBar)): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="cell">
+            <strong class="gray">V2EX Referral</strong>
+        </div>
+        <div class="cell">
+            你可以在自己的个人网站上分享 V2EX 的链接，如果有新用户通过你的分享注册，那么你和新用户将各自得到：
             <div class="sep10"></div>
-            已注册用户请 &nbsp;
-            <a href="/signin">登录</a>
+            <div class="balance_area" style="">
+                2
+                <img src="//cdn.v2ex.com/static/img/silver.png" alt="S" align="absmiddle" border="0" style="padding-bottom: 2px;" />
+            </div>
+        </div>
+        <div class="inner">
+            Referral Link
+            <div class="sep10"></div>
+            <input type="text" class="sl" value="http://www.v2ex.com/?r=heiheiheih" style="width: 242px; font-size: 11px; line-height: 11px;" onclick="this.select();" />
         </div>
     </div>
-</div>
-<?php endif; ?>
-<?php if (in_array('referral', $rightBar)): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="cell">
-        <strong class="gray">V2EX Referral</strong>
-    </div>
-    <div class="cell">
-        你可以在自己的个人网站上分享 V2EX 的链接，如果有新用户通过你的分享注册，那么你和新用户将各自得到：
-        <div class="sep10"></div>
-        <div class="balance_area" style="">
-            2
-            <img src="//cdn.v2ex.com/static/img/silver.png" alt="S" align="absmiddle" border="0" style="padding-bottom: 2px;" />
+    <?php endif;?>
+    <?php if (in_array('registration', $rightBar) && rCookie('NA') != ''): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="inner">
+            <li class="fa fa-gift" style="color: #f90;"></li>&nbsp;
+            <a href="/mission/daily">领取今日的登录奖励</a>
         </div>
     </div>
-    <div class="inner">
-        Referral Link
-        <div class="sep10"></div>
-        <input type="text" class="sl" value="http://www.v2ex.com/?r=heiheiheih" style="width: 242px; font-size: 11px; line-height: 11px;" onclick="this.select();" />
-    </div>
-</div>
-<?php endif; ?>
-<?php if (in_array('registration', $rightBar) && rCookie('NA') != ''): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="inner">
-        <li class="fa icon-adapt icon-medkit" style="color: #f90;">
-        </li>
-        &nbsp;
-        <a href="/mission/daily">
-            领取今日的登录奖励
-        </a>
-    </div>
-</div>
-<?php endif; ?>
-<?php if (in_array('myNode', $rightBar)): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="inner" style="padding: 5px;">
-        <div class="gray f12" style="padding: 5px;">
-            我收藏的节点
-        </div>
-        <div id="MyNodes">
+    <?php endif;?>
+    <?php if (in_array('myNode', $rightBar)): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="inner" style="padding: 5px;">
+            <div class="gray f12" style="padding: 5px;">
+                我收藏的节点
+            </div>
+            <div id="MyNodes">
+            </div>
         </div>
     </div>
-</div>
-<?php endif; ?>
-<?php if (in_array('hotTopic', $rightBar)): ?>
-<div class="sep20"></div>
-<div class="box" id="TopicsHot">
-    <div class="cell">
-        <span class="fade">今日热议主题</span>
-    </div>
-    <div class="cell">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <tbody>
-                <tr>
-                    <td width="24" valign="middle" align="center">
-                        <a href="/member/FireCat">
-                            <img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" class="avatar" border="0" align="default" style="max-width: 24px; max-height: 24px;" />
-                        </a>
-                    </td>
-                    <td width="10"></td>
-                    <td width="auto" valign="middle">
-                        <span class="item_hot_topic_title">
+    <?php endif;?>
+    <?php if (in_array('hotTopic', $rightBar)): ?>
+    <div class="sep20"></div>
+    <div class="box" id="TopicsHot">
+        <div class="cell">
+            <span class="fade">今日热议主题</span>
+        </div>
+        <div class="cell">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="24" valign="middle" align="center">
+                            <a href="/member/FireCat"><img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" class="avatar" border="0" align="default" style="max-width: 24px; max-height: 24px;" /></a>
+                        </td>
+                        <td width="10"></td>
+                        <td width="auto" valign="middle">
+                            <span class="item_hot_topic_title">
                             <a href="/t/247764">好玩的游戏推荐</a>
                         </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<?php endif; ?>
-<?php if (in_array('hotNode', $rightBar)): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="cell">
-        <div class="fr"></div>
-        <span class="fade">最热节点</span>
+    <?php endif;?>
+    <?php if (in_array('hotNode', $rightBar)): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="cell">
+            <div class="fr"></div>
+            <span class="fade">最热节点</span>
+        </div>
+        <div class="cell">
+            <a href="/go/ppp" class="item_node">啪啪啪</a>
+        </div>
+        <div class="inner">
+            <a href="/index.xml" target="_blank"><img src="<?php echo PUBLIC_DIR; ?>/img/rss.png" align="absmiddle" border="0" style="margin-top:-3px;" /></a>&nbsp;
+            <a href="/index.xml" target="_blank">RSS</a>
+        </div>
     </div>
-    <div class="cell">
-        <a href="/go/ppp" class="item_node">啪啪啪</a>
+    <?php endif;?>
+    <?php if (in_array('newNode', $rightBar)): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="cell">
+            <div class="fr"></div>
+            <span class="fade">最近新增节点</span>
+        </div>
+        <div class="inner">
+            <a href="/go/iceland" class="item_node">冰岛</a>
+        </div>
     </div>
-    <div class="inner">
-        <a href="/index.xml" target="_blank">
-            <img src="<?php echo PUBLIC_DIR; ?>/img/rss.png" align="absmiddle" border="0" style="margin-top:-3px;" />
-        </a>&nbsp;
-        <a href="/index.xml" target="_blank">RSS</a>
-    </div>
-</div>
-<?php endif; ?>
-<?php if (in_array('newNode', $rightBar)): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="cell">
-        <div class="fr"></div>
-        <span class="fade">最近新增节点</span>
-    </div>
-    <div class="inner">
-        <a href="/go/iceland" class="item_node">冰岛</a>
-    </div>
-</div>
-<?php endif; ?>
-<?php if (in_array('runStatus', $rightBar)): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="cell">
-        <span class="fade">
+    <?php endif;?>
+    <?php if (in_array('runStatus', $rightBar)): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="cell">
+            <span class="fade">
             社区运行状况
         </span>
-    </div>
-    <div class="cell">
-        <table cellpadding="5" cellspacing="0" border="0" width="100%">
-            <tbody>
-                <tr>
-                    <td width="50" align="right">
-                        <span class="gray">
+        </div>
+        <div class="cell">
+            <table cellpadding="5" cellspacing="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="50" align="right">
+                            <span class="gray">
                             注册会员
                         </span>
-                    </td>
-                    <td width="auto" align="left">
-                        <strong>
+                        </td>
+                        <td width="auto" align="left">
+                            <strong>
                             1
                         </strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="50" align="right">
-                        <span class="gray">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            <span class="gray">
                             主题
                         </span>
-                    </td>
-                    <td width="auto" align="left">
-                        <strong></strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="50" align="right">
-                        <span class="gray">
+                        </td>
+                        <td width="auto" align="left">
+                            <strong></strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            <span class="gray">
                             回复
                         </span>
-                    </td>
-                    <td width="auto" align="left">
-                        <strong>
+                        </td>
+                        <td width="auto" align="left">
+                            <strong>
                             1
                         </strong>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="inner">
-        <span class="chevron">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="inner">
+            <span class="chevron">
             ›
         </span>
-        <a href="/top/rich">
+            <a href="/top/rich">
             财富排行榜
         </a>
-        <div class="sep5"></div>
-        <span class="chevron">
+            <div class="sep5"></div>
+            <span class="chevron">
             ›
         </span>
-        <a href="/top/player">
+            <a href="/top/player">
             消费排行榜
         </a>
+        </div>
     </div>
-</div>
-<?php endif; ?>
-<?php if (in_array('tips', $rightBar)): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="cell">发帖提示</div>
-    <div class="inner">
-        <ul style="margin-top: 0px;">
-            <li>
-                <span class="f13">主题标题</span><div class="sep10"></div>
-                请在标题中描述内容要点。如果一件事情在标题的长度内就已经可以说清楚，那就没有必要写正文了。
-                <div class="sep10"></div>
-            </li>
-            <li>
-                <div class="fr" style="margin-top: -5px; margin-right: 5px;">
-                    <img src="<?php echo PUBLIC_DIR; ?>/img/markdown.png" border="0" width="32" />
-                </div>
-                <span class="f13">正文</span>
-                <div class="sep10"></div>
-                可以在正文中为你要发布的主题添加更多细节。V2EX 支持
-                <span style="font-family: Consolas, 'Panic Sans', mono">
+    <?php endif;?>
+    <?php if (in_array('tips', $rightBar)): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="cell">发帖提示</div>
+        <div class="inner">
+            <ul style="margin-top: 0px;">
+                <li>
+                    <span class="f13">主题标题</span>
+                    <div class="sep10"></div>
+                    请在标题中描述内容要点。如果一件事情在标题的长度内就已经可以说清楚，那就没有必要写正文了。
+                    <div class="sep10"></div>
+                </li>
+                <li>
+                    <div class="fr" style="margin-top: -5px; margin-right: 5px;">
+                        <img src="<?php echo PUBLIC_DIR; ?>/img/markdown.png" border="0" width="32" />
+                    </div>
+                    <span class="f13">正文</span>
+                    <div class="sep10"></div>
+                    可以在正文中为你要发布的主题添加更多细节。V2EX 支持
+                    <span style="font-family: Consolas, 'Panic Sans', mono">
                     <a href="https://help.github.com/articles/github-flavored-markdown" target="_blank">GitHub Flavored Markdown</a>
                 </span> 文本标记语法。
-                <div class="sep10"></div>
-                在正式提交之前，你可以点击本页面左下角的“预览主题”来查看 Markdown 正文的实际渲染效果。
-                <div class="sep10"></div>
-            </li>
-            <li>
-                <span class="f13">选择节点</span>
-                <div class="sep10"></div>
-                在最后，请为你的主题选择一个节点。恰当的归类会让你发布的信息更加有用。
-                <div class="sep10"></div>
-                你可以在主题发布后 300 秒内，对标题或者正文进行编辑。同时，在 300 秒内，你可以重新为主题选择节点。
-            </li>
-        </ul>
+                    <div class="sep10"></div>
+                    在正式提交之前，你可以点击本页面左下角的“预览主题”来查看 Markdown 正文的实际渲染效果。
+                    <div class="sep10"></div>
+                </li>
+                <li>
+                    <span class="f13">选择节点</span>
+                    <div class="sep10"></div>
+                    在最后，请为你的主题选择一个节点。恰当的归类会让你发布的信息更加有用。
+                    <div class="sep10"></div>
+                    你可以在主题发布后 300 秒内，对标题或者正文进行编辑。同时，在 300 秒内，你可以重新为主题选择节点。
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
-<?php endif; ?>
-<?php if (in_array('rules', $rightBar)): ?>
-<div class="sep20"></div>
-<div class="box">
-    <div class="cell">社区指导原则</div>
-    <div class="inner">
-        <ul style="margin-top: 0px;">
-            <li>
-                <span class="f13">尊重原创</span>
-                <div class="sep10"></div>
-                请不要在 V2EX 发布任何盗版下载链接，包括软件、音乐、电影等等。V2EX 是创意工作者的社区，我们尊重原创。
-                <div class="sep10"></div>
-            </li>
-            <li>
-                <span class="f13">友好互助</span>
-                <div class="sep10"></div>
-                保持对陌生人的友善。用知识去帮助别人。
-            </li>
-        </ul>
+    <?php endif;?>
+    <?php if (in_array('rules', $rightBar)): ?>
+    <div class="sep20"></div>
+    <div class="box">
+        <div class="cell">社区指导原则</div>
+        <div class="inner">
+            <ul style="margin-top: 0px;">
+                <li>
+                    <span class="f13">尊重原创</span>
+                    <div class="sep10"></div>
+                    请不要在 V2EX 发布任何盗版下载链接，包括软件、音乐、电影等等。V2EX 是创意工作者的社区，我们尊重原创。
+                    <div class="sep10"></div>
+                </li>
+                <li>
+                    <span class="f13">友好互助</span>
+                    <div class="sep10"></div>
+                    保持对陌生人的友善。用知识去帮助别人。
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
-<?php endif; ?>
+    <?php endif;?>

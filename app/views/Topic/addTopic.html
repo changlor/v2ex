@@ -33,39 +33,39 @@
                     </div>
                     <form method="post" action="<?php echo $this->route->url('new'); ?>" id="compose">
                         <?php if (isset($problem)): ?>
-                        <?=$problem;?>
-                            <?php endif;?>
-                            <div class="cell">
-                                <div class="fr fade" id="title_remaining">120</div>
-                                主题标题
-                            </div>
-                            <div class="cell" style="padding: 0px; background-color: #fff;">
-                                <textarea class="msl" rows="1" maxlength="120" id="topic_title" name="title" autofocus="autofocus" placeholder="请输入主题标题，如果标题能够表达完整内容，则正文可以为空"></textarea>
-                            </div>
-                            <div class="cell">
-                                <div class="fr fade" id="content_remaining">20000</div>
-                                正文
-                            </div>
-                            <div style="text-align: left; border-bottom: 1px solid #e2e2e2; font-size: 14px; line-height: 120%;">
-                                <textarea maxlength="20000" id="editor" name="content"></textarea>
-                            </div>
-                            <?php $this->need('Public/node');?>
-                            <div class="cell">
-                                最热节点 &nbsp; <a href="javascript:chooseNode('qna')" class="node">问与答</a> &nbsp;<a href="javascript:chooseNode('all4all')" class="node">二手交易</a> &nbsp;<a href="javascript:chooseNode('share')" class="node">分享发现</a> &nbsp;<a href="javascript:chooseNode('jobs')" class="node">酷工作</a> &nbsp;<a href="javascript:chooseNode('programmer')" class="node">程序员</a> &nbsp;<a href="javascript:chooseNode('macosx')" class="node">Mac OS X</a> &nbsp;<a href="javascript:chooseNode('create')" class="node">分享创造</a> &nbsp;<a href="javascript:chooseNode('python')" class="node">Python</a> &nbsp;<a href="javascript:chooseNode('shadowsocks')" class="node">shadowsocks</a> &nbsp;<a href="javascript:chooseNode('iphone')" class="node">iPhone</a> &nbsp;<a href="javascript:chooseNode('in')" class="node">分享邀请码</a> &nbsp;
-                            </div>
-                            <input type="hidden" name="content" value="" id="topic_content" />
-                            <input type="hidden" name="once" value="10301" />
+                            <?=$problem;?>
+                        <?php endif;?>
+                        <div class="cell">
+                            <div class="fr fade" id="title_remaining">120</div>
+                            主题标题
+                        </div>
+                        <div class="cell" style="padding: 0px; background-color: #fff;">
+                            <textarea class="msl" rows="1" maxlength="120" id="topic_title" name="title" autofocus="autofocus" placeholder="请输入主题标题，如果标题能够表达完整内容，则正文可以为空"></textarea>
+                        </div>
+                        <div class="cell">
+                            <div class="fr fade" id="content_remaining">20000</div>
+                            正文
+                        </div>
+                        <div style="text-align: left; border-bottom: 1px solid #e2e2e2; font-size: 14px; line-height: 120%;">
+                            <textarea maxlength="20000" id="editor" name="content"></textarea>
+                        </div>
+                        <?php $this->need('Public/node');?>
+                        <div class="cell">
+                            最热节点 &nbsp; <a href="javascript:chooseNode('qna')" class="node">问与答</a> &nbsp;<a href="javascript:chooseNode('all4all')" class="node">二手交易</a> &nbsp;<a href="javascript:chooseNode('share')" class="node">分享发现</a> &nbsp;<a href="javascript:chooseNode('jobs')" class="node">酷工作</a> &nbsp;<a href="javascript:chooseNode('programmer')" class="node">程序员</a> &nbsp;<a href="javascript:chooseNode('macosx')" class="node">Mac OS X</a> &nbsp;<a href="javascript:chooseNode('create')" class="node">分享创造</a> &nbsp;<a href="javascript:chooseNode('python')" class="node">Python</a> &nbsp;<a href="javascript:chooseNode('shadowsocks')" class="node">shadowsocks</a> &nbsp;<a href="javascript:chooseNode('iphone')" class="node">iPhone</a> &nbsp;<a href="javascript:chooseNode('in')" class="node">分享邀请码</a> &nbsp;
+                        </div>
+                        <input type="hidden" name="content" value="" id="topic_content" />
+                        <input type="hidden" name="once" value="10301" />
                     </form>
                     <div class="cell">
                         <div class="fr">
                             <span id="error_message"></span> &nbsp;
                             <button type="button" class="super normal button" onclick="publishTopic();">
-                                <li class="fa icon-magic"></li>
+                                <li class="fa fa-paper-plane"></li>
                                 &nbsp;发布主题
                             </button>
                         </div>
                         <button class="super normal button" onclick="previewTopic();">
-                            <li class="fa icon-eye-open"></li>
+                            <li class="fa fa-eye"></li>
                             &nbsp;预览主题
                         </button>
                     </div>
