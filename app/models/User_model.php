@@ -15,7 +15,31 @@ class User_model extends Kotori_Model
 
     public function getRecentActivity($user_id)
     {
-        $recentActivity['comments'] = $this->db->select('comment',
+        $current_time = strtotime(date('Y-m-d H:i:s'));
+        $recent_time = 2 * 24 * 60 * 60;
+        $recentActivity['topic'] = $this->db->select('topic',
+            array(
+                '[><]user' => array('reply_id' => 'id'),
+            ),
+            array(
+                'topic.title',
+                'topic.author',
+                'topic.replied_at',
+                'topic.created_at',
+                'topic.id(topic_id)',
+                'topic.comment_count',
+                'user.username(last_reply_name)',
+            ),
+            array(
+                'AND' => array(
+                    'topic.created_at[>]' => $current_time - $recent_time,
+                    'topic.user_id' => $user_id,
+                ),
+                'ORDER' => 'topic.created_at DESC',
+                'LIMIT' => [0, 3],
+            )
+        );
+        $recentActivity['comment'] = $this->db->select('comment',
             array(
                 '[><]topic' => array('topic_id' => 'id'),
             ),
@@ -23,11 +47,18 @@ class User_model extends Kotori_Model
                 'comment.created_at',
                 'comment.topic_id',
                 'comment.content',
+                'topic.comment_count',
                 'topic.title',
                 'topic.author',
             ),
             array(
-                'comment.user_id' => $user_id,
+                'AND' => array(
+                    'comment.created_at[>]' => $current_time - $recent_time,
+                    'comment.user_id' => $user_id,
+
+                ),
+                'ORDER' => 'comment.created_at DESC',
+                'LIMIT' => [0, 6],
             )
         );
         return $recentActivity;

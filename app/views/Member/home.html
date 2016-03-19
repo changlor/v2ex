@@ -24,7 +24,8 @@
             <div id="Rightbar">
                 <div class="sep20"></div>
                 <div class="box">
-                    <div class="cell"><img src="<?php echo PUBLIC_DIR; ?>/img/neue_comment.png" width="18" align="absmiddle" /> &nbsp;<?=$username;?> 最近的时间轴更新</div>
+                    <div class="cell"><img src="<?php echo PUBLIC_DIR; ?>/img/neue_comment.png" width="18" align="absmiddle" /> &nbsp;
+                        <?=$username;?> 最近的时间轴更新</div>
                     <div id="statuses">
                     </div>
                 </div>
@@ -36,13 +37,13 @@
                     <div class="cell">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                             <tr>
-                                <td width="73" valign="top" align="center"><img src="//cdn.v2ex.co/gravatar/d43602b3fc54c761def75893e37ed6fc?s=73&d=retro" class="avatar" border="0" align="default" />
+                                <td width="73" valign="top" align="center"><img src="<?php echo PUBLIC_DIR; ?>/img/default.jpeg" class="avatar" border="0" align="default" />
                                     <div class="sep10"></div><strong class="online">ONLINE</strong></td>
                                 <td width="10"></td>
                                 <td width="auto" valign="top" align="left">
                                     <div class="fr">
                                     </div>
-                                    <h1 style="margin-bottom: 5px;">changlers</h1>
+                                    <h1 style="margin-bottom: 5px;"><?=$username;?></h1>
                                     <div class="sep10"></div>
                                     <span class="gray"><li class="fa fa-time"></li> &nbsp; V2EX 第 105350 号会员，加入于 2015-03-18 17:18:44 +08:00，今日活跃度排名 <a href="/top/dau">737</a></span>
                                 </td>
@@ -55,22 +56,54 @@
                 </div>
                 <div class="sep20"></div>
                 <div class="box">
-                    <div class="cell_tabs">
-                        <div class="fl"><img src="//cdn.v2ex.co/gravatar/d43602b3fc54c761def75893e37ed6fc?s=48&d=retro" width="24" style="border-radius: 24px; margin-top: -2px;" border="0" /></div><a href="/member/changlers" class="cell_tab_current">changlers 创建的所有主题</a><a href="/member/changlers/qna" class="cell_tab">提问</a><a href="/member/changlers/tech" class="cell_tab">技术话题</a><a href="/member/changlers/play" class="cell_tab">好玩</a><a href="/member/changlers/jobs" class="cell_tab">工作信息</a><a href="/member/changlers/deals" class="cell_tab">交易信息</a><a href="/member/changlers/city" class="cell_tab">城市相关</a></div>
+                    <div class="cell_tabs"><div class="fl"><img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" width="24" style="border-radius: 24px; margin-top: -2px;" border="0" /></div>
+                        <a href="/member/changlers" class="cell_tab_current">
+                            <?=$username;?> 创建的所有主题</a><a href="/member/changlers/qna" class="cell_tab">提问</a><a href="/member/changlers/tech" class="cell_tab">技术话题</a><a href="/member/changlers/play" class="cell_tab">好玩</a><a href="/member/changlers/jobs" class="cell_tab">工作信息</a><a href="/member/changlers/deals" class="cell_tab">交易信息</a><a href="/member/changlers/city" class="cell_tab">城市相关</a></div>
+                    <?php foreach ($recent_topics as $key => $value): ?>
+                    <div class="cell item" style="border-top-left-radius: 3px; border-top-right-radius: 3px;">
+                        <div style="position: absolute; margin: -10px -10px 0px 650px;"></div>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td width="auto" valign="middle"><span class="item_title"><a href="/t/<?=$value['topic_id'];?>#reply<?=$value['comment_count'];?>"><?=$value['title'];?></a></span>
+                                        <div class="sep5"></div>
+                                        <span class="small fade"><div class="votes"></div><a class="node" href="/go/programmer">程序员</a> &nbsp;•&nbsp; <strong><a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><?=$value['author'];?></a></strong><?php if ($value['replied_at'] == '' || $value['replied_at'] == 0): ?>&nbsp; • &nbsp;<?=fadeTime($value['created_at']);?>&nbsp;
+                                            <?php else: ?>
+                                                &nbsp; • &nbsp;<?=fadeTime($value['replied_at']);?>&nbsp;
+                                            <?php endif;?>
+                                                <?php if (isset($value['last_reply_name'])): ?>
+                                                • &nbsp;最后回复来自
+                                                <strong>
+                                                    <a href="<?php echo $this->route->url('member/' . $value['last_reply_name']); ?>"><?=$value['last_reply_name'];?></a>
+                                                </strong>
+                                                <?php endif;?>
+                                                </span>
+                                    </td>
+                                    <td width="70" align="right" valign="middle">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <?php endforeach;?>
+                    <div class="inner"><span class="chevron">»</span>
+                        <a href="/member/<?=$username;?>/topics">
+                            <?=$username;?> 创建的更多主题</a>
+                    </div>
                 </div>
                 <div class="sep20"></div>
                 <div class="box">
                     <div class="cell"><span class="gray"><?=$username;?> 最近回复了</span></div>
-                    <?php
-                        $keys = array_keys($recent_comments);
-                        $last_key = end($keys);
-                    ?>
                     <?php foreach ($recent_comments as $key => $value): ?>
                     <div class="dock_area">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                             <tr>
                                 <td style="padding: 10px 15px 8px 15px; font-size: 12px; text-align: left;">
-                                    <div class="fr"><span class="fade">10 天前</span></div><span class="gray">回复了 <?=$value['author'];?> 创建的主题 <span class="chevron">›</span> <a href="/t/261589#reply3"><?=$value['title'];?></a></span>
+                                    <div class="fr"><span class="fade"><?=fadeTime($value['created_at']);?></span></div><span class="gray">回复了 <?=$value['author'];?> 创建的主题 <span class="chevron">›</span>
+                                    <a href="<?php echo $this->route->url('t/' . $value['topic_id']); ?>#reply<?=$value['comment_count'];?>">
+                                        <?=$value['title'];?>
+                                    </a>
+                                    </span>
                                 </td>
                             </tr>
                             <tr>
@@ -78,12 +111,16 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="<?php echo $key == $last_key ? 'cell' : 'inner'
-; ?>">
-                        <div class="reply_content"><?=$value['content'];?></div>
+                    <div class="<?php echo $key == $last_key ? 'cell' : 'inner'; ?>">
+                        <div class="reply_content">
+                            <?=$value['content'];?>
+                        </div>
                     </div>
                     <?php endforeach;?>
-                    <div class="inner"><span class="chevron">»</span> <a href="/member/changlers/replies"><?=$username;?> 创建的更多回复</a></div>
+                    <div class="inner"><span class="chevron">»</span>
+                        <a href="/member/changlers/replies">
+                            <?=$username;?> 创建的更多回复</a>
+                    </div>
                 </div>
             </div>
         </div>
