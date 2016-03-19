@@ -27,7 +27,7 @@ class User_model extends Kotori_Model
                 'topic.author',
             ),
             array(
-                'user_id' => $user_id,
+                'comment.user_id' => $user_id,
             )
         );
         return $recentActivity;

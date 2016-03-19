@@ -12,7 +12,7 @@ class Tag_model extends Kotori_Model
                 'tag.id',
             ),
             array(
-                'topic_id' => $topic_id,
+                'tag_topic.topic_id' => $topic_id,
             )
         );
     }
