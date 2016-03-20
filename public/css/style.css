@@ -38,11 +38,10 @@ pre {
     font-size: 13px;
     letter-spacing: 0.015em;
     line-height: 120%;
-    padding: 0.5em;
-    margin: 0px;
     white-space: pre;
     overflow-x: auto;
     overflow-y: auto;
+    background-color: #f8f8f8;
 }
 
 pre a {
@@ -51,9 +50,6 @@ pre a {
 }
 
 code {
-    background-color: #f8f8f8;
-    padding: 1px 2px 1px 2px;
-    border-radius: 2px;
     font-family: 'Consolas', 'Panic Sans', 'DejaVu Sans Mono',
                  'Bitstream Vera Sans Mono', 'Menlo', 'Microsoft Yahei', monospace;
 }
@@ -272,8 +268,7 @@ a.black:hover {
 }
 
 ul {
-    list-style: square;
-    margin: 1em 0px 1em 1em;
+    margin: 1em 0px 1em 1.5em;
     padding: 0px;
 }
 
@@ -300,7 +295,7 @@ ol {
 #Wrapper {
     text-align: center;
     background-color: #e2e2e2;
-    background-image: url("../img/shadow.png");
+    background-image: url("/static/img/shadow_light.png");
     background-repeat: repeat-x;
 }
 
@@ -443,7 +438,7 @@ ol {
 
 .dock_area {
     background-color: #edf3f5;
-    background-image: url("../img/dock_shadow.png");
+    background-image: url("/static/img/dock_shadow.png");
     background-repeat: repeat-x;
     padding: 0px;
 }
@@ -919,8 +914,8 @@ div.node:hover .node_compose {
 }
 
 .super.button {
-    background-image: url("../img/btnbg.png");
-    padding: 4px 15px 4px 15px;
+    background-image: url("/static/img/bg_blended_light.png");
+    padding: 4px 8px 4px 8px;
     border: 1px solid rgba(80,80,90, 0.2);
     border-bottom-color: rgba(80,80,90, 0.35);
     border-radius: 3px;
@@ -938,7 +933,16 @@ div.node:hover .node_compose {
     box-shadow: 0px 1px 0px rgba(66, 66, 77, 0.1);
 }
 
-.normal.button:hover {
+.normal.button:disabled {
+    background-color: #fff;
+    color: #ccc;
+    text-shadow: 0px 1px 0px #fff;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0px 1px 0px rgba(66, 66, 77, 0.1);
+}
+
+.normal.button:hover:enabled {
     background-color: #f9f9f9;
     border: 1px solid rgba(60,60,70,0.3);
     color: #333;
@@ -949,7 +953,49 @@ div.node:hover .node_compose {
     box-shadow: 0px 1px 0px rgba(66, 66, 77, 0.1);
 }
 
-.normal.button:active {
+.normal.button:active:enabled {
+    background-color: #e2e2e2;
+    color: #333;
+    text-shadow: 0px 1px 0px #fff;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 1px 0px rgba(66, 66, 77, 0.1);
+}
+
+.normal_page_right.button {
+    background-color: #fff;
+    color: #333;
+    text-shadow: 0px 1px 0px #fff;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0px 1px 0px rgba(66, 66, 77, 0.1);
+}
+
+.normal_page_right.button:disabled {
+    background-color: #fff;
+    color: #ccc;
+    text-shadow: 0px 1px 0px #fff;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0px 1px 0px rgba(66, 66, 77, 0.1);
+}
+
+.normal_page_right.button:hover:enabled {
+    background-color: #f9f9f9;
+    border-left: 1px solid rgba(80,80,90,0.2);
+    border-top: 1px solid rgba(60,60,70,0.3);
+    border-right: 1px solid rgba(60,60,70,0.3);
+    border-bottom: 1px solid rgba(60,60,70,0.3);
+    color: #333;
+    text-shadow: 0px 1px 0px #fff;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 1px 0px rgba(66, 66, 77, 0.1);
+}
+
+.normal_page_right.button:active:enabled {
     background-color: #e2e2e2;
     color: #333;
     text-shadow: 0px 1px 0px #fff;
@@ -1117,15 +1163,19 @@ a.count_blue:visited, a.count_green:visited, a.count_orange:visited, a.count_liv
     font-weight: bold;
     font-size: 14px;
     line-height: 14px;
-    padding: 5px 8px 5px 8px;
+    padding: 3px 6px 3px 6px;
     background-color: #f0f0f0;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    margin: 0px 2px 0px 2px;
+    margin: 0px 1px 0px 1px;
     border: 1px solid #bbb;
     color: #000;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.page_current:hover {
+    text-decoration: none;
 }
 
 .page_normal:link, .page_normal:visited, .page_normal:active {
@@ -1133,30 +1183,38 @@ a.count_blue:visited, a.count_green:visited, a.count_orange:visited, a.count_liv
     font-weight: normal;
     font-size: 13px;
     line-height: 13px;
-    padding: 3px 6px 3px 6px;
+    padding: 2px 5px 2px 5px;
     background-color: #fff;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    margin: 0px 2px 0px 2px;
+    margin: 0px 1px 0px 1px;
     text-decoration: none;
     border: 1px solid #e2e2e2;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .page_normal:hover {
-    display: inline-block;
-    font-weight: normal;
-    font-size: 13px;
-    line-height: 13px;
-    padding: 3px 6px 3px 6px;
     background-color: #f0f0f0;
     color: #000;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    margin: 0px 2px 0px 2px;
     text-decoration: none;
+    border: 1px solid #ccc;
+}
+
+.page_input {
+    padding: 4px 4px 4px 4px;
+    font-size: 12px;
+    line-height: 12px;
+    border: 1px solid #e2e2e2;
+    border-radius: 3px;
+    width: 40px;
+    background-color: #fff;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1) inset;
+    color: #ccc;
+}
+
+.page_input:focus {
+    color: #666;
     border: 1px solid #ccc;
 }
 
@@ -1313,7 +1371,7 @@ table.data td.d {
     width: 16px;
     height: 16px;
     vertical-align: middle;
-    background-image: url("../img/ico_arrow.png");
+    background-image: url("/static/img/ico_arrow.png");
     background-repeat: no-repeat;
     margin-right: 8px;
     margin-top: -2px;
@@ -1324,7 +1382,7 @@ table.data td.d {
     width: 16px;
     height: 16px;
     vertical-align: middle;
-    background-image: url("../img/ico_code.png");
+    background-image: url("/static/img/ico_code.png");
     background-repeat: no-repeat;
     margin-right: 8px;
     margin-top: -2px;
@@ -1335,7 +1393,7 @@ table.data td.d {
     width: 16px;
     height: 16px;
     vertical-align: middle;
-    background-image: url("../img/ico_note.png");
+    background-image: url("/static/img/ico_note.png");
     background-repeat: no-repeat;
     margin-right: 8px;
     margin-top: -2px;
@@ -1346,7 +1404,7 @@ table.data td.d {
     width: 16px;
     height: 16px;
     vertical-align: middle;
-    background-image: url("../img/ico_note_arrow.png");
+    background-image: url("/static/img/ico_note_arrow.png");
     background-repeat: no-repeat;
     margin-right: 8px;
     margin-top: -2px;
@@ -1357,7 +1415,7 @@ table.data td.d {
     width: 16px;
     height: 16px;
     vertical-align: middle;
-    background-image: url("../img/ico_document_rich.png");
+    background-image: url("/static/img/ico_document_rich.png");
     background-repeat: no-repeat;
     margin-right: 8px;
     margin-top: -2px;
@@ -1368,7 +1426,7 @@ table.data td.d {
     width: 16px;
     height: 16px;
     vertical-align: middle;
-    background-image: url("../img/ico_folder_blue.png");
+    background-image: url("/static/img/ico_folder_blue.png");
     background-repeat: no-repeat;
     margin-right: 8px;
     margin-top: -2px;

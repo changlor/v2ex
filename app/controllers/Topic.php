@@ -13,7 +13,6 @@ class Topic extends Base
         $topic_tags = $this->model->Tag->getTopicTag($topic_id);
         $topic_info = $this->model->Topic->getTopicInfo($topic_id);
         $topic_content = $this->model->Topic->getTopicContent($topic_id);
-        $comment = $this->model->Comment->getTopicComment($topic_id);
         $topic = false;
         $topic = $topic_info;
         $topic['content'] = $topic_content[0]['content'];
@@ -22,8 +21,15 @@ class Topic extends Base
         $md = Markdown::convert($md);
         $md = str_replace('&amp;gt;', '&gt;', $md);
         $topic['content'] = str_replace('&amp;lt;', '&lt;', $md);
+        $pagination_rows = 6;
+        $page_rows = ceil($topic['comment_count'] / $pagination_rows);
+        $p = $this->request->input('get.p');
+        $current_page = $p == '' ? $page_rows : $p;
+        $comment = $this->model->Comment->getTopicComment($topic_id, $current_page, $pagination_rows);
+        $page = new Page($topic['comment_count'], $pagination_rows);
+        $page_link = $page->show($current_page);
         $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('comment', $comment)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->assign('topic_tags', $topic_tags)->display();
+        $this->view->assign('comment', $comment)->assign('page_rows', $page_rows)->assign('current_page', $current_page)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->assign('topic_tags', $topic_tags)->assign('page_link', $page_link)->display();
     }
 
     public function addTopic()

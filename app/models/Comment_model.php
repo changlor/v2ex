@@ -25,7 +25,7 @@ class Comment_model extends Kotori_Model
         return $id;
     }
 
-    public function getTopicComment($topic_id)
+    public function getTopicComment($topic_id, $pagination, $pagination_rows)
     {
         return $this->db->select('comment',
             array(
@@ -41,6 +41,7 @@ class Comment_model extends Kotori_Model
             ),
             array(
                 'comment.topic_id' => $topic_id,
+                'LIMIT' => array($pagination_rows * ($pagination - 1), $pagination_rows),
                 'ORDER' => 'comment.id ASC',
             )
         );

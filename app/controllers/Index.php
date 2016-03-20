@@ -5,6 +5,7 @@ class Index extends Base
     {
         parent::__construct();
     }
+
     public function index()
     {
         $topic = $this->model->Topic->getTopicInfo();

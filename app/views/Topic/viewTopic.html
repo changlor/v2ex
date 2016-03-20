@@ -35,15 +35,19 @@
                         <div class="sep10"></div>
                         <h1><?=$topic['title'];?></h1>
                         <div id="topic_<?=$topic['id'];?>_votes" class="votes">
-                            <a href="javascript:" onclick="upVoteTopic(<?=$topic['id'];?>);" class="vote"><li class="fa fa-chevron-up"></li></a>&nbsp;
-                            <a href="javascript:" onclick="downVoteTopic(<?=$topic['id'];?>);" class="vote"><li class="fa fa-chevron-down"></li></a>
+                            <a href="javascript:" onclick="upVoteTopic(<?=$topic['id'];?>);" class="vote">
+                                <li class="fa fa-chevron-up"></li>
+                            </a>&nbsp;
+                            <a href="javascript:" onclick="downVoteTopic(<?=$topic['id'];?>);" class="vote">
+                                <li class="fa fa-chevron-down"></li>
+                            </a>
                         </div>
                         &nbsp;
                         <small class="gray">
                                 <a data-id="<?=$topic['user_id'];?>" href="/member/anthonyeef"><?=$topic['username'];?></a>
                                 · <?=fadeTime($topic['created_at']);?>
                                 <?php if ($topic['client'] == 'Android' || $topic['client'] == 'iphone'): ?>
-                                用 Android 发布
+                                用 <?=$topic['client'];?> 发布
                                 <?php endif;?>
                                 · <?=$topic['hits'];?> 次点击 &nbsp;
                             </small>
@@ -122,6 +126,9 @@
                                 &nbsp;直到 <?=date('Y-m-d H:i:s', $topic['replied_at']);?> +08:00
                             </span>
                     </div>
+                    <?php if ($page_rows > 1): ?>
+                    <?=$page_link;?>
+                    <?php endif;?>
                     <?php foreach ($comment as $key => $value): ?>
                     <div id="r_2445799" class="<?php echo $topic['reply_id'] == $value['id'] ? 'inner' : 'cell'; ?>">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -140,8 +147,7 @@
                                                     </a>
                                             </div>
                                             &nbsp;
-                                            <a href="javascript:;" onclick="replyOne('mingyun');"><img src="<?php echo PUBLIC_DIR; ?>/img/reply.png" align="absmiddle" border="0" alt="Reply"></a>
-                                            &nbsp;&nbsp;
+                                            <a href="javascript:;" onclick="replyOne('mingyun');"><img src="<?php echo PUBLIC_DIR; ?>/img/reply.png" align="absmiddle" border="0" alt="Reply"></a> &nbsp;&nbsp;
                                             <span class="no"><?=$value['position'];?></span>
                                         </div>
                                         <div class="sep3"></div>
@@ -159,6 +165,9 @@
                         </table>
                     </div>
                     <?php endforeach;?>
+                    <?php if ($page_rows > 1): ?>
+                    <?=$page_link;?>
+                    <?php endif;?>
                 </div>
                 <?php endif;?>
                 <?php if (rcookie('NA') != ''): ?>

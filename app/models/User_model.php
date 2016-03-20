@@ -36,7 +36,7 @@ class User_model extends Kotori_Model
                     'topic.user_id' => $user_id,
                 ),
                 'ORDER' => 'topic.created_at DESC',
-                'LIMIT' => [0, 3],
+                'LIMIT' => array(0, 3),
             )
         );
         $recentActivity['comment'] = $this->db->select('comment',
