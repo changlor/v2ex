@@ -24,6 +24,9 @@ class Topic extends Base
         $pagination_rows = 6;
         $page_rows = ceil($topic['comment_count'] / $pagination_rows);
         $p = $this->request->input('get.p');
+        if (!is_numeric($p) || $p < 1 || $p > $page_rows) {
+            $p = '';
+        }
         $current_page = $p == '' ? $page_rows : $p;
         $comment = $this->model->Comment->getTopicComment($topic_id, $current_page, $pagination_rows);
         $page = new Page($topic['comment_count'], $pagination_rows);
