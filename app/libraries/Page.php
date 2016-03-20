@@ -63,7 +63,7 @@ class Page
         $page_link .= $this->currentPage;
         $page_link .= '" min="1" max="';
         $page_link .= $this->totalPage;
-        $page_link .= '" onkeydown="if (event.keyCode == 13) location.href = \'/recent?p=\' + this.value">';
+        $page_link .= '" onkeydown="if (event.keyCode == 13) location.href = \'?p=\' + this.value">';
         return str_replace('%PAGE_LINK%', $page_link, $page);
     }
 
