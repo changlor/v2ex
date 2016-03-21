@@ -11,10 +11,8 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
-    'member/([^/]+)' => array(
-        'get' => 'Member/home/$1',
-        'post' => 'Member/home/$1',
-    ),
+    'member/([^/]+)/replies' => 'Member/viewMemberComment/$1',
+    'member/([^/]+)' => 'Member/home/$1',
     't/([^/]+)' => array(
         'get' => 'Topic/viewTopic/$1',
         'post' => 'Comment/insertComment/$1',

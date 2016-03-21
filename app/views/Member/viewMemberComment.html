@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="private" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/codemirror.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/neo.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/select2.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="header"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/member/<?=$username;?>"><?=$username;?></a> <span class="chevron">&nbsp;›&nbsp;</span> 全部回复
+                        <div class="fr f12"><span class="snow">回复总数&nbsp;</span> <strong class="gray"><?=$member_comment_count;?></strong></div>
+                    </div>
+                    <?=$page_link;?>
+                    <?php foreach ($member_comment as $key => $value): ?>
+                    <div class="dock_area">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                                <td style="padding: 10px 15px 8px 15px; font-size: 12px; text-align: left;">
+                                    <div class="fr"><span class="fade"><?=fadeTime($value['created_at']);?></span></div><span class="gray">回复了 <?=$value['author'];?> 创建的主题 <span class="chevron">›</span>
+                                    <a href="<?php echo $this->route->url('t/' . $value['topic_id']); ?>#reply<?=$value['comment_count'];?>">
+                                        <?=$value['title'];?>
+                                    </a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left"><img src="<?php echo PUBLIC_DIR; ?>/img/arrow.png" style="margin-left: 20px;" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="<?php echo $key == $comment_last_key ? 'cell' : 'inner'; ?>">
+                        <div class="reply_content">
+                            <?=$value['content'];?>
+                        </div>
+                    </div>
+                    <?php endforeach;?>
+                    <?=$page_link;?>
+                </div>
+            </div>
+        </div>
+        <div class="c">
+        </div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer');?>
+</body>
+
+</html>

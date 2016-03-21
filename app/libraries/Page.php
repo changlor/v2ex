@@ -129,9 +129,9 @@ class Page
      * 组装分页链接
      * @return string
      */
-    public function show($currentPage)
+    public function show($currentPage = '')
     {
-        $this->currentPage = $currentPage;
+        $this->currentPage = empty($currentPage) ? $this->totalPage : $currentPage;
         $page = '<div class="cell">';
         $page .= '<table cellpadding="0" cellspacing="0" border="0" width="100%">';
         $page .= '<tbody>';
