@@ -26,7 +26,7 @@ class Topic_model extends Kotori_Model
                     'topic.replied_at',
                     'topic.created_at',
                     'topic.hits',
-                    'user.username',
+                    'user.username(author)',
                 ),
                 array(
                     'topic.id' => $topic_id,

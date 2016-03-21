@@ -27,7 +27,7 @@
                 <div class="box" style="border-bottom: 0px;">
                     <div class="header">
                         <div class="fr">
-                            <a data-id="<?=$topic['user_id'];?>" href="/member/anthonyeef"><img src="<?php echo PUBLIC_DIR ?>/img/Changle.jpeg" class="avatar" border="0" align="default" /></a>
+                            <a data-id="<?=$topic['user_id'];?>" href="/member/<?=$topic['author'];?>"><img src="<?php echo PUBLIC_DIR ?>/img/Changle.jpeg" class="avatar" border="0" align="default" /></a>
                         </div>
                         <a href="/">V2EX</a>
                         <span class="chevron">&nbsp;›&nbsp;</span>
@@ -44,7 +44,7 @@
                         </div>
                         &nbsp;
                         <small class="gray">
-                                <a data-id="<?=$topic['user_id'];?>" href="/member/anthonyeef"><?=$topic['username'];?></a>
+                                <a data-id="<?=$topic['user_id'];?>" href="/member/<?=$topic['author'];?>"><?=$topic['author'];?></a>
                                 · <?=fadeTime($topic['created_at']);?>
                                 <?php if ($topic['client'] == 'Android' || $topic['client'] == 'iphone'): ?>
                                 用 <?=$topic['client'];?> 发布
@@ -152,7 +152,7 @@
                                         </div>
                                         <div class="sep3"></div>
                                         <strong>
-                                                <a href="/member/mingyun" class="dark"><?=$value['username'];?></a>
+                                                <a href="/member/<?=$value['username'];?>" class="dark"><?=$value['username'];?></a>
                                             </strong> &nbsp; &nbsp;
                                         <span class="fade small"><?=fadeTime($value['created_at']);?></span>
                                         <div class="sep5"></div>
