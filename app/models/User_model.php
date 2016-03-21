@@ -16,7 +16,7 @@ class User_model extends Kotori_Model
     public function getRecentActivity($user_id)
     {
         $current_time = strtotime(date('Y-m-d H:i:s'));
-        $recent_time = 2 * 24 * 60 * 60;
+        $recent_time = 7 * 24 * 60 * 60;
         $recentActivity['topic'] = $this->db->select('topic',
             array(
                 '[><]user' => array('reply_id' => 'id'),
