@@ -20,7 +20,7 @@ class Member extends Base
         if (!is_numeric($p) || $p < 1 || $p > $page_rows) {
             $p = '';
         }
-        $current_page = empty($p) ? $page_rows : $p;
+        $current_page = empty($p) ? 1 : $p;
         $member_comment = $this->model->User->getUserComment($user_id, $current_page, $pagination_rows);
         $comment_keys = array_keys($member_comment);
         $comment_last_key = end($comment_keys);
