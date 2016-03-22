@@ -12,6 +12,7 @@ $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
     'member/([^/]+)/replies' => 'Member/viewMemberComment/$1',
+    'member/([^/]+)/topics' => 'Member/viewMemberTopic/$1',
     'member/([^/]+)' => 'Member/home/$1',
     't/([^/]+)' => array(
         'get' => 'Topic/viewTopic/$1',

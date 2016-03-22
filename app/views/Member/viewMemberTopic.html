@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="private" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/codemirror.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/neo.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/select2.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="header"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/member/<?=$username;?>"><?=$username;?></a> <span class="chevron">&nbsp;›&nbsp;</span> 全部主题
+                        <div class="fr f12"><span class="snow">主题总数&nbsp;</span> <strong class="gray"><?=$member_topic_count;?></strong></div>
+                    </div>
+                    <?=$page_link;?>
+                    <?php foreach ($member_topic as $key => $value): ?>
+                    <div class="cell item" style="border-top-left-radius: 3px; border-top-right-radius: 3px;">
+                        <div style="position: absolute; margin: -10px -10px 0px 650px;"></div>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td width="auto" valign="middle"><span class="item_title"><a href="/t/<?=$value['topic_id'];?>#reply<?=$value['comment_count'];?>"><?=$value['title'];?></a></span>
+                                        <div class="sep5"></div>
+                                        <span class="small fade"><div class="votes"></div><a class="node" href="/go/programmer">程序员</a> &nbsp;•&nbsp; <strong><a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><?=$value['author'];?></a></strong><?php if ($value['replied_at'] == '' || $value['replied_at'] == 0): ?>&nbsp; • &nbsp;<?=fadeTime($value['created_at']);?>&nbsp;
+                                            <?php else: ?>
+                                                &nbsp; • &nbsp;<?=fadeTime($value['replied_at']);?>&nbsp;
+                                            <?php endif;?>
+                                                <?php if (isset($value['last_reply_name'])): ?>
+                                                • &nbsp;最后回复来自
+                                                <strong>
+                                                    <a href="<?php echo $this->route->url('member/' . $value['last_reply_name']); ?>"><?=$value['last_reply_name'];?></a>
+                                                </strong>
+                                                <?php endif;?>
+                                                </span>
+                                    </td>
+                                    <td width="70" align="right" valign="middle">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <?php endforeach;?>
+                    <?=$page_link;?>
+                </div>
+            </div>
+        </div>
+        <div class="c">
+        </div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer');?>
+</body>
+
+</html>

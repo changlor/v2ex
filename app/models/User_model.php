@@ -20,31 +20,10 @@ class User_model extends Kotori_Model
         );
     }
 
-    public function getUserComment($user_id, $pagination, $pagination_rows)
+    public function getUserTopicCount($user_id)
     {
-        $current_time = strtotime(date('Y-m-d H:i:s'));
-        $recent_time = 7 * 24 * 60 * 60;
-        return $this->db->select('comment',
-            array(
-                '[><]topic' => array('topic_id' => 'id'),
-            ),
-            array(
-                'comment.created_at',
-                'comment.topic_id',
-                'comment.content',
-                'topic.comment_count',
-                'topic.title',
-                'topic.author',
-            ),
-            array(
-                'AND' => array(
-                    'comment.created_at[>]' => $current_time - $recent_time,
-                    'comment.user_id' => $user_id,
-
-                ),
-                'ORDER' => 'comment.created_at DESC',
-                'LIMIT' => [$pagination_rows * ($pagination - 1), $pagination_rows],
-            )
+        return $this->db->count('topic',
+            array('user_id' => $user_id)
         );
     }
 

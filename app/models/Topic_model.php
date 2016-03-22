@@ -9,13 +9,41 @@ class Topic_model extends Kotori_Model
         );
     }
 
+    public function getUserTopic($user_id, $pagination, $pagination_rows)
+    {
+        $current_time = strtotime(date('Y-m-d H:i:s'));
+        $recent_time = 7 * 24 * 60 * 60;
+        return $this->db->select('topic',
+            array(
+                '[><]user' => array('reply_id' => 'id'),
+            ),
+            array(
+                'topic.title',
+                'topic.author',
+                'topic.replied_at',
+                'topic.created_at',
+                'topic.id(topic_id)',
+                'topic.comment_count',
+                'user.username(last_reply_name)',
+            ),
+            array(
+                'AND' => array(
+                    'topic.created_at[>]' => $current_time - $recent_time,
+                    'topic.user_id' => $user_id,
+                ),
+                'ORDER' => 'topic.created_at DESC',
+                'LIMIT' => array($pagination_rows * ($pagination - 1), $pagination_rows),
+            )
+        );
+    }
+
     public function getTopicInfo($topic_id = '')
     {
         if ($topic_id != '') {
             $topic_info = $this->db->select('topic',
                 array(
                     '[><]user' => array('user_id' => 'id'),
-                ),  
+                ),
                 array(
                     'topic.id',
                     'topic.user_id',
