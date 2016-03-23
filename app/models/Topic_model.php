@@ -9,6 +9,29 @@ class Topic_model extends Kotori_Model
         );
     }
 
+    public function getNodeTopic($node_id, $pagination, $pagination_rows)
+    {
+        return $this->db->select('topic',
+            array(
+                '[><]user' => array('reply_id' => 'id'),
+            ),
+            array(
+                'topic.title',
+                'topic.author',
+                'topic.replied_at',
+                'topic.created_at',
+                'topic.id(topic_id)',
+                'topic.comment_count',
+                'user.username(last_reply_name)',
+            ),
+            array(
+                'topic.node_id' => $node_id,
+                'ORDER' => 'topic.created_at DESC',
+                'LIMIT' => array($pagination_rows * ($pagination - 1), $pagination_rows),
+            )
+        );
+    }
+
     public function getUserTopic($user_id, $pagination, $pagination_rows)
     {
         $current_time = strtotime(date('Y-m-d H:i:s'));
