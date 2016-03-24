@@ -1,6 +1,11 @@
 <?php
 class Member extends Base
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function home($username)
     {
         if ($this->model->User->validateUser('username', $username)) {

@@ -37,9 +37,7 @@
                     <div class="box">
                         <div class="cell">
                             <form method="post" action="<?php echo $this->route->url('t/' . $topic['id']); ?>">
-                                <textarea name="content" maxlength="10000" class="mll" id="reply_content">
-                                    <?=$repeated_comment;?>
-                                </textarea>
+                                <textarea name="content" maxlength="10000" class="mll" id="reply_content"><?=$repeated_comment;?></textarea>
                                 <div class="sep10"></div>
                                 <input type="hidden" value="97701" name="once">
                                 <input type="submit" value="回复" class="super normal button">

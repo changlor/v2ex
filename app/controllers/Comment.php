@@ -1,10 +1,16 @@
 <?php
 class Comment extends Base
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function insertComment($topic_id = '')
     {
         if ($this->request->isPost()) {
             $content = $this->request->input('post.content');
+            $content = trim($content);
             $user_id = $this->uid;
             $handler['topic'] = $this->model->Topic->validateTopicId($topic_id);
             $handler['comment'] = $this->model->Comment->validateComment($topic_id, $user_id, $content);

@@ -1,6 +1,11 @@
 <?php
 class Node extends Base
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function viewNode($nodename)
     {
         if ($this->model->Node->validateNode('ename', $nodename)) {
