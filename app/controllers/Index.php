@@ -9,6 +9,8 @@ class Index extends Base
     public function index()
     {
         $topic = $this->model->Topic->getTopicInfo();
-        $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->display();
+        $topic_keys = array_keys($topic);
+        $topic_first_key = reset($topic_keys);
+        $this->view->assign('topic_first_key', $topic_first_key)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->display();
     }
 }
