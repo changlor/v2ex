@@ -159,6 +159,13 @@ class Topic_model extends Kotori_Model
         return $topic_id[0]['id'];
     }
 
+    public function validateTopic($field, $value)
+    {
+        return $this->db->has('topic',
+            array($field => $value)
+        );
+    }
+
     public function validateTitle($title)
     {
         $event = 'legal';

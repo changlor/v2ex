@@ -36,45 +36,31 @@
                         <input type="button" class="super normal button" value="创建新主题" onclick="location.href = '/new/programmer';" />
                     </div>
                     <?=$page_link;?>
-                    <div id="TopicsNode">
-                    <?php foreach ($node_topic as $key => $value): ?>
-                        <div class="cell from_90433 t_265788">
-                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                <tr>
-                                    <td width="48" valign="top" align="center">
-                                        <a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" class="avatar" border="0" align="default" /></a>
-                                    </td>
-                                    <td width="10"></td>
-                                    <td width="auto" valign="middle"><span class="item_title"><a href="<?php echo $this->route->url('t/' . $value['topic_id']); ?>#reply<?=$value['comment_count'];?>"><?=$value['title'];?></a></span>
-                                        <div class="sep5"></div>
-                                        <span class="small fade"><strong><a href="<?php echo $this->route->url('member/' . $value['author']);?>"><?=$value['author'];?></a></strong> &nbsp;•&nbsp; <?=fadeTime($value['replied_at']);?> &nbsp;•&nbsp; 最后回复来自 <strong><a href="<?php echo $this->route->url('member/' . $value['last_reply_name']);?>"><?=$value['last_reply_name'];?></a></strong></span>
-                                    </td>
-                                    <td width="50" align="right" valign="middle">
-                                        <a href="<?php echo $this->route->url('t/' . $value['topic_id']); ?>#reply<?=$value['comment_count'];?>" class="count_livid"><?=$value['comment_count'];?></a>
-                                    </td>
-                                </tr>
-                            </table>
+                        <div id="TopicsNode">
+                            <?php foreach ($node_topic as $key => $value): ?>
+                            <div class="cell from_90433 t_265788">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                    <tr>
+                                        <td width="48" valign="top" align="center">
+                                            <a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" class="avatar" border="0" align="default" /></a>
+                                        </td>
+                                        <td width="10"></td>
+                                        <td width="auto" valign="middle"><span class="item_title"><a href="<?php echo $this->route->url('t/' . $value['topic_id']); ?>#reply<?=$value['comment_count'];?>"><?=$value['title'];?></a></span>
+                                            <div class="sep5"></div>
+                                            <span class="small fade"><strong><a href="<?php echo $this->route->url('member/' . $value['author']);?>"><?=$value['author'];?></a></strong> &nbsp;•&nbsp; <?=fadeTime($value['replied_at']);?> &nbsp;•&nbsp; 最后回复来自 <strong><a href="<?php echo $this->route->url('member/' . $value['last_reply_name']);?>"><?=$value['last_reply_name'];?></a></strong></span>
+                                        </td>
+                                        <td width="50" align="right" valign="middle">
+                                            <a href="<?php echo $this->route->url('t/' . $value['topic_id']); ?>#reply<?=$value['comment_count'];?>" class="count_livid">
+                                                <?=$value['comment_count'];?>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <?php endforeach;?>
                         </div>
-                    <?php endforeach;?>
-                    </div>
-                    <script type="text/javascript">
-                    blocked = [];
-                    ignored_topics = [];
-                    $("#TopicsNode").children('.cell').each(function(index) {
-                        for (i in blocked) {
-                            if ($(this).hasClass('from_' + blocked[i])) {
-                                $(this).css('display', 'none');
-                            }
-                        }
-                        for (i in ignored_topics) {
-                            if ($(this).hasClass('t_' + ignored_topics[i])) {
-                                $(this).css('display', 'none');
-                            }
-                        }
-                    });
-                    </script>
-                    <?=$page_link;?>
-                    <div class="cell" align="center"><span class="gray">第 1 到 20 / 共 11305 个主题</span></div>
+                        <?=$page_link;?>
+                            <div class="cell" align="center"><span class="gray">第 1 到 20 / 共 11305 个主题</span></div>
                 </div>
                 <div class="sep20"></div>
                 <div class="box">
@@ -86,20 +72,6 @@
                             <div class="sep10"></div>
                             <input type="hidden" value="29294" name="once" />
                             <input type="submit" value="创建新主题" class="super normal button" />
-                            <script type="text/javascript">
-                            $("#topic_content").keydown(function(e) {
-                                if ((e.ctrlKey || e.metaKey) && e.which === 13) {
-                                    e.preventDefault();
-                                    $("#topic_content").parent().submit();
-                                }
-                            });
-                            $("#topic_title").keydown(function(e) {
-                                if ((e.ctrlKey || e.metaKey) && e.which === 13) {
-                                    e.preventDefault();
-                                    $("#topic_title").parent().submit();
-                                }
-                            });
-                            </script>
                         </form>
                     </div>
                     <div class="inner">
@@ -114,6 +86,36 @@
         <div class="sep20"></div>
     </div>
     <?php $this->need('Public/footer');?>
+    <script type="text/javascript">
+    blocked = [];
+    ignored_topics = [];
+    $("#TopicsNode").children('.cell').each(function(index) {
+        for (i in blocked) {
+            if ($(this).hasClass('from_' + blocked[i])) {
+                $(this).css('display', 'none');
+            }
+        }
+        for (i in ignored_topics) {
+            if ($(this).hasClass('t_' + ignored_topics[i])) {
+                $(this).css('display', 'none');
+            }
+        }
+    });
+    </script>
+    <script type="text/javascript">
+    $("#topic_content").keydown(function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.which === 13) {
+            e.preventDefault();
+            $("#topic_content").parent().submit();
+        }
+    });
+    $("#topic_title").keydown(function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.which === 13) {
+            e.preventDefault();
+            $("#topic_title").parent().submit();
+        }
+    });
+    </script>
 </body>
 
 </html>
