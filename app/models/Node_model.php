@@ -11,4 +11,11 @@ class Node_model extends Kotori_Model
         );
         return $node_info[0];
     }
+
+    public function validateNode($field, $value)
+    {
+        return $this->db->has('node',
+            array($field => $value)
+        );
+    }
 }
