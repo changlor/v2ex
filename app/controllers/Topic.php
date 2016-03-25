@@ -65,6 +65,7 @@ class Topic extends Base
         if ($this->request->isPost()) {
             $title = $this->request->input('post.title');
             $title = trim($title);
+            $topic_node_name = $this->request->input('post.node_name');
             $content = $this->request->input('post.content');
             $handler['title'] = $this->model->Topic->validateTitle($title);
             $handler['content'] = $this->model->Topic->validateContent($content);
@@ -84,6 +85,7 @@ class Topic extends Base
                 $topic['created_at'] = strtotime(date('Y-m-d H:i:s'));
                 $topic['ranked_at'] = $topic['created_at'];
                 $topic['client'] = parseUA($_SERVER['HTTP_USER_AGENT']);
+                $topic['node_id'] = $this->model->Node->getNodeId('ename', $topic_node_name);
                 $insert_topic_id = $this->model->Topic->insertTopic($topic);
                 $updateInfo = array('topic_count[+]' => '1');
                 $this->model->User->updateUserRecord($updateInfo, $this->uid);

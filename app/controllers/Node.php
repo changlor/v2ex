@@ -21,7 +21,7 @@ class Node extends Base
             $node_topic = $this->model->Topic->getNodeTopic($node_info['id'], $current_page, $pagination_rows);
             $page_link = $page->show($current_page);
             $this->rightBarInfo['rightBar'] = array('myInfo');
-            $this->view->assign('page_link', $page_link)->assign('node_topic', $node_topic)->assign('rightBarInfo', $this->rightBarInfo)->display();
+            $this->view->assign('page_link', $page_link)->assign('node_topic', $node_topic)->assign('rightBarInfo', $this->rightBarInfo)->assign('node_info', $node_info)->display();
         } else {
             $this->response->setStatus('404');
             $this->rightBarInfo['rightBar'] = array('myInfo');

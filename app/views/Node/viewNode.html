@@ -28,10 +28,10 @@
                 <div class="sep20"></div>
                 <div class="box">
                     <div class="header">
-                        <div style="float: left; display: inline-block; margin-right: 10px; margin-bottom: initial!important;"><img src="//cdn.v2ex.co/navatar/94f6/d7e0/300_large.png?m=1458729777" border="0" align="default" width="auto" /></div>
-                        <div class="fr f12"><span class="snow">主题总数</span> <strong class="gray">11306</strong> <span class="snow">&nbsp;•&nbsp;</span> <a href="/favorite/node/300?t=1426670324">加入收藏</a></div><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> 程序员
+                        <div style="float: left; display: inline-block; margin-right: 10px; margin-bottom: initial!important;"><img src="<?php echo PUBLIC_DIR; ?>/img/node/<?=$node_info['ename'];?>.png" border="0" align="default" width="auto" /></div>
+                        <div class="fr f12"><span class="snow">主题总数</span> <strong class="gray"><?=$node_info['topic_count'];?></strong> <span class="snow">&nbsp;•&nbsp;</span> <a href="/favorite/node/300?t=1426670324">加入收藏</a></div><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> <?=$node_info['name'];?>
                         <div class="sep10"></div>
-                        <span class="f12 gray">While code monkeys are not eating bananas, they're coding.</span>
+                        <span class="f12 gray"><?=$node_info['about'];?></span>
                         <div class="sep10"></div>
                         <input type="button" class="super normal button" value="创建新主题" onclick="location.href = '/new/programmer';" />
                     </div>
