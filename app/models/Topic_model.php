@@ -13,20 +13,17 @@ class Topic_model extends Kotori_Model
     {
         return $this->db->select('topic',
             array(
-                '[><]user' => array('reply_id' => 'id'),
+                'title',
+                'author',
+                'replied_at',
+                'created_at',
+                'id',
+                'comment_count',
+                'last_reply_username',
             ),
             array(
-                'topic.title',
-                'topic.author',
-                'topic.replied_at',
-                'topic.created_at',
-                'topic.id(topic_id)',
-                'topic.comment_count',
-                'user.username(last_reply_name)',
-            ),
-            array(
-                'topic.node_id' => $node_id,
-                'ORDER' => 'topic.created_at DESC',
+                'node_id' => $node_id,
+                'ORDER' => 'created_at DESC',
                 'LIMIT' => array($pagination_rows * ($pagination - 1), $pagination_rows),
             )
         );

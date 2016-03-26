@@ -30,11 +30,14 @@ class Comment extends Base
                 $comment['topic_id'] = $topic_id;
                 $updateInfo = array(
                     'reply_id' => $user_id,
+                    'last_reply_username' => rcookie('NA'),
                     'replied_at' => $comment['created_at'],
                     'ranked_at' => $comment['created_at'],
                     'comment_count[+]' => 1,
                 );
                 $this->model->Topic->updateTopicInfo($updateInfo, $topic_id);
+                $updateInfo = array('comment_count[+]' => 1);
+                $this->model->User->updateUserRecord($updateInfo, $user_id);
                 $insert_comment_count = $this->model->Comment->addComment($comment);
                 $url = $this->route->url('t/' . $topic_id . '#reply' . $insert_comment_count);
                 $this->response->redirect($url, true);

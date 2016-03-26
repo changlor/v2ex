@@ -89,6 +89,8 @@ class Topic extends Base
                 $insert_topic_id = $this->model->Topic->insertTopic($topic);
                 $updateInfo = array('topic_count[+]' => '1');
                 $this->model->User->updateUserRecord($updateInfo, $this->uid);
+                $updateInfo = array('topic_count[+]' => 1);
+                $this->model->Node->updateNodeInfo($updateInfo, $topic['node_id']);
                 $topicTitleTags = get_tags_arr($title);
                 $topicContentTags = get_tags_arr($content);
                 $tags = $topicTitleTags;

@@ -30,7 +30,15 @@ class Node_model extends Kotori_Model
             array('id'),
             array($field => $value)
         );
-        return $node_id['id'];
+        return $node_id[0]['id'];
+    }
+
+    public function updateNodeInfo($updateInfo, $node_id)
+    {
+        return $this->db->update('node',
+            $updateInfo,
+            array('id' => $node_id)
+        );
     }
 
     public function validateNode($field, $value)

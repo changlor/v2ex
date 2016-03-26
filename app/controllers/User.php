@@ -99,6 +99,9 @@ class User extends Base
                 $this->model->User->signin($user);
                 $user_id = $this->model->User->getUserId('username', $username);
                 $this->model->User->createUserRecord($user_id);
+                $ip = new Ip($_SERVER['REMOTE_ADDR']);
+                $update_info = array('last_login_ip' => $ip->ip2int());
+                $this->model->User->updateUserRecord($update_info, $user_id);
                 $url = $this->route->url('balance');
                 rcookie('NA', $username);
                 $this->response->redirect($url, true);
