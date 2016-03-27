@@ -35,23 +35,20 @@ class Topic_model extends Kotori_Model
         $recent_time = 7 * 24 * 60 * 60;
         return $this->db->select('topic',
             array(
-                '[><]user' => array('reply_id' => 'id'),
-            ),
-            array(
-                'topic.title',
-                'topic.author',
-                'topic.replied_at',
-                'topic.created_at',
-                'topic.id(topic_id)',
-                'topic.comment_count',
-                'user.username(last_reply_name)',
+                'title',
+                'author',
+                'replied_at',
+                'created_at',
+                'id',
+                'comment_count',
+                'last_reply_username',
             ),
             array(
                 'AND' => array(
-                    'topic.created_at[>]' => $current_time - $recent_time,
-                    'topic.user_id' => $user_id,
+                    'created_at[>]' => $current_time - $recent_time,
+                    'user_id' => $user_id,
                 ),
-                'ORDER' => 'topic.created_at DESC',
+                'ORDER' => 'created_at DESC',
                 'LIMIT' => array($pagination_rows * ($pagination - 1), $pagination_rows),
             )
         );
@@ -62,19 +59,16 @@ class Topic_model extends Kotori_Model
         if ($topic_id != '') {
             $topic_info = $this->db->select('topic',
                 array(
-                    '[><]user' => array('user_id' => 'id'),
-                ),
-                array(
-                    'topic.id',
-                    'topic.user_id',
-                    'topic.title',
-                    'topic.client',
-                    'topic.comment_count',
-                    'topic.reply_id',
-                    'topic.replied_at',
-                    'topic.created_at',
-                    'topic.hits',
-                    'user.username(author)',
+                    'id',
+                    'user_id',
+                    'title',
+                    'client',
+                    'comment_count',
+                    'reply_id',
+                    'replied_at',
+                    'created_at',
+                    'hits',
+                    'author',
                 ),
                 array(
                     'topic.id' => $topic_id,
@@ -84,42 +78,20 @@ class Topic_model extends Kotori_Model
         }
         $topic = $this->db->select('topic',
             array(
-                '[><]user' => array('user_id' => 'id'),
+                'id',
+                'user_id',
+                'title',
+                'created_at',
+                'comment_count',
+                'replied_at',
+                'reply_id',
+                'author',
+                'last_reply_username',
             ),
             array(
-                'topic.id',
-                'topic.user_id',
-                'topic.title',
-                'topic.created_at',
-                'topic.comment_count',
-                'topic.replied_at',
-                'topic.reply_id',
-                'user.username(author)',
-            ),
-            array(
-                'ORDER' => 'topic.ranked_at DESC',
+                'ORDER' => 'ranked_at DESC',
             )
         );
-        $last_reply_user = $this->db->select('topic',
-            array(
-                '[><]user' => array('reply_id' => 'id'),
-            ),
-            array(
-                'topic.reply_id',
-                'user.username(last_reply_name)',
-            ),
-            array(
-                'ORDER' => 'topic.ranked_at DESC',
-            )
-        );
-        foreach ($topic as $key => $value) {
-            foreach ($last_reply_user as $ke => $val) {
-                if ($value['reply_id'] !== 0 && $value['reply_id'] == $val['reply_id']) {
-                    $topic[$key]['last_reply_name'] = $val['last_reply_name'];
-                    break;
-                }
-            }
-        }
         return $topic;
     }
 
