@@ -33,13 +33,6 @@ CREATE TABLE `comment` (
   KEY `topic_updated` (`topic_id`,`updated_at`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `comment` (`id`, `created_at`, `updated_at`, `user_id`, `topic_id`, `position`, `invisible`, `content`) VALUES
-(6, 1457947379, 0,  12, 37, 3,  0,  '我就是要测试'),
-(5, 1457947361, 0,  12, 38, 3,  0,  '你追我如果你追到我，我就给你嘿嘿嘿'),
-(4, 1457947188, 0,  12, 38, 2,  0,  '嘻嘻'),
-(3, 1457946840, 0,  12, 37, 2,  0,  'xoxo'),
-(2, 1457946820, 0,  12, 38, 1,  0,  '呵呵呵'),
-(1, 1457945168, 0,  12, 37, 1,  0,  '嘻嘻');
 
 DROP TABLE IF EXISTS `commentid`;
 CREATE TABLE `commentid` (
@@ -47,13 +40,6 @@ CREATE TABLE `commentid` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `commentid` (`id`) VALUES
-(1),
-(2),
-(3),
-(4),
-(5),
-(6);
 
 DROP TABLE IF EXISTS `favorite`;
 CREATE TABLE `favorite` (
@@ -66,9 +52,6 @@ CREATE TABLE `favorite` (
   KEY `type_target` (`type`,`target_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `favorite` (`id`, `type`, `source_id`, `target_id`) VALUES
-(7, 1,  1,  1),
-(6, 1,  1,  2);
 
 DROP TABLE IF EXISTS `history`;
 CREATE TABLE `history` (
@@ -93,8 +76,6 @@ CREATE TABLE `link` (
   KEY `sort_id` (`sortid`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `link` (`id`, `sortid`, `name`, `url`) VALUES
-(1, 0,  '极简论坛', 'http://simpleforum.org/');
 
 DROP TABLE IF EXISTS `node`;
 CREATE TABLE `node` (
@@ -109,11 +90,10 @@ CREATE TABLE `node` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `ename` (`ename`),
-  KEY `topic_id` (`topic_count`,`id`)
+  KEY `topic_id` (`topic_count`,`id`),
+  KEY `id_ename` (`id`,`ename`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `node` (`id`, `created_at`, `updated_at`, `topic_count`, `favorite_count`, `name`, `ename`, `about`) VALUES
-(1, 1451806330, 1451806330, 0,  0,  '默认分类', 'default',  '');
 
 DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice` (
@@ -149,56 +129,6 @@ CREATE TABLE `setting` (
   KEY `block_sort_id` (`block`,`sortid`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `setting` (`id`, `sortid`, `block`, `label`, `type`, `key`, `value_type`, `value`, `option`, `description`) VALUES
-(1, 1,  'info', '网站名称', 'text', 'site_name',  'text', '极简论坛', '', '考虑到手机浏览，网站名称不要设置过长。'),
-(2, 2,  'info', '网站副标题',  'text', 'slogan', 'text', '功能简单,界面简洁,移动优先', '', '15字以内'),
-(3, 3,  'info', '网站描述', 'textarea', 'description',  'text', 'Simple Forum,极简论坛',  '', '给搜索引擎看的，150字以内'),
-(4, 4,  'info', '备案号',  'text', 'icp',  'text', '', '', '若有就填，如 京ICP证0603xx号'),
-(5, 5,  'info', '管理员邮箱',  'text', 'admin_email',  'text', '', '', '用来接收用户错误报告'),
-(6, 1,  'manage', '网站暂时关闭', 'select', 'offline',  'integer',  '0',  '[\"0(开启)\",\"1(关闭)\"]',  '默认:0(开启)'),
-(7, 2,  'manage', '网站暂时关闭提示', 'textarea', 'offline_msg',  'text', '网站维护中，请稍后访问',  '', '简单写明关闭原因'),
-(8, 3,  'manage', '只允许登录访问',  'select', 'access_auth',  'integer',  '0',  '[\"0(公开)\",\"1(登录访问)\"]',  '默认0（公开），若规定登录用户才能访问就设为1（适合内部交流）'),
-(9, 4,  'manage', '注册需邮箱验证',  'select', 'email_verify', 'integer',  '0',  '[\"0(关闭验证)\",\"1(开启验证)\"]',  '建议设为1（需验证），若不需要验证就设为0'),
-(10,  5,  'manage', '注册需管理员验证', 'select', 'admin_verify', 'integer',  '0',  '[\"0(关闭验证)\",\"1(开启验证)\"]',  '默认0（不用验证），若需要管理员验证就设为1（适合内部交流）'),
-(11,  6,  'manage', '关闭用户注册', 'select', 'close_register', 'integer',  '0',  '[\"0(开启注册)\",\"1(关闭注册)\"]',  '默认0，若停止新用户注册就设为1（仍旧可以通过第三方帐号登录方式注册）'),
-(12,  7,  'manage', '过滤用户名',  'text', 'username_filter',  'text', '', '', '指定用户名不能含有某些指定词汇，用半角逗号(,)分割，例：<br />admin,webmaster,admin*'),
-(13,  8,  'manage', '开启验证码',  'select', 'captcha_enabled',  'integer',  '0',  '[\"0(关闭\",\"1(开启)\"]', '开启后，注册和登录时会要求输入验证码'),
-(14,  1,  'extend', '放在页面头部<br/>head标签里面的<br/>meta或其它信息', 'textarea', 'head_meta',  'text', '', '', '示例:<br/>&lt;meta property=\"qc:admins\" content=\"331146677212163161xxxxxxx\" /&gt;<br/>&lt;meta name=\"cpalead-verification\" content=\"ymEun344mP9vt-B2idFRxxxxxxx\" /&gt;'),
-(15,  2,  'extend', '放在页面底部的<br/>统计代码', 'textarea', 'analytics_code', 'text', '', '', '示例： 直接粘贴google 或 百度统计代码'),
-(16,  3,  'extend', '底部链接', 'textarea', 'footer_links', 'text', '', '', '一行一个链接，格式： 描述 http://url<br />如：关于本站 http://simpleforum.org/t/1'),
-(17,  4,  'extend', '时区', 'select', 'timezone', 'text', 'Asia/Shanghai',  '', '修改时要特别注意！默认Asia/Shanghai'),
-(18,  5,  'extend', '编辑器',  'select', 'editor', 'text', 'wysibb', '{\"wysibb\":\"Wysibb编辑器(BBCode)\",\"smd\":\"SimpleMarkdown编辑器\"}', '普通论坛推荐Wysibb编辑器(BBCode)，技术类论坛推荐SimpleMarkdown编辑器。注意：换编辑器可能会使以前发的帖子格式混乱。'),
-(19,  1,  'cache',  '开启缓存', 'select', 'cache_enabled',  'integer',  '0',  '[\"0(关闭)\",\"1(开启)\"]',  '默认0（不开启）'),
-(20,  2,  'cache',  '缓存时间(分)',  'text', 'cache_time', 'integer',  '10', '', '默认10分'),
-(21,  3,  'cache',  '缓存类型', 'select', 'cache_type', 'text', 'file', '{\"file\":\"file\",\"apc\":\"apc\",\"memcache\":\"memcache 或 memcached\"}',  '默认file'),
-(22,  4,  'cache',  '缓存服务器',  'textarea', 'cache_servers',  'text', '', '', '缓存类型设为MemCache时设置<br/>一个服务器一行，格式为：IP 端口 权重<br />示例：<br />127.0.0.1 11211 100<br />127.0.0.2 11211 200'),
-(23,  1,  'auth', '开启第三方登录',  'select', 'auth_enabled', 'integer',  '0',  '[\"0(关闭)\",\"1(开启)\"]',  ''),
-(24,  1,  'auth.qq',  'appid',  'text', 'qq_appid', 'text', '', '', ''),
-(25,  2,  'auth.qq',  'appkey', 'text', 'qq_appkey',  'text', '', '', ''),
-(26,  3,  'auth.qq',  'scope',  'text', 'qq_scope', 'text', 'get_user_info',  '', ''),
-(27,  1,  'auth.weibo', 'App Key',  'text', 'wb_key', 'text', '', '', ''),
-(28,  2,  'auth.weibo', 'App Secret', 'text', 'wb_secret',  'text', '', '', ''),
-(29,  1,  'other',  '首页显示帖子数',  'text', 'index_pagesize', 'integer',  '20', '', '默认20'),
-(30,  2,  'other',  '每页显示帖子数',  'text', 'list_pagesize',  'integer',  '20', '', '默认20'),
-(31,  3,  'other',  '每页显示回复数',  'text', 'comment_pagesize', 'integer',  '20', '', '默认20'),
-(32,  4,  'other',  '最热主题数',  'text', 'hot_topic_num',  'integer',  '10', '', '默认10'),
-(33,  5,  'other',  '最热节点数',  'text', 'hot_node_num', 'integer',  '20', '', '默认20'),
-(34,  6,  'other',  '可编辑时间(分)', 'text', 'edit_space', 'integer',  '30', '', '默认30，主题贴和回复发表后可修改时间。'),
-(35,  7,  'other',  'static目录自定义网址',  'text', 'alias_static', 'text', '', '', '自定义web/static目录的网址，可用于CDN。例：http://static.simpleforum.org'),
-(36,  8,  'other',  '头像目录自定义网址',  'text', 'alias_avatar', 'text', '', '', '自定义web/avatar目录的网址，可用于CDN。例：http://avatar.simpleforum.org'),
-(37,  9,  'other',  '附件目录自定义网址',  'text', 'alias_upload', 'text', '', '', '自定义web/upload目录的网址，可用于CDN。例：http://upload.simpleforum.org'),
-(38,  1,  'mailer', 'SMTP服务器',  'text', 'mailer_host',  'text', '', '', ''),
-(39,  2,  'mailer', 'SMTP端口', 'text', 'mailer_port',  'integer',  '', '', ''),
-(40,  3,  'mailer', 'SMTP加密协议', 'text', 'mailer_encryption',  'text', '', '', '如ssl,tls等，不加密留空'),
-(41,  4,  'mailer', 'SMTP验证邮箱', 'text', 'mailer_username',  'text', '', '', '请输入完整邮箱地址'),
-(42,  5,  'mailer', 'SMTP验证密码', 'text', 'mailer_password',  'text', '', '', '验证邮箱的密码'),
-(43,  1,  'upload', '头像上传', 'select', 'upload_avatar',  'text', 'local',  '{\"local\":\"上传到网站所在空间\",\"remote\":\"上传到第三方空间\"}',  '默认:上传到网站所在空间'),
-(44,  2,  'upload', '附件上传', 'select', 'upload_file',  'text', 'disable',  '{\"disable\":\"关闭上传\",\"local\":\"上传到网站所在空间\",\"remote\":\"上传到第三方空间\"}', '默认:网站空间'),
-(45,  3,  'upload', '附件上传条件(注册时间)', 'text', 'upload_file_regday', 'integer',  '30', '', '默认：30天'),
-(46,  3,  'upload', '附件上传条件(主题数)',  'text', 'upload_file_topicnum', 'integer',  '20', '', '默认：20'),
-(47,  4,  'upload', '第三方空间',  'select', 'upload_remote',  'text', '', '{\"qiniu\":\"七牛云\",\"upyun\":\"又拍云\"}',  ''),
-(48,  5,  'upload', '第三方空间信息',  'text', 'upload_remote_info', 'text', '', '', '逗号分隔。又拍云：空间名,操作员,密码；<br />七牛：空间名,access key,secret key'),
-(49,  6,  'upload', '第三方空间URL', 'text', 'upload_remote_url',  'text', '', '', '');
 
 DROP TABLE IF EXISTS `siteinfo`;
 CREATE TABLE `siteinfo` (
@@ -210,8 +140,6 @@ CREATE TABLE `siteinfo` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `siteinfo` (`id`, `nodes`, `users`, `topics`, `comments`) VALUES
-(1, 1,  0,  0,  0);
 
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag` (
@@ -269,6 +197,8 @@ CREATE TABLE `topic` (
   `ranked_at` int(10) unsigned NOT NULL,
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `client` varchar(12) NOT NULL,
+  `author` char(16) NOT NULL,
+  `last_reply_username` char(16) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `alllist` (`alltop`,`replied_at`,`id`),
   KEY `nodelist` (`node_id`,`top`,`replied_at`,`id`),
@@ -278,12 +208,6 @@ CREATE TABLE `topic` (
   KEY `user_id` (`user_id`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `topic` (`id`, `created_at`, `updated_at`, `replied_at`, `node_id`, `user_id`, `reply_id`, `alltop`, `top`, `invisible`, `closed`, `comment_closed`, `comment_count`, `favorite_count`, `views`, `title`, `ranked_at`, `hits`, `client`) VALUES
-(37,  1457945143, 0,  1457947379, 0,  12, 12, 0,  0,  0,  0,  0,  0,  0,  0,  '测试主题', 1457947379, 22, ''),
-(38,  1457946691, 0,  1457947361, 0,  12, 12, 0,  0,  0,  0,  0,  0,  0,  0,  '继续测试一发', 1457947361, 16, ''),
-(39,  1457949845, 0,  0,  0,  12, 0,  0,  0,  0,  0,  0,  0,  0,  0,  '嘻嘻，我就是要测试一下发帖的功能', 1457949845, 42, 'Android'),
-(40,  1458019257, 0,  0,  0,  12, 0,  0,  0,  0,  0,  0,  0,  0,  0,  '发布新主题',  1458019257, 19, ''),
-(41,  1458025274, 0,  0,  0,  12, 0,  0,  0,  0,  0,  0,  0,  0,  0,  '嘻嘻', 1458025274, 12, 'Windows 10');
 
 DROP TABLE IF EXISTS `topic_content`;
 CREATE TABLE `topic_content` (
@@ -292,12 +216,6 @@ CREATE TABLE `topic_content` (
   PRIMARY KEY (`topic_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `topic_content` (`topic_id`, `content`) VALUES
-(38,  '继续测试啊'),
-(37,  '测试完就删了'),
-(39,  ''),
-(40,  ''),
-(41,  '');
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -317,11 +235,6 @@ CREATE TABLE `user` (
   KEY `status_id` (`status`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `user` (`id`, `created_at`, `updated_at`, `status`, `role`, `username`, `email`, `password_hash`, `auth_key`, `avatar`) VALUES
-(15,  1457858574, 0,  8,  0,  'born', '858142428@qq.com', '$T$m4N2JUwZ33bc8624bb68db31b3975f04f1a645bd9', 'm4N2JUwZ3',  'avatar/0_{size}.png'),
-(14,  1457858315, 0,  8,  0,  'rain', '958142427@qq.com', '$T$1rzYl2f5G92b628c0209fcb88e33c5a7d7e3ab112', '1rzYl2f5G',  'avatar/0_{size}.png'),
-(12,  1457168652, 0,  8,  0,  'changle',  '958142428@qq.com', '$T$akEb6jCNsac344159ec6ecbfa2a6f8ca7d727fc84', 'akEb6jCNs',  'avatar/0_{size}.png'),
-(16,  1457858870, 0,  8,  0,  'bornf',  'sdasd@sd.com', '$T$4CtXYXcCj6fab5cfab090f0b3a54bf7fbfaadf27b', '4CtXYXcCj',  'avatar/0_{size}.png');
 
 DROP TABLE IF EXISTS `user_record`;
 CREATE TABLE `user_record` (
@@ -340,10 +253,5 @@ CREATE TABLE `user_record` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `user_record` (`user_id`, `last_login_at`, `last_login_ip`, `reg_ip`, `topic_count`, `comment_count`, `favorite_count`, `favorite_node_count`, `favorite_topic_count`, `favorite_user_count`, `website`, `about`) VALUES
-(12,  0,  0,  0,  30, 0,  0,  0,  0,  0,  '', ''),
-(14,  0,  0,  0,  0,  0,  0,  0,  0,  0,  '', ''),
-(15,  0,  0,  0,  0,  0,  0,  0,  0,  0,  '', ''),
-(16,  0,  0,  0,  2,  0,  0,  0,  0,  0,  '', '');
 
--- 2016-03-15 07:34:39
+-- 2016-03-27 06:59:23
