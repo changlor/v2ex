@@ -37,6 +37,7 @@
                             <input type="button" class="super normal button" value="创建新主题" onclick="location.href = '/new/programmer';" />
                     </div>
                     <?=$page_link;?>
+                    <?php if ($node_topic != ''): ?>
                         <div id="TopicsNode">
                             <?php foreach ($node_topic as $key => $value): ?>
                             <div class="cell from_90433 t_265788">
@@ -61,16 +62,19 @@
                                                 <?php endif;?>
                                             </span>
                                         </td>
+                                        <?php if ($value['comment_count'] != 0): ?>
                                         <td width="50" align="right" valign="middle">
                                             <a href="<?php echo $this->route->url('t/' . $value['id']); ?>#reply<?=$value['comment_count'];?>" class="count_livid">
                                                 <?=$value['comment_count'];?>
                                             </a>
                                         </td>
+                                        <?php endif;?>
                                     </tr>
                                 </table>
                             </div>
                             <?php endforeach;?>
                         </div>
+                    <?php endif;?>
                         <?=$page_link;?>
                             <div class="cell" align="center"><span class="gray">第 1 到 20 / 共 11305 个主题</span></div>
                 </div>

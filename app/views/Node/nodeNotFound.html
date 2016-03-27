@@ -38,9 +38,11 @@
                     </div>
                     <div class="inner"><span class="gray">
                         <span class="chevron">‹</span> &nbsp;返回 <a href="/">主页</a>
+                        <?php if (rcookie('NA') != ''): ?>
                         <br>
                         <span class="chevron">‹</span> &nbsp;返回 <a href="/member/<?=rcookie('NA');?>">我的个人主页</a>
                         </span>
+                        <?php endif;?>
                     </div>
                 </div>
             </div>
