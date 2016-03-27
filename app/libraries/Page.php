@@ -85,7 +85,7 @@ class Page
     {
         $page_turn_left = '<td width="50%" align="center" class="super normal button %IF_ENABLE%" style="border-right: none; border-top-right-radius: 0px; border-bottom-right-radius: 0px;" %PAGE_TURN_JS%>❮</td>';
         $page_turn_right = '<td width="50%" align="center" class="super normal_page_right button %IF_ENABLE%" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;" %PAGE_TURN_JS%>❯</td>';
-        if ($this->totalPage == 1) {
+        if ($this->totalPage <= 1) {
             $page_turn_right = str_replace('%IF_ENABLE%', 'disable_now', $page_turn_right);
             $page_turn_left = str_replace('%IF_ENABLE%', 'disable_now', $page_turn_left);
         }

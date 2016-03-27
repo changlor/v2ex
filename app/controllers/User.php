@@ -58,6 +58,10 @@ class User extends Base
             if ($userpass['password_hash'] == $password['hash']) {
                 $url = $this->route->url($referer);
                 rcookie('NA', $username);
+                $ip = new Ip($_SERVER['REMOTE_ADDR']);
+                $update_info = array('last_login_ip' => $ip->ip2int());
+                $user_id = $this->model->User->getUserId('username', $username);
+                $this->model->User->updateUserRecord($update_info, $user_id);
                 $this->response->redirect($url, true);
             } else {
                 $handler['password'] = eventGenerate('password', 'unmatch');
