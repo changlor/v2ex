@@ -1,6 +1,22 @@
 <?php
 class Node_model extends Kotori_Model
 {
+    public function getTabNode($tabname)
+    {
+        return $this->db->select('tab',
+            array(
+                '[><]tab_node' => array('tab.id' => 'tab_id'),
+                '[><]node' => array('tab_node.node_id' => 'id'),
+            ),
+            array(
+                'node.name',
+                'node.ename',
+            ),
+            array(
+                'tab.ename' => $tabname,
+            )
+        );
+    }
     public function getNodeInfo($field, $value)
     {
         $node_info = $this->db->select('node',

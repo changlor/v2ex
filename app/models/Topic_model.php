@@ -9,6 +9,34 @@ class Topic_model extends Kotori_Model
         );
     }
 
+    public function getTabTopic($tabname)
+    {
+        return $this->db->select('tab',
+            array(
+                '[><]tab_node' => array('tab.id' => 'tab_id'),
+                '[><]node' => array('tab_node.node_id' => 'id'),
+                '[><]topic' => array('tab_node.node_id' => 'node_id'),
+            ),
+            array(
+                'node.ename',
+                'node.name',
+                'topic.id',
+                'topic.user_id',
+                'topic.title',
+                'topic.created_at',
+                'topic.comment_count',
+                'topic.replied_at',
+                'topic.reply_id',
+                'topic.author',
+                'topic.last_reply_username',
+            ),
+            array(
+                'tab.ename' => $tabname,
+                'ORDER' => 'topic.ranked_at DESC',
+            )
+        );
+    }
+
     public function getNodeTopic($node_id, $pagination, $pagination_rows)
     {
         return $this->db->select('topic',

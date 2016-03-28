@@ -23,11 +23,11 @@
                 </div>
                 <div class="box">
                     <div class="inner" style="background-color: #fff; border-top-left-radius: 3px; border-top-right-radius: 3px;" id="Tabs">
-                        <a href="/?tab=tech" class="tab_current">
-                                技术
+                        <a href="/?tab=chaos" class="tab_current">
+                                the king of chaos
                             </a>
                     </div>
-                    <div class="cell" style="background-color: #f9f9f9; padding: 10px 10px 10px 20px;"><a href="/go/programmer">程序员</a>&nbsp;&nbsp;</div>
+                    <div class="cell" style="background-color: #f9f9f9; padding: 10px 10px 10px 20px;"><?php foreach ($tab_node as $key => $value): ?><a href="/go/<?=$value['ename'];?>"><?=$value['name'];?></a>&nbsp;&nbsp;<?php endforeach;?></div>
                     <?php foreach ($topic as $key => $value): ?>
                     <div class="cell item" style="<?php echo ($key == $topic_first_key) ? 'border-top-left-radius: 3px; border-top-right-radius: 3px;' : ''; ?>">
                         <div style="position: absolute; margin: -10px -10px 0px 650px;"></div>
@@ -43,7 +43,7 @@
                                             <a href="<?php echo $this->route->url('t/' . $value['id']); ?>#reply<?=$value['comment_count'];?>"><?=$value['title'];?></a>
                                             </span>
                                         <div class="sep5"></div>
-                                        <span class="small fade"><div class="votes"></div><a class="node" href="/go/programmer">程序员</a>&nbsp; • &nbsp;<strong><a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><?=$value['author'];?></a></strong>
+                                        <span class="small fade"><div class="votes"></div><a class="node" href="/go/<?=$value['ename'];?>"><?=$value['name'];?></a>&nbsp; • &nbsp;<strong><a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><?=$value['author'];?></a></strong>
                                             <?php if ($value['replied_at'] == '' || $value['replied_at'] == 0): ?>&nbsp; • &nbsp;<?=fadeTime($value['created_at']);?>&nbsp;
                                             <?php else: ?>
                                                 &nbsp; • &nbsp;<?=fadeTime($value['replied_at']);?>&nbsp;
