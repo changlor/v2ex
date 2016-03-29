@@ -11,6 +11,7 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
+    'tag/([^/]+)' => 'Tag/viewTagTopic/$1',
     'go/([^/]+)' => 'Node/viewNode/$1',
     'member/([^/]+)/replies' => 'Member/viewMemberComment/$1',
     'member/([^/]+)/topics' => 'Member/viewMemberTopic/$1',

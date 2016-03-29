@@ -96,7 +96,7 @@
                 <div class="box">
                     <div class="inner">
                         <?php foreach ($topic_tags as $key => $value): ?>
-                        <a href="/tag/羞羞" class="tag">
+                        <a href="/tag/<?=$value['name'];?>" class="tag">
                             <?=$value['name'];?>
                         </a>
                         <?php endforeach;?>
@@ -110,7 +110,7 @@
                         <?php if (count($topic_tags) > 0 && $topic['comment_count'] > 0): ?>
                         <div class="fr" style="margin: -3px -5px 0px 0px;">
                             <?php foreach ($topic_tags as $key => $value): ?>
-                            <a href="/tag/羞羞" class="tag">
+                            <a href="/tag/<?=$value['name'];?>" class="tag">
                                 <li class="fa icon-tag"></li>
                                 <?=$value['name'];?>
                             </a>

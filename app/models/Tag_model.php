@@ -17,6 +17,24 @@ class Tag_model extends Kotori_Model
         );
     }
 
+    public function getTagInfo($tagname)
+    {
+        $tag_info = $this->db->select('tag',
+            array(
+                'topic_count',
+                'id',
+            ),
+            array(
+                'name' => $tagname,
+            )
+        );
+        if (isset($tag_info[0])) {
+            return $tag_info[0];
+        }
+        return false;
+
+    }
+
     public function insertTag($tags, $topic_id)
     {
         foreach ($tags as $key => $value) {
