@@ -141,13 +141,13 @@
                                     <td width="auto" valign="top" align="left">
                                         <div class="fr">
                                             <div id="thank_area_2445799" class="thank_area">
-                                                <a href="javascript:;" onclick="if (confirm('确认要不再显示来自 @mingyun 的这条回复？')) { ignoreReply(2445799, '95308'); }" class="thank" style="color: #ccc;">隐藏</a> &nbsp; &nbsp; &nbsp;
-                                                <a href="javascript:;" onclick="if (confirm('确认花费 10 个铜币向 @mingyun 的这条回复发送感谢？')) { thankReply(2445799, 'tuprgvpphtpywjewqpgkxiieyvgnddlh'); }" class="thank">
+                                                <a href="javascript:;" onclick="if (confirm('确认要不再显示来自 @<?=$value['username'];?> 的这条回复？')) { ignoreReply(2445799, '95308'); }" class="thank" style="color: #ccc;">隐藏</a> &nbsp; &nbsp; &nbsp;
+                                                <a href="javascript:;" onclick="if (confirm('确认花费 10 个铜币向 @<?=$value['username'];?> 的这条回复发送感谢？')) { thankReply(2445799, 'tuprgvpphtpywjewqpgkxiieyvgnddlh'); }" class="thank">
                                                         感谢回复者
                                                     </a>
                                             </div>
                                             &nbsp;
-                                            <a href="javascript:;" onclick="replyOne('mingyun');"><img src="<?php echo PUBLIC_DIR; ?>/img/reply.png" align="absmiddle" border="0" alt="Reply"></a> &nbsp;&nbsp;
+                                            <a href="javascript:;" onclick="replyOne('<?=$value['username'];?>');"><img src="<?php echo PUBLIC_DIR; ?>/img/reply.png" align="absmiddle" border="0" alt="Reply"></a> &nbsp;&nbsp;
                                             <span class="no"><?=$value['position'];?></span>
                                         </div>
                                         <div class="sep3"></div>
@@ -228,6 +228,8 @@
         <div class="sep20"></div>
     </div>
     <?php $this->need('Public/footer');?>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/v2ex.js"></script>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/reply.js"></script>
 </body>
 
 </html>

@@ -44,6 +44,12 @@ class Member extends Base
         }
     }
 
+    public function memberNotice()
+    {
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        $this->view->assign('rightBarInfo', $this->rightBarInfo)->display();
+    }
+
     public function viewMemberTopic($username)
     {
         if ($this->model->User->validateUser('username', $username)) {
