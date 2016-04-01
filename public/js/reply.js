@@ -10,6 +10,9 @@
     var arrlen = reply_username.length;
 
     function autocomplete(input, keycode, reply_username) {
+        if (keycode == 37) {
+            return false;
+        }
         var $this = input;
         var old_content = $this.val();
         var current_user_focus_index = $this.getCursorPosition();
@@ -18,18 +21,17 @@
         if (current_input_username_index == -1) {
             return false;
         }
-        if (keycode == 37) {
-            return false;
-        }
-        current_input_username_index++;
-        var input_username = old_content.substring(current_input_username_index);
+        var input_username = old_content.substring((current_input_username_index + 1));
         if (input_username.indexOf(' ') != -1) {
-            var current_space_index = old_content.indexOf(' ', current_input_username_index);
-            input_username = old_content.substring(current_input_username_index, current_space_index);
+            var current_substr_index = old_content.indexOf(' ', (current_input_username_index + 1));
+            if (current_substr_index <= current_user_focus_index) {
+                return false;
+            }
+            input_username = old_content.substring((current_input_username_index + 1), current_substr_index);
         }
-        if (input_username.indexOf(' ') == -1 && input_username.indexOf('@') != -1) {
-            var current_space_index = old_content.indexOf('@', current_input_username_index);
-            input_username = old_content.substring(current_input_username_index, current_space_index);
+        if (input_username.indexOf('@') != -1) {
+            var current_substr_index = old_content.indexOf('@', (current_input_username_index + 1));
+            input_username = old_content.substring((current_input_username_index + 1), current_substr_index);
         }
         if (input_username == '') {
             return false;
@@ -38,25 +40,27 @@
             if (reply_username[i].indexOf(input_username) == -1) {
                 continue;
             }
-            current_input_username_index--;
             var new_content = old_content.substring(0, current_input_username_index);
             new_content += '@';
             new_content += reply_username[i];
             var endText = new_content.length;
             if (keycode == 46 || keycode == 8) {
-                if (endText != (current_user_focus_index + 2)) {
+                if (endText != (current_user_focus_index + 2) || reply_username[i].length != (input_username.length + 1)) {
                     return false;
                 }
                 new_content = old_content.substring(0, current_input_username_index);
+                endText = new_content.length;
             }
-            if (keycode == 39 && endText != (current_user_focus_index + 1)) {
-                return false;
+            if (keycode == 39) {
+                if (endText != (current_user_focus_index + 1) || reply_username[i] != input_username) {
+                    return false;
+                }
             }
-            if (typeof(current_space_index) == 'undefined' && keycode != 46 && keycode != 8) {
+            if (typeof(current_substr_index) === 'undefined' && keycode != 46 && keycode != 8) {
                 new_content += ' ';
             }
-            if (typeof(current_space_index) !== 'undefined') {
-                new_content += old_content.substring(current_space_index);
+            if (typeof(current_substr_index) !== 'undefined') {
+                new_content += old_content.substring(current_substr_index);
             }
             $this.val(new_content);
             if (input_username != reply_username[i]) {
