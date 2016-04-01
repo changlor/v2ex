@@ -1,6 +1,19 @@
 <?php
 class User_model extends Kotori_Model
 {
+    public function getMemberNoticeCount($user_id)
+    {
+        $member_notice_count = $this->db->select('user_record',
+            array(
+                'notice_count',
+            ),
+            array(
+                'user_id' => $user_id,
+            )
+        );
+        return $member_notice_count[0]['notice_count'];
+    }
+
     public function getUserInfo($user_id)
     {
         $user_info = $this->db->select('user',
@@ -82,6 +95,7 @@ class User_model extends Kotori_Model
                 'favorite_node_count',
                 'favorite_topic_count',
                 'favorite_user_count',
+                'unread_notice_count',
             ),
             array(
                 'user_id' => $user_id,

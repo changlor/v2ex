@@ -33,6 +33,10 @@
             var current_substr_index = old_content.indexOf('@', (current_input_username_index + 1));
             input_username = old_content.substring((current_input_username_index + 1), current_substr_index);
         }
+        if (input_username.indexOf('\n') != -1) {
+            var current_substr_index = old_content.indexOf('\n', (current_input_username_index + 1));
+            input_username = old_content.substring((current_input_username_index + 1), current_substr_index);
+        }
         if (input_username == '') {
             return false;
         }

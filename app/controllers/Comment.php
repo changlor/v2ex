@@ -28,6 +28,23 @@ class Comment extends Base
                 $comment['created_at'] = strtotime(date('Y-m-d H:i:s'));
                 $comment['user_id'] = $user_id;
                 $comment['topic_id'] = $topic_id;
+                if (preg_match_all('/@([a-z]+)/i', $comment['content'], $matches)) {
+                    foreach ($matches[1] as $key => $value) {
+                        if ($this->model->User->validateUser('username', $value)) {
+                            $username[] = $value;
+                        }
+                    }
+                    $notice_necessary_info = $this->model->Notice->getNoticeNecessaryInfo('reply', $username);
+                    foreach ($username as $key => $value) {
+                        $notice[$key]['content'] = $content;
+                        $notice[$key]['topic_id'] = $topic_id;
+                        $notice[$key]['source_id'] = $user_id;
+                        $notice[$key]['target_id'] = $notice_necessary_info['user_id'][$key]['id'];
+                        $notice[$key]['type'] = $notice_necessary_info['type_id'];
+                        $notice[$key]['created_at'] = $comment['created_at'];
+                    }
+                    $this->model->Notice->addNotice($notice);
+                }
                 $updateInfo = array(
                     'reply_id' => $user_id,
                     'last_reply_username' => rcookie('NA'),

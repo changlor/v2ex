@@ -120,6 +120,9 @@ class Page
         }
         $page_turn_js .= '\';" onmouseover="$(this).addClass(\'hover_now\');" onmousedown="$(this).addClass(\'active_now\');" onmouseleave="$(this).removeClass(\'hover_now\'); $(this).removeClass(\'active_now\');" %FORWARD%';
         $page_turn_js = ($forward == 'left') ? str_replace('%FORWARD%', 'title="上一页"', $page_turn_js) : str_replace('%FORWARD%', 'title="下一页"', $page_turn_js);
+        if ($this->totalPage <= 1) {
+            return str_replace('%PAGE_TURN_JS%', '', $page_turn_forward);
+        }
         if ($this->currentPage == 1 && $forward == 'left') {
             return str_replace('%PAGE_TURN_JS%', '', $page_turn_forward);
         }

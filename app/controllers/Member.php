@@ -44,10 +44,21 @@ class Member extends Base
         }
     }
 
-    public function memberNotice()
+    public function viewMemberNotice()
     {
         $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('rightBarInfo', $this->rightBarInfo)->display();
+        $member_notice_count = $this->model->User->getMemberNoticeCount($this->uid);
+        $pagination_rows = 6;
+        $page_rows = ceil($member_notice_count / $pagination_rows);
+        $p = $this->request->input('get.p');
+        if (!is_numeric($p) || $p < 1 || $p > $page_rows) {
+            $p = '';
+        }
+        $current_page = empty($p) ? 1 : $p;
+        $notice = $this->model->Notice->getMemberNotice($this->uid, $current_page, $pagination_rows);
+        $page = new Page($member_notice_count, $pagination_rows);
+        $page_link = $page->show($current_page);
+        $this->view->assign('member_notice_count', $member_notice_count)->assign('rightBarInfo', $this->rightBarInfo)->assign('page_link', $page_link)->assign('notice', $notice)->display();
     }
 
     public function viewMemberTopic($username)
