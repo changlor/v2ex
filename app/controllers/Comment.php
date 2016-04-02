@@ -29,21 +29,31 @@ class Comment extends Base
                 $comment['user_id'] = $user_id;
                 $comment['topic_id'] = $topic_id;
                 if (preg_match_all('/@([a-z]+)/i', $comment['content'], $matches)) {
+                    $notice_username = false;
                     foreach ($matches[1] as $key => $value) {
                         if ($this->model->User->validateUser('username', $value)) {
-                            $username[] = $value;
+                            $notice_username[] = $value;
                         }
                     }
-                    $notice_necessary_info = $this->model->Notice->getNoticeNecessaryInfo('reply', $username);
-                    foreach ($username as $key => $value) {
-                        $notice[$key]['content'] = $content;
-                        $notice[$key]['topic_id'] = $topic_id;
-                        $notice[$key]['source_id'] = $user_id;
-                        $notice[$key]['target_id'] = $notice_necessary_info['user_id'][$key]['id'];
-                        $notice[$key]['type'] = $notice_necessary_info['type_id'];
-                        $notice[$key]['created_at'] = $comment['created_at'];
+                    $notice_username = array_unique($notice_username);
+                    if (count($notice_username) >= 1) {
+                        $notice_necessary_info = $this->model->Notice->getNoticeNecessaryInfo('reply', $notice_username);
+                        foreach ($notice_username as $key => $value) {
+                            $notice[$key]['content'] = $content;
+                            $notice[$key]['topic_id'] = $topic_id;
+                            $notice[$key]['source_id'] = $user_id;
+                            $notice[$key]['target_id'] = $notice_necessary_info['user_id'][$key]['id'];
+                            $notice[$key]['type'] = $notice_necessary_info['type_id'];
+                            $notice[$key]['created_at'] = $comment['created_at'];
+                        }
+                        $this->model->Notice->addNotice($notice);
+                        $updateInfo = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
+                        $notice_user_id = false;
+                        foreach ($notice_necessary_info['user_id'] as $key => $value) {
+                            $notice_user_id[] = $value['id'];
+                        }
+                        $this->model->User->updateUserRecord($updateInfo, $user_id);
                     }
-                    $this->model->Notice->addNotice($notice);
                 }
                 $updateInfo = array(
                     'reply_id' => $user_id,

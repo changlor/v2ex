@@ -94,6 +94,9 @@ CREATE TABLE `node` (
   KEY `id_ename` (`id`,`ename`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+INSERT INTO `node` (`id`, `created_at`, `updated_at`, `topic_count`, `favorite_count`, `name`, `ename`, `about`) VALUES
+(1, 0,  0,  0,  0,  '一锅粥',  'mass', '散落凡间的主题'),
+(2, 0,  0,  0,  0,  '随感', 'feel', '星星点点的夜空');
 
 DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice` (
@@ -101,14 +104,15 @@ CREATE TABLE `notice` (
   `created_at` int(10) unsigned NOT NULL,
   `updated_at` int(10) unsigned NOT NULL,
   `type` tinyint(1) unsigned NOT NULL,
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `target_id` mediumint(8) unsigned NOT NULL,
   `source_id` mediumint(8) unsigned NOT NULL,
   `topic_id` mediumint(8) unsigned NOT NULL,
-  `position` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `notice_count` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `position` mediumint(8) unsigned NOT NULL DEFAULT '1',
+  `content` text NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `target_status_id` (`target_id`,`status`,`id`)
+  KEY `target_status_id` (`target_id`,`status`,`id`),
+  KEY `source_id_target_id` (`source_id`,`target_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
@@ -141,13 +145,40 @@ CREATE TABLE `siteinfo` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `tab`;
+CREATE TABLE `tab` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `ename` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ename_id` (`ename`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `tab` (`id`, `name`, `ename`) VALUES
+(1, 'the king of chaos',  'chaos');
+
+DROP TABLE IF EXISTS `tab_node`;
+CREATE TABLE `tab_node` (
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `node_id` smallint(6) unsigned NOT NULL,
+  `tab_id` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tab_name_node_name` (`tab_id`,`node_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `tab_node` (`id`, `node_id`, `tab_id`) VALUES
+(1, 1,  '1'),
+(2, 2,  '1');
+
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   `topic_count` smallint(6) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `name` (`name`),
+  KEY `name_id` (`name`,`id`),
+  KEY `name_topic_count` (`name`,`topic_count`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
@@ -217,6 +248,17 @@ CREATE TABLE `topic_content` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `type`;
+CREATE TABLE `type` (
+  `id` tinyint(1) unsigned NOT NULL AUTO_INCREMENT,
+  `ename` varchar(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ename_id` (`ename`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `type` (`id`, `ename`) VALUES
+(1, 'reply');
+
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -232,9 +274,12 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
-  KEY `status_id` (`status`,`id`)
+  KEY `status_id` (`status`,`id`),
+  KEY `username_id` (`username`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+INSERT INTO `user` (`id`, `created_at`, `updated_at`, `status`, `role`, `username`, `email`, `password_hash`, `auth_key`, `avatar`) VALUES
+(1, 1459584513, 0,  8,  0,  'changle',  '958142428@qq.com', '$T$6Tb823kHdab94858c2aeee519bc33777489632f81', '6Tb823kHd',  'avatar/0_{size}.png');
 
 DROP TABLE IF EXISTS `user_record`;
 CREATE TABLE `user_record` (
@@ -250,8 +295,12 @@ CREATE TABLE `user_record` (
   `favorite_user_count` smallint(6) unsigned NOT NULL DEFAULT '0',
   `website` varchar(100) NOT NULL DEFAULT '',
   `about` varchar(255) NOT NULL DEFAULT '',
+  `notice_count` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `unread_notice_count` smallint(6) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+INSERT INTO `user_record` (`user_id`, `last_login_at`, `last_login_ip`, `reg_ip`, `topic_count`, `comment_count`, `favorite_count`, `favorite_node_count`, `favorite_topic_count`, `favorite_user_count`, `website`, `about`, `notice_count`, `unread_notice_count`) VALUES
+(1, 0,  2130706433, 0,  0,  0,  0,  0,  0,  0,  '', '', 0,  0);
 
--- 2016-03-27 06:59:23
+-- 2016-04-02 08:13:01
