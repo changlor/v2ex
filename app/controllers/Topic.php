@@ -30,6 +30,9 @@ class Topic extends Base
             }
             $current_page = empty($p) ? $page_rows : $p;
             $comment = $this->model->Comment->getTopicComment($topic_id, $current_page, $pagination_rows);
+            foreach ($comment as $key => $value) {
+                $comment[$key] = preg_replace('/@%([a-z0-9]+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value);
+            }
             $page = new Page($topic['comment_count'], $pagination_rows);
             $page_link = $page->show($current_page);
             $this->rightBarInfo['rightBar'] = array('myInfo');

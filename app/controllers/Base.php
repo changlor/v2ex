@@ -7,11 +7,12 @@ class Base extends Kotori_Controller
     {
         parent::__construct();
         $this->decryptUserName();
-        $this->redirect_login();
+        $this->redirectLogin();
+        $this->expireInfo();
         $this->initRightBarInfo();
     }
 
-    public function redirect_login()
+    public function redirectLogin()
     {
         if (rcookie('NA') == '') {
             $need_login_method = array(
@@ -27,6 +28,14 @@ class Base extends Kotori_Controller
                     $this->response->redirect($url, true);
                 }
             }
+        }
+    }
+
+    public function expireInfo()
+    {
+        if (ACTION_NAME == 'viewMemberNotice') {
+            $update_info = array('unread_notice_count' => 0);
+            $this->model->User->updateUserRecord($update_info, $this->uid);
         }
     }
 

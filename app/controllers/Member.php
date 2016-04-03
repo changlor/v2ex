@@ -56,6 +56,9 @@ class Member extends Base
         }
         $current_page = empty($p) ? 1 : $p;
         $notice = $this->model->Notice->getMemberNotice($this->uid, $current_page, $pagination_rows);
+        foreach ($notice as $key => $value) {
+            $notice[$key] = preg_replace('/@%([a-z0-9]+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value);
+        }
         $page = new Page($member_notice_count, $pagination_rows);
         $page_link = $page->show($current_page);
         $this->view->assign('member_notice_count', $member_notice_count)->assign('rightBarInfo', $this->rightBarInfo)->assign('page_link', $page_link)->assign('notice', $notice)->display();

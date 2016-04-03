@@ -136,7 +136,7 @@ function previewTopic() {
         preview = $("#topic_preview");
     }
     var md = editor.getValue();
-    $.post( LOCAL+'preview/markdown', { 'md' : md }, function( data ) {
+    $.post( LOCAL+'/preview/markdown', { 'md' : md }, function( data ) {
         preview.html('<div class="topic_content"><div class="markdown_body">' + data + '</div></div>');
     });
 }

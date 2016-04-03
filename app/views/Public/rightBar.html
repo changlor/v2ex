@@ -102,9 +102,17 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
                 border="0" />
             </a>
             </div>
+            <?php if ($user_record['unread_notice_count'] != 0): ?>
+            <img src="<?php echo PUBLIC_DIR; ?>/img/dot_orange.png" align="absmiddle">
+            &nbsp;
+            <strong><a href="/notifications" class="fade">
+                <?=$user_record['unread_notice_count'];?> 条未读提醒
+            </a></strong>
+            <?php else: ?>
             <a href="/notifications" class="fade">
-            0 条未读提醒
-        </a>
+                <?=$user_record['unread_notice_count'];?> 条未读提醒
+            </a>
+            <?php endif;?>
         </div>
     </div>
     <?php elseif (in_array('myInfo', $rightBar)): ?>

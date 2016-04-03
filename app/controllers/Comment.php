@@ -28,18 +28,19 @@ class Comment extends Base
                 $comment['created_at'] = strtotime(date('Y-m-d H:i:s'));
                 $comment['user_id'] = $user_id;
                 $comment['topic_id'] = $topic_id;
-                if (preg_match_all('/@([a-z]+)/i', $comment['content'], $matches)) {
+                if (preg_match_all('/@([a-z0-9]+)/i', $comment['content'], $matches)) {
                     $notice_username = false;
                     foreach ($matches[1] as $key => $value) {
                         if ($this->model->User->validateUser('username', $value)) {
                             $notice_username[] = $value;
+                            $comment['content'] = str_replace($value, '%' . $value . '%', $comment['content']);
                         }
                     }
                     $notice_username = array_unique($notice_username);
                     if (count($notice_username) >= 1) {
                         $notice_necessary_info = $this->model->Notice->getNoticeNecessaryInfo('reply', $notice_username);
                         foreach ($notice_username as $key => $value) {
-                            $notice[$key]['content'] = $content;
+                            $notice[$key]['content'] = str_replace($value, '%' . $value . '%', $content);
                             $notice[$key]['topic_id'] = $topic_id;
                             $notice[$key]['source_id'] = $user_id;
                             $notice[$key]['target_id'] = $notice_necessary_info['user_id'][$key]['id'];
