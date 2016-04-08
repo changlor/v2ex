@@ -181,11 +181,11 @@ function eventGenerate($level, $event, $value = '')
 function fadeTime($time)
 {
     $dT = strtotime(date('Y-m-d H:i:s')) - $time;
-    $y = round($dT / 60 / 60 / 24 / 30 / 12);
-    $m = round($dT / 60 / 60 / 24 / 30);
-    $d = round($dT / 60 / 60 / 24);
-    $h = round($dT / 60 / 60);
-    $i = round($dT / 60);
+    $y = floor($dT / 60 / 60 / 24 / 30 / 12);
+    $m = floor($dT / 60 / 60 / 24 / 30);
+    $d = floor($dT / 60 / 60 / 24);
+    $h = floor($dT / 60 / 60);
+    $i = floor($dT / 60);
     $s = $dT;
     if ($y > 0) {
         return $y . ' 年前';
@@ -299,4 +299,20 @@ function get_keywords_str($content)
     $pa->StartAnalysis(false);
     $tags = $pa->GetFinallyResult();
     return $tags;
+}
+
+function coin($coin)
+{
+    $gold = floor($coin / 100 / 100);
+    $silver = floor(($coin % 10000) / 100);
+    $bronze = $coin % 100;
+    $coid = '';
+    if ($gold > 1) {
+        $coid .= $gold . ' %gold% ';
+    }
+    if ($silver > 1) {
+        $coid .= $silver . ' %silver% ';
+    }
+    $coid .= $bronze . ' %bronze% ';
+    return $coid;
 }

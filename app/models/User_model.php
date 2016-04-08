@@ -96,6 +96,7 @@ class User_model extends Kotori_Model
                 'favorite_topic_count',
                 'favorite_user_count',
                 'unread_notice_count',
+                'coin',
             ),
             array(
                 'user_id' => $user_id,

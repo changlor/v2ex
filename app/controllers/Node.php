@@ -6,7 +6,14 @@ class Node extends Base
         parent::__construct();
     }
 
-    public function viewNode($nodename)
+    public function viewAllNode()
+    {
+        $node = $this->model->Node->getAllNode();
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        $this->view->assign('node', $node)->assign('rightBarInfo', $this->rightBarInfo)->display();
+    }
+
+    public function viewNodeTopic($nodename)
     {
         if ($this->model->Node->validateNode('ename', $nodename)) {
             $node_info = $this->model->Node->getNodeInfo('ename', $nodename);

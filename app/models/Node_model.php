@@ -17,6 +17,11 @@ class Node_model extends Kotori_Model
             )
         );
     }
+    public function getAllNode()
+    {
+        $node['chaos'] = $this->getTabNode('chaos');
+        return $node;
+    }
     public function getNodeInfo($field, $value)
     {
         $node_info = $this->db->select('node',

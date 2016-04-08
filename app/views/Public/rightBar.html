@@ -93,14 +93,7 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
         </div>
         <div class="inner">
             <div class="fr" id="money">
-                <a href="/balance" class="balance_area" style="">
-                21
-                <img src="<?php echo PUBLIC_DIR; ?>/img/silver.png" alt="S" align="absmiddle"
-                border="0" style="padding-bottom: 2px;" />
-                20
-                <img src="<?php echo PUBLIC_DIR; ?>/img/bronze.png" alt="B" align="absmiddle"
-                border="0" />
-            </a>
+                <a href="/balance" class="balance_area" style=""><?=preg_replace('/%([a-z]+)%/i', '<img src="' . PUBLIC_DIR . '/img/$1.png" alt="G" align="absmiddle" border="0" style="padding-bottom: 2px;">', coin($user_record['coin']));?></a>
             </div>
             <?php if ($user_record['unread_notice_count'] != 0): ?>
             <img src="<?php echo PUBLIC_DIR; ?>/img/dot_orange.png" align="absmiddle">
