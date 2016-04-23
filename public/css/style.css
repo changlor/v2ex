@@ -42,6 +42,7 @@ pre {
     overflow-x: auto;
     overflow-y: auto;
     background-color: #f8f8f8;
+    padding: 5px;
 }
 
 pre a {
@@ -63,6 +64,25 @@ a:link, a:visited, a:active {
 a:hover {
     color: #4d5256;
     text-decoration: underline;
+}
+
+a.google-signin:link {
+    width: 191px;
+    height: 46px;
+    background-image: url("../img/btn_google_signin_light_normal_web@2x.png");
+    background-size: 191px 46px;
+    background-repeat: no-repeat;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a.google-signin:hover {
+    background-image: url("../img/btn_google_signin_light_normal_web@2x.png");
+}
+
+a.google-signin:active {
+    background-image: url("../img/btn_google_signin_light_pressed_web@2x.png");
 }
 
 a.dark:link, a.dark:visited, a.dark:active {
@@ -173,7 +193,7 @@ a.op:hover {
 }
 
 a.opo:link, a.opo:visited, a.opo:active {
-    background-color: #73d0da;
+    background-color: #d0d0df;
     font-size: 10px;
     line-height: 10px;
     display: inline-block;
@@ -290,6 +310,7 @@ ol {
     font-weight: 500;
     background-size: 44px 44px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.22);
+    padding: 0px 20px 0px 20px;
 }
 
 #Wrapper {
@@ -304,6 +325,7 @@ ol {
     background-color: #fff;
     text-align: center;
     color: #999;
+    padding: 0px 10px 0px 10px;
 }
 
 #MySQL {
@@ -323,11 +345,12 @@ ol {
 #Rightbar {
     width: 270px;
     float: right;
+    margin-right: 20px;
 }
 
 #Main {
     width: auto;
-    margin: 0px 290px 0px 0px;
+    margin: 0px 310px 0px 20px;
 }
 
 #q {
@@ -385,7 +408,8 @@ ol {
 }
 
 .content {
-    width: 970px;
+    min-width: 600px;
+    max-width: 1100px;
     margin: 0px auto 0px auto;
 }
 
@@ -430,7 +454,7 @@ ol {
     font-size: 12px;
     line-height: 150%;
     text-align: left;
-    
+
     background-color: #f0f0f0;
     border-top: 1px solid #e2e2e2;
     border-bottom: 1px solid #e2e2e2;
@@ -752,7 +776,7 @@ div.node:hover .node_compose {
     padding: 5px;
     font-size: 14px;
     line-height: 120%;
-    
+
     background: #eeeeee;
     background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc));
@@ -761,7 +785,7 @@ div.node:hover .node_compose {
     background: -ms-linear-gradient(top, #eeeeee 0%,#cccccc 100%);
     background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 );
-    
+
     border-radius: 0px 0px 3px 3px;
     text-align: left;
 }
@@ -779,7 +803,7 @@ div.node:hover .node_compose {
     border: 1px solid #ccc;
     width: 310px;
     font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
-    
+    box-sizing: border-box;
 }
 
 .sl:focus {
@@ -793,7 +817,7 @@ div.node:hover .node_compose {
     font-size: 14px;
     border: 1px solid #ccc;
     width: 240px;
-    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei";   
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei";
 }
 
 .sls:focus {
@@ -806,8 +830,9 @@ div.node:hover .node_compose {
     padding: 5px;
     font-size: 14px;
     border: 1px solid #ccc;
-    width: 650px;
+    width: 100%;
     font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+    box-sizing: border-box;
 }
 
 .sll:focus {
@@ -824,6 +849,7 @@ div.node:hover .node_compose {
     width: 310px;
     height: 160px;
     font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+    box-sizing: border-box;
 }
 
 .ml:focus {
@@ -839,11 +865,12 @@ div.node:hover .node_compose {
     font-size: 14px;
     border: 1px solid #ccc;
     display: block;
-    width: 650px;
+    width: 100%;
     height: 8em;
     overflow-y: auto;
     font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
     resize: vertical;
+    box-sizing: border-box;
 }
 
 .mll:focus {
@@ -859,10 +886,10 @@ div.node:hover .node_compose {
     font-size: 14px;
     border: 1px solid #ccc;
     display: block;
-    width: 640px;
-    height: 100px;
+    width: 100%;
     font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
     resize: vertical;
+    box-sizing: border-box;
 }
 
 .mle:focus {
@@ -884,12 +911,12 @@ div.node:hover .node_compose {
    color: #c0c0c0;
 }
 
-:-ms-input-placeholder {  
+:-ms-input-placeholder {
    color: #c0c0c0;
 }
 
 .msl {
-    width: 660px;
+    width: 100%;
     border: none;
     resize: none;
     background-color: #f9f9f9;
@@ -899,6 +926,7 @@ div.node:hover .node_compose {
     padding: 10px;
     font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
     margin: 0px;
+    box-sizing: border-box;
 }
 
 .msl:focus {
@@ -1029,14 +1057,14 @@ div.node:hover .node_compose {
     margin: 0px 5px 5px 0px;
     border-radius: 16px;
     display: inline-block;
-    
+
     border: 1px solid #e5e5e5;
 }
 
 .item_node:hover {
     text-decoration: none;
     color: #333;
-    
+
     border: 1px solid #ccc;
     box-shadow: 0px 1px 2px rgba(0, 0, 32, 0.1);
 }
@@ -1045,7 +1073,7 @@ div.node:hover .node_compose {
     text-decoration: none;
     background-color: #f9f9f9;
     color: #333;
-    
+
     border: 1px solid #ccc;
     box-shadow: 0px 1px 2px rgba(0, 0, 32, 0.1) inset;
     outline: none;
@@ -1228,7 +1256,7 @@ a.count_blue:visited, a.count_green:visited, a.count_orange:visited, a.count_liv
     -webkit-border-radius: 10px;
     border-radius: 10px;
     display: inline-block;
-    
+
     background: #52bf1c;
     background: -moz-linear-gradient(top, #52bf1c 0%, #438906 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#52bf1c), color-stop(100%,#438906));
@@ -1267,7 +1295,7 @@ a.balance_area:link, a.balance_area:visited, .balance_area {
     text-shadow: 0px 1px 0px white;
     display: inline-block;
     margin: -4px -5px 0px 0px;
-    
+
     background: #f5f5f5;
     background: -moz-linear-gradient(top, #f5f5f5 0%, #e2e2e2 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#e2e2e2));
@@ -1282,7 +1310,7 @@ a.balance_area:active {
     text-decoration: none;
     color: #333;
     color: #000;
-    
+
     background: #f0f0f0;
     background: -moz-linear-gradient(top, #f0f0f0 0%, #c9c9c9 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f0f0), color-stop(100%,#c9c9c9));
@@ -1297,7 +1325,7 @@ a.balance_area:hover {
     text-decoration: none;
     color: #333;
     color: #000;
-    
+
     background: #f9f9f9;
     background: -moz-linear-gradient(top, #f9f9f9 0%, #f0f0f0 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#f0f0f0));
@@ -1311,7 +1339,7 @@ a.balance_area:hover {
 /* DATA */
 
 table.data {
-    
+
 }
 
 table.data td.h, table.data th.h {
@@ -1321,7 +1349,7 @@ table.data td.h, table.data th.h {
     border-right: 1px solid #ccc;
     border-bottom: 2px solid #ccc;
     text-shadow: 0px 1px 0px #fff;
-    
+
     background: #f5f5f5;
     background: -moz-linear-gradient(top, #f5f5f5 0%, #e2e2e2 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#e2e2e2));
@@ -1518,8 +1546,8 @@ img.avatar {
 }
 
 a.img_sq {
-    min-width: 160px;
-    min-height: 160px;
+    width: 25%;
+    box-sizing: border-box;
     text-align: center;
     vertical-align: bottom;
     border: none;
@@ -1530,6 +1558,24 @@ a.img_sq {
 }
 
 a.img_sq:hover {
+    text-decoration: none;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+}
+
+a.img_view {
+    max-width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: bottom;
+    border: none;
+    padding: 5px;
+    display: inline-block;
+    text-decoration: none;
+    background-color: #fff;
+}
+
+a.img_view:hover {
     text-decoration: none;
     background-color: #f0f0f0;
     border-radius: 3px;
@@ -1564,6 +1610,26 @@ a.btn_hero:hover {
     color: #fff;
     background-color: #778087;
     text-decoration: none;
+}
+
+.embedded_video_wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+}
+
+.embedded_video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.embedded_image {
+    max-width: 100%;
+    image-orientation: from-image;
 }
 
 .votes {
@@ -1603,8 +1669,8 @@ a.btn_hero:hover {
     margin-bottom: 0 !important;
 }
 
-.markdown_body>p>img {
-    max-width: 660px;
+.markdown_body img {
+    max-width: 100%;
 }
 
 .markdown_body table {

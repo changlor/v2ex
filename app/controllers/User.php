@@ -124,6 +124,7 @@ class User extends Base
     {
         $this->rightBarInfo['rightBar'] = array('myInfo', 'referral');
         $this->view->assign('rightBarInfo', $this->rightBarInfo);
-        $this->view->display();
+        $task = $this->model->Task->getDoneTask($this->uid);
+        $this->view->assign('task', $task)->display();
     }
 }

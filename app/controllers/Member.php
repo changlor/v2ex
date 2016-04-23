@@ -87,4 +87,28 @@ class Member extends Base
             $this->view->display('Member/memberNotFound');
         }
     }
+
+    public function memberTask($task_id)
+    {
+        echo $task_id = decrypt($task_id, 'kotori');
+        if (is_numeric($task_id) && $this->model->Task->isUndoTask($task_id, $this->uid)) {
+            $task = $this->model->Task->getTaskInfo($task_id);
+            $task = $task[0];
+            $task['user_id'] = $this->uid;
+            $task['task_id'] = $task['id'];
+            if ($task['role'] == 0) {
+                $update_info = array('status' => 3);
+                $this->model->User->updateUserInfo($update_info, $this->uid);
+            }
+            $update_info = array('coin[+]' => $task['coin']);
+            $this->model->User->updateUserRecord($update_info, $this->uid);
+            $task['task_coin'] = $task['coin'];
+            $task['coin'] = $task['coin'] + $this->rightBarInfo['user_record']['coin'];
+            $task['created_at'] = strtotime(date('Y-m-d H:i:s'));
+            unset($task['id']);
+            unset($task['role']);
+            print_r($task);
+            $this->model->Task->doneTask($task);
+        }
+    }
 }

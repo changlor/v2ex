@@ -2,7 +2,7 @@
 class Base extends Kotori_Controller
 {
     protected $uid = '';
-    protected $rightBarInfo = array('user_record', 'rightBar');
+    protected $rightBarInfo;
     public function __construct()
     {
         parent::__construct();
@@ -43,6 +43,7 @@ class Base extends Kotori_Controller
     {
         if ($this->uid != '') {
             $this->rightBarInfo['user_record'] = $this->model->User->getUserRecord($this->uid);
+            $this->rightBarInfo['user_role'] = $this->model->User->getUserRole($this->uid);
         }
     }
 

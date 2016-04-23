@@ -11,6 +11,7 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
+    'mission/complete/([^/]+)' => 'Member/memberTask/$1',
     'planes' => 'Node/viewAllNode',
     'notifications' => 'Member/viewMemberNotice',
     'tag/([^/]+)' => 'Tag/viewTagTopic/$1',

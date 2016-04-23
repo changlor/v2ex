@@ -96,8 +96,7 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
                 <a href="/balance" class="balance_area" style=""><?=preg_replace('/%([a-z]+)%/i', '<img src="' . PUBLIC_DIR . '/img/$1.png" alt="G" align="absmiddle" border="0" style="padding-bottom: 2px;">', coin($user_record['coin']));?></a>
             </div>
             <?php if ($user_record['unread_notice_count'] != 0): ?>
-            <img src="<?php echo PUBLIC_DIR; ?>/img/dot_orange.png" align="absmiddle">
-            &nbsp;
+            <img src="<?php echo PUBLIC_DIR; ?>/img/dot_orange.png" align="absmiddle"> &nbsp;
             <strong><a href="/notifications" class="fade">
                 <?=$user_record['unread_notice_count'];?> 条未读提醒
             </a></strong>
@@ -107,6 +106,11 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
             </a>
             <?php endif;?>
         </div>
+        <?php if ($user_role['status'] == 8): ?>
+        <div class="dock_area">
+            <div class="inner"><span class="chevron">&nbsp;›&nbsp;</span> <a href="/balance">在你开始发帖之前，请先领取初始资本</a></div>
+        </div>
+        <?php endif;?>
     </div>
     <?php elseif (in_array('myInfo', $rightBar)): ?>
     <div class="sep20"></div>

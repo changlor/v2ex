@@ -105,6 +105,20 @@ class User_model extends Kotori_Model
         return $user_record[0];
     }
 
+    public function getUserRole($user_id)
+    {
+        $user_role = $this->db->select('user',
+            array(
+                'status',
+                'role',
+            ),
+            array(
+                'id' => $user_id,
+            )
+        );
+        return $user_role[0];
+    }
+
     public function signin($user)
     {
         return $this->db->insert('user',
@@ -123,6 +137,14 @@ class User_model extends Kotori_Model
         return $this->db->update('user_record',
             $updateInfo,
             array('user_id' => $uid)
+        );
+    }
+
+    public function updateUserInfo($updateInfo, $uid)
+    {
+        return $this->db->update('user',
+            $updateInfo,
+            array('id' => $uid)
         );
     }
 

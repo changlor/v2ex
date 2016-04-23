@@ -1,96 +1,111 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="zh-CN">
-    <head>
-        <title>
-            V2EX
-        </title>
-        <meta charset="utf-8">
-        <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    </head>
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8">
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+</head>
+
 <body>
-<?php $this->need('Public/header'); ?>
-<div id="Wrapper">
-    <div class="content">
-        <div id="Leftbar"></div>
-        <div id="Rightbar">
-        <?php $this->need('Public/rightBar', $rightBarInfo); ?>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="cell">
+                        <div class="fr" style="margin: -3px -8px 0px 0px">
+                            <a href="/top/rich" class="tab">社区财富排行榜</a>
+                            <a href="/top/player" class="tab">社区消费排行榜</a>
+                            <a href="/balance/add/alipay" class="tab">充值</a>
+                        </div>
+                        <a href="/">V2EX</a>
+                        <span class="chevron">&nbsp;›&nbsp;</span> 账户余额
+                    </div>
+                    <div class="cell">
+                        <table cellpadding="10" cellspacing="0" border="0" width="100%">
+                            <tr>
+                                <td width="200">
+                                    <span class="gray">当前账户余额</span>
+                                    <div class="sep10"></div>
+                                    <div class="sep5"></div>
+                                    <div class="balance_area" style="font-size: 24px; line-height: 24px;">
+                                        <?=preg_replace('/%([a-z]+)%/i', '<img src="' . PUBLIC_DIR . '/img/$1.png" alt="G" align="absmiddle" border="0" style="padding-bottom: 2px;">', coin($rightBarInfo['user_record']['coin']));?>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <table cellpadding="5" cellspacing="0" border="0" width="100%" class="data">
+                            <tbody>
+                                <tr>
+                                    <td width="130" class="h">时间</td>
+                                    <td width="100" class="h">类型</td>
+                                    <td width="60" class="h">数额</td>
+                                    <td width="60" class="h">余额</td>
+                                    <td width="auto" class="h" style="border-right: none;">描述</td>
+                                </tr>
+                                <?php foreach ($task as $key => $value): ?>
+                                <tr>
+                                    <td class="d"><small class="gray"><?=date('Y-m-d H:i:s', $value['created_at']);?> +08:00</small></td>
+                                    <td class="d"><?=$value['type'];?></td>
+                                    <td class="d" style="text-align: right;"><span class="positive"><strong><?=$value['task_coin'];?></strong></span></td>
+                                    <td class="d" style="text-align: right;"><?=$value['coin'];?></td>
+                                    <td class="d" style="border-right: none;"><span class="gray">获得初始资本 2000 铜币</span></td>
+                                </tr>
+                                <?php endforeach;?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <?php if ($rightBarInfo['user_role']['status'] != 8): ?>
+                    <div class="inner">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                                <td width="33%" align="left"></td>
+                                <td width="34%" align="center">
+                                    <strong class="fade">1/1</strong>
+                                </td>
+                                <td width="33%" align="right"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <?php endif;?>
+                </div>
+                <?php if ($rightBarInfo['user_role']['status'] == 8): ?>
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="header">可完成的任务</div>
+                    <div class="inner">
+                        <h2>获得初始资本</h2> 欢迎来到 V2EX，这是一个关于分享和探索的社区。你在进入这里时，你会获得 2000 铜币。接下来你在社区内的一切行为，包括创建主题和回复等，都将会消耗铜币。而当你完成了一些有意义的事情时，你就会收获铜币，以及，好心情。
+                        <div class="sep20"></div>
+                        <strong>任务奖励</strong>
+                        <div class="sep10"></div>
+                        <div class="balance_area" style="">
+                            20
+                            <img src="//cdn.v2ex.com/static/img/silver.png" alt="S" align="absmiddle" border="0" style="padding-bottom: 2px;" />
+                        </div>
+                        <div class="sep20"></div>
+                        <input type="button" onclick="location.href = '/mission/complete/kw==';" value="完成任务" class="super normal button" />
+                    </div>
+                </div>
+                <?php endif;?>
+            </div>
         </div>
-        <div id="Main">
-            <div class="sep20"></div>                
-            <div class="box">
-                <div class="cell">
-                    <div class="fr" style="margin: -3px -8px 0px 0px">
-                        <a href="/top/rich" class="tab">社区财富排行榜</a>
-                        <a href="/top/player" class="tab">社区消费排行榜</a>
-                        <a href="/balance/add/alipay" class="tab">充值</a>
-                    </div>
-                    <a href="/">V2EX</a>
-                    <span class="chevron">&nbsp;›&nbsp;</span>
-                    账户余额
-                </div>
-                <div class="cell">
-                    <table cellpadding="10" cellspacing="0" border="0" width="100%">
-                        <tr>
-                            <td width="200">
-                                <span class="gray">当前账户余额</span>
-                                <div class="sep10"></div>
-                                <div class="sep5"></div>
-                                <div class="balance_area" style="font-size: 24px; line-height: 24px;">
-                                    0
-                                    <img src="//cdn.v2ex.com/static/img/bronze.png" alt="B" align="absmiddle" border="0" />
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div>
-                    <table cellpadding="5" cellspacing="0" border="0" width="100%" class="data">
-                        <tr>
-                            <td width="130" class="h">时间</td>
-                            <td width="80" class="h">类型</td>
-                            <td width="60" class="h">数额</td>
-                            <td width="60" class="h">余额</td>
-                            <td width="auto" class="h" style="border-right: none;">描述</td>
-                        </tr> 
-                    </table>
-                </div>
-                <div class="inner">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%"> 
-                        <tr>
-                            <td width="33%" align="left"></td>
-                            <td width="34%" align="center">
-                                <strong class="fade">1/1</strong>
-                            </td>
-                            <td width="33%" align="right"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="sep20"></div>
-            <div class="box">
-                <div class="header">可完成的任务</div>
-                <div class="inner">
-                    <h2>获得初始资本</h2>
-                    欢迎来到 V2EX，这是一个关于分享和探索的社区。你在进入这里时，你会获得 2000 铜币。接下来你在社区内的一切行为，包括创建主题和回复等，都将会消耗铜币。而当你完成了一些有意义的事情时，你就会收获铜币，以及，好心情。
-                    <div class="sep20"></div>
-                    <strong>任务奖励</strong>
-                    <div class="sep10"></div>
-                    <div class="balance_area" style="">
-                        20 
-                        <img src="//cdn.v2ex.com/static/img/silver.png" alt="S" align="absmiddle" border="0" style="padding-bottom: 2px;" />
-                    </div>
-                    <div class="sep20"></div>
-                    <input type="button" onclick="location.href = '/mission/complete/1?t=1452922592';" value="完成任务" class="super normal button" />
-                </div>
-            </div>
-        </div>    
+        <div class="c"></div>
+        <div class="sep20"></div>
     </div>
-    <div class="c"></div>
-    <div class="sep20"></div>
-</div>
-<?php $this->need('Public/footer'); ?>
+    <?php $this->need('Public/footer');?>
 </body>
+
 </html>
