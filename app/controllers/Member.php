@@ -93,7 +93,6 @@ class Member extends Base
         echo $task_id = decrypt($task_id, 'kotori');
         if (is_numeric($task_id) && $this->model->Task->isUndoTask($task_id, $this->uid)) {
             $task = $this->model->Task->getTaskInfo($task_id);
-            $task = $task[0];
             $task['user_id'] = $this->uid;
             $task['task_id'] = $task['id'];
             if ($task['role'] == 0) {

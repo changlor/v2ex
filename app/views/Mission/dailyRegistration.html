@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="private" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/codemirror.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/neo.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/select2.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="cell"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> 日常任务</div>
+                    <?php if ($if_undo_daily_registration_task): ?>
+                    <div class="cell">
+                        <h1>每日登录奖励 <?=date('Ymd');?></h1>
+                        <input type="button" class="super normal button" value="领取 X 铜币" onclick="location.href = '/mission/daily/redeem';">
+                    </div>
+                    <?php else: ?>
+                    <?php if ($first_registration): ?>
+                    <div class="message" onclick="$(this).slideUp('fast');">已成功领取每日登录奖励</div>
+                    <?php endif;?>
+                    <div class="cell">
+                        <span class="gray"><li class="fa fa-ok-sign" style="color: #0c0;"></li> &nbsp;每日登录奖励已领取</span>
+                        <div class="sep10"></div>
+                        <input type="button" class="super normal button" value="查看我的账户余额" onclick="location.href = '/balance';">
+                    </div>
+                    <?php endif;?>
+                    <div class="cell">已连续登录 1 天</div>
+                </div>
+            </div>
+        </div>
+        <div class="c">
+        </div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer');?>
+</body>
+
+</html>

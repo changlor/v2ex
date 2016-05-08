@@ -30,6 +30,7 @@ class Topic extends Base
             }
             $current_page = empty($p) ? $page_rows : $p;
             $comment = $this->model->Comment->getTopicComment($topic_id, $current_page, $pagination_rows);
+            $comment = empty($comment) ? array() : $comment;
             foreach ($comment as $key => $value) {
                 $comment[$key] = preg_replace('/@%([a-z0-9]+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value);
             }
