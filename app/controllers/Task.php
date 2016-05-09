@@ -35,9 +35,33 @@ class Task extends Base
         unset($task_info['role']);
         if ($this->model->Task->isUndoDailyTask($task_info['event_id'], $this->uid)) {
             $this->model->Task->doneTask($task_info);
+            $update_info = array('coin[+]' => $task_info['task_coin']);
+            $this->model->User->updateUserRecord($update_info, $this->uid);
         }
         $url = $this->route->url('mission/daily');
         $_SESSION['first_registration'] = true;
+        $this->response->redirect($url, true);
+    }
+
+    public function redeemDefaultTask($default_task_name)
+    {
+        $task_info = $this->model->Task->getTaskInfo($default_task_name, 'default');
+        $task_info['created_at'] = strtotime(date('Y-m-d H:i:s'));
+        $task_info['user_id'] = $this->uid;
+        $task_info['event_id'] = $task_info['id'];
+        $task_info['task_coin'] = $task_info['coin'];
+        $task_info['coin'] = $task_info['task_coin'] + $this->rightBarInfo['user_record']['coin'];
+        $task_info['event_type'] = 'task';
+        unset($task_info['id']);
+        unset($task_info['role']);
+        if ($this->model->Task->isUndoDefaultTask($task_info['event_id'], $this->uid)) {
+            $this->model->Task->doneTask($task_info);
+            $update_info = array('status' => 3);
+            $this->model->User->updateUserInfo($update_info, $this->uid);
+            $update_info = array('coin[+]' => $task_info['task_coin']);
+            $this->model->User->updateUserRecord($update_info, $this->uid);
+        }
+        $url = $this->route->url('balance');
         $this->response->redirect($url, true);
     }
 }

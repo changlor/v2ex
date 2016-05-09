@@ -1,16 +1,17 @@
 <?php
 class Task_model extends Kotori_Model
 {
-    public function isUndoTask($task_id, $user_id)
+    public function isUndoDefaultTask($task_id, $user_id)
     {
         if ($this->db->has('task',
             array('id' => $task_id)
         )) {
-            if (!$this->db->has('user_task',
+            if (!$this->db->has('user_asset',
                 array(
                     'AND' => array(
                         'user_id' => $user_id,
                         'event_id' => $task_id,
+                        'event_type' => 'task',
                     ),
                 )
             )) {
@@ -113,7 +114,7 @@ class Task_model extends Kotori_Model
 
     public function getDoneTask($user_id)
     {
-        return $this->db->select('user_task',
+        return $this->db->select('user_asset',
             array(
                 'type',
                 'about',
