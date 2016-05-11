@@ -96,6 +96,7 @@ class Task_model extends Kotori_Model
                         'created_at[>]' => strtotime(date('Y-m-d')),
                         'event_id' => $value['id'],
                         'event_type' => 'task',
+                        'user_id' => $user_id,
                     ),
                 )
             )) {
@@ -121,6 +122,9 @@ class Task_model extends Kotori_Model
                 'task_coin',
                 'coin',
                 'created_at',
+            ),
+            array(
+                'user_id' => $user_id,
             )
         );
     }
