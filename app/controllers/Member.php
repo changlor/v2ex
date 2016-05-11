@@ -11,6 +11,9 @@ class Member extends Base
         if ($this->model->User->validateUser('username', $username)) {
             $user_id = $this->model->User->getUserId('username', $username);
             $recent_activity = $this->model->User->getRecentActivity($user_id);
+            foreach ($recent_activity['comment'] as $key => $value) {
+                $recent_activity['comment'][$key] = preg_replace('/@%([a-z0-9]+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value);
+            }
             $comment_keys = array_keys($recent_activity['comment']);
             $comment_last_key = end($comment_keys);
             $this->view->assign('username', $username)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('recent_topics', $recent_activity['topic'])->display();
