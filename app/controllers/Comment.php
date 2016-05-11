@@ -33,14 +33,15 @@ class Comment extends Base
                     foreach ($matches[1] as $key => $value) {
                         if ($this->model->User->validateUser('username', $value)) {
                             $notice_username[] = $value;
+                            $comment['content'] = str_replace('%' . $value . '%', $value, $comment['content']);
                             $comment['content'] = str_replace($value, '%' . $value . '%', $comment['content']);
                         }
                     }
-                    $notice_username = array_unique($notice_username);
+                    $notice_username = array_values(array_flip(array_flip($notice_username)));
                     if (count($notice_username) >= 1) {
                         $notice_necessary_info = $this->model->Notice->getNoticeNecessaryInfo('reply', $notice_username);
                         foreach ($notice_username as $key => $value) {
-                            $notice[$key]['content'] = str_replace($value, '%' . $value . '%', $content);
+                            $notice[$key]['content'] = $comment['content'];
                             $notice[$key]['topic_id'] = $topic_id;
                             $notice[$key]['source_id'] = $user_id;
                             $notice[$key]['target_id'] = $notice_necessary_info['user_id'][$key]['id'];
