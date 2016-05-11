@@ -46,14 +46,10 @@ class Comment extends Base
                             $notice[$key]['target_id'] = $notice_necessary_info['user_id'][$key]['id'];
                             $notice[$key]['type'] = $notice_necessary_info['type_id'];
                             $notice[$key]['created_at'] = $comment['created_at'];
+                            $updateInfo = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
+                            $this->model->User->updateUserRecord($updateInfo, $notice[$key]['target_id']);
                         }
                         $this->model->Notice->addNotice($notice);
-                        $updateInfo = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
-                        $notice_user_id = false;
-                        foreach ($notice_necessary_info['user_id'] as $key => $value) {
-                            $notice_user_id[] = $value['id'];
-                        }
-                        $this->model->User->updateUserRecord($updateInfo, $user_id);
                     }
                 }
                 $updateInfo = array(
