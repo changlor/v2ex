@@ -18,8 +18,9 @@ class Task extends Base
             $first_registration = true;
             unset($_SESSION['first_registration']);
         }
+        $signed_day = $this->model->Task->getSignedDay($this->uid);
         $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('first_registration', $first_registration)->assign('if_undo_daily_registration_task', $if_undo_daily_registration_task)->assign('rightBarInfo', $this->rightBarInfo)->display('Mission/dailyRegistration');
+        $this->view->assign('signed_day', $signed_day)->assign('first_registration', $first_registration)->assign('if_undo_daily_registration_task', $if_undo_daily_registration_task)->assign('rightBarInfo', $this->rightBarInfo)->display('Mission/dailyRegistration');
     }
 
     public function redeemDailyTask($daily_task_name)
@@ -35,7 +36,11 @@ class Task extends Base
         unset($task_info['role']);
         if ($this->model->Task->isUndoDailyTask($task_info['event_id'], $this->uid)) {
             $this->model->Task->doneTask($task_info);
-            $update_info = array('coin[+]' => $task_info['task_coin']);
+            $update_info = array(
+                'coin[+]' => $task_info['task_coin'],
+                'last_signed_at' => strtotime(date('Y-m-d')),
+            );
+            $this->model->Task->updateKeepSignedDay($this->uid);
             $this->model->User->updateUserRecord($update_info, $this->uid);
         }
         $url = $this->route->url('mission/daily');

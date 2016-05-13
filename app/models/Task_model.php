@@ -128,4 +128,48 @@ class Task_model extends Kotori_Model
             )
         );
     }
+
+    public function getSignedDay($user_id)
+    {
+        $signed_day = $this->db->select('user_record',
+            array(
+                'signed_day',
+            ),
+            array(
+                'user_id' => $user_id,
+            )
+        );
+        return $signed_day[0]['signed_day'];
+    }
+
+    public function updateKeepSignedDay($user_id)
+    {
+        $last_signed_at = $this->db->select('user_record',
+            array(
+                'last_signed_at',
+            ),
+            array(
+                'user_id' => $user_id,
+            )
+        );
+        if (($last_signed_at[0]['last_signed_at'] + 24 * 60 * 60) == strtotime(date('Y-m-d'))) {
+            $this->db->update('user_record',
+                array(
+                    'signed_day[+]' => 1,
+                ),
+                array(
+                    'user_id' => $user_id,
+                )
+            );
+        } else {
+            $this->db->update('user_record',
+                array(
+                    'signed_day' => 1,
+                ),
+                array(
+                    'user_id' => $user_id,
+                )
+            );
+        }
+    }
 }
