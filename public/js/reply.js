@@ -44,6 +44,9 @@
             if (reply_username[i].indexOf(input_username) == -1) {
                 continue;
             }
+            if (reply_username[i].substring(0, 1) != input_username.substring(0, 1)) {
+                return false;
+            }
             var new_content = old_content.substring(0, current_input_username_index);
             new_content += '@';
             new_content += reply_username[i];
@@ -69,12 +72,16 @@
             $this.val(new_content);
             if (input_username != reply_username[i]) {
                 var selectedCompleteText = document.getElementById('reply_content');
-                var startText = new_content.lastIndexOf(input_username) + input_username.length;
+                var startText = current_user_focus_index + 1;
                 setInputSelection(selectedCompleteText, startText, endText);
             }
             if (input_username == reply_username[i]) {
                 var selectedCompleteText = document.getElementById('reply_content');
                 endText = new_content.length;
+                startText = current_user_focus_index + 2;
+                if (startText != endText) {
+                    return false;
+                }
                 setInputSelection(selectedCompleteText, endText, endText);
             }
             return false;
@@ -114,4 +121,4 @@
         var keycode = e.which;
         autocomplete($(this), keycode, reply_username);
     });
-})(jQuery)
+})()
