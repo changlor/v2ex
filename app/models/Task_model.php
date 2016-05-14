@@ -119,7 +119,7 @@ class Task_model extends Kotori_Model
             array(
                 'type',
                 'about',
-                'task_coin',
+                'event_coin',
                 'coin',
                 'created_at',
             ),

@@ -239,4 +239,30 @@ class User_model extends Kotori_Model
         }
         return eventGenerate('user', $event, $user_id);
     }
+
+    public function validateUserCoin($coin, $user_id)
+    {
+        $event = 'legal';
+        //请充值，这样才能变得更强
+        if ($coin < 20) {
+            $event = 'lack';
+        }
+        return eventGenerate('user', $event, $user_id);
+    }
+
+    public function getUserAsset($user_id)
+    {
+        return $this->db->select('user_asset',
+            array(
+                'type',
+                'about',
+                'event_coin',
+                'coin',
+                'created_at',
+            ),
+            array(
+                'user_id' => $user_id,
+            )
+        );
+    }
 }

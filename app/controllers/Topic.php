@@ -74,6 +74,7 @@ class Topic extends Base
             $content = $this->request->input('post.content');
             $handler['title'] = $this->model->Topic->validateTitle($title);
             $handler['content'] = $this->model->Topic->validateContent($content);
+            $handler['coin'] = $this->model->User->validateUserCoin($this->rightBarInfo['user_record']['coin'], $user_id);
             $isPass = false;
             foreach ($handler as $key => $value) {
                 if ($value['msg'] != 'pass') {
@@ -108,6 +109,11 @@ class Topic extends Base
                     }
                 }
                 $this->model->Tag->insertTag($tags, $insert_topic_id);
+                $consunmption['event_coin'] = 20;
+                $consunmption['coin'] = $this->rightBarInfo['user_record']['coin'] - 20;
+                $consunmption['user_id'] = $this->uid;
+                $consunmption['about'] = '创建了长度为' . count($topic['content']) . '个字符的主题' . ' › ' . '%title' . $topic['title'] . '%';
+                $this->model->Consumption->topicCost($consunmption);
                 $url = $this->route->url('t/' . $insert_topic_id);
                 $this->response->redirect($url, true);
             } else {

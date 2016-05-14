@@ -60,9 +60,9 @@
                                 <tr>
                                     <td class="d"><small class="gray"><?=date('Y-m-d H:i:s', $value['created_at']);?> +08:00</small></td>
                                     <td class="d"><?=$value['type'];?></td>
-                                    <td class="d" style="text-align: right;"><span class="positive"><strong><?=$value['task_coin'];?></strong></span></td>
+                                    <td class="d" style="text-align: right;"><span class="positive"><strong><?=$value['event_coin'];?></strong></span></td>
                                     <td class="d" style="text-align: right;"><?=$value['coin'];?></td>
-                                    <td class="d" style="border-right: none;"><span class="gray">获得初始资本 2000 铜币</span></td>
+                                    <td class="d" style="border-right: none;"><span class="gray"><?=$value['about'];?></span></td>
                                 </tr>
                                 <?php endforeach;?>
                             </tbody>

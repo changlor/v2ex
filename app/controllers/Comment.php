@@ -14,6 +14,7 @@ class Comment extends Base
             $user_id = $this->uid;
             $handler['topic'] = $this->model->Topic->validateTopicId($topic_id);
             $handler['comment'] = $this->model->Comment->validateComment($topic_id, $user_id, $content);
+             $handler['coin'] = $this->model->User->validateUserCoin($this->rightBarInfo['user_record']['coin'], $user_id);
             $isPass = false;
             foreach ($handler as $key => $value) {
                 if ($value['msg'] != 'pass') {

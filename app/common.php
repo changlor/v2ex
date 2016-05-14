@@ -6,6 +6,7 @@ function custom_error($level, $event, $value = '')
     $errors['user'] = array(
         'legal' => 'pass',
         'undefined' => '用户不存在',
+        'lack' => '哎呀，又没钱了，何不尝试来一发py交易，马上就能获取大量金币，请+qq958142428你懂得',
     );
     $errors['topic'] = array(
         'legal' => 'pass',
@@ -275,7 +276,7 @@ function parseUA($ua)
 
 function get_tags_arr($title)
 {
-    $app_root = Kotori_Config::getSoul()->APP_FULL_PATH . '/libraries';
+    $app_root = Kotori_Soul::getSoul('Config')->APP_FULL_PATH . '/libraries';
     $pscws = new PSCWS4();
     $pscws->set_dict($app_root . '/scws/dict.utf8.xdb');
     $pscws->set_rule($app_root . '/scws/rules.utf8.ini');
@@ -307,10 +308,10 @@ function coin($coin)
     $silver = floor(($coin % 10000) / 100);
     $bronze = $coin % 100;
     $coid = '';
-    if ($gold > 1) {
+    if ($gold >= 1) {
         $coid .= $gold . ' %gold% ';
     }
-    if ($silver > 1) {
+    if ($silver >= 1) {
         $coid .= $silver . ' %silver% ';
     }
     $coid .= $bronze . ' %bronze% ';
