@@ -109,8 +109,8 @@ class Topic extends Base
                     }
                 }
                 $this->model->Tag->insertTag($tags, $insert_topic_id);
-                $consunmption['event_coin'] = 20;
-                $consunmption['coin'] = $this->rightBarInfo['user_record']['coin'] - 20;
+                $consunmption['event_coin'] = -20;
+                $consunmption['coin'] = $this->rightBarInfo['user_record']['coin'] + $consunmption['event_coin'];
                 $consunmption['user_id'] = $this->uid;
                 $consunmption['about'] = '创建了长度为' . count($topic['content']) . '个字符的主题' . ' › ' . '%title' . $topic['title'] . '%';
                 $this->model->Consumption->topicCost($consunmption);

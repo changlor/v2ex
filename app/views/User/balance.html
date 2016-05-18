@@ -60,7 +60,7 @@
                                 <tr>
                                     <td class="d"><small class="gray"><?=date('Y-m-d H:i:s', $value['created_at']);?> +08:00</small></td>
                                     <td class="d"><?=$value['type'];?></td>
-                                    <td class="d" style="text-align: right;"><span class="positive"><strong><?=$value['event_coin'];?></strong></span></td>
+                                    <td class="d" style="text-align: right;"><span class="<?php echo ($value['event_coin'] < 0) ? 'negative' : 'positive'; ?>"><strong><?=$value['event_coin'];?></strong></span></td>
                                     <td class="d" style="text-align: right;"><?=$value['coin'];?></td>
                                     <td class="d" style="border-right: none;"><span class="gray"><?=$value['about'];?></span></td>
                                 </tr>

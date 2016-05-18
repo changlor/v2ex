@@ -65,6 +65,11 @@ class Comment extends Base
                 $updateInfo = array('comment_count[+]' => 1);
                 $this->model->User->updateUserRecord($updateInfo, $user_id);
                 $insert_comment_count = $this->model->Comment->addComment($comment);
+                $consunmption['event_coin'] = -5;
+                $consunmption['coin'] = $this->rightBarInfo['user_record']['coin'] + $consunmption['event_coin'];
+                $consunmption['user_id'] = $this->uid;
+                $consunmption['about'] = '创建了长度为' . count($comment['content']) . '个字符的回复' . ' › ' . '%comment' . $comment['content'] . '%';
+                $this->model->Consumption->commentCost($consunmption);
                 $url = $this->route->url('t/' . $topic_id . '#reply' . $insert_comment_count);
                 $this->response->redirect($url, true);
             } else {
