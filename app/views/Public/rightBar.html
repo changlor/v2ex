@@ -12,7 +12,7 @@ $defaultRightBar = array(
     'hotNode',
     'newNode',
     'runStatus',
-    'registration',
+    'signin',
 );
 $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
 ?>
@@ -159,7 +159,7 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
         </div>
     </div>
     <?php endif;?>
-    <?php if (in_array('registration', $rightBar) && rCookie('NA') != '' && in_array('registration', $daily)): ?>
+    <?php if (in_array('signin', $rightBar) && rCookie('NA') != '' && in_array('signin', $daily)): ?>
     <div class="sep20"></div>
     <div class="box">
         <div class="inner">

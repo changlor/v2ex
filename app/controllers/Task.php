@@ -1,26 +1,26 @@
 <?php
 class Task extends Base
 {
-    public function dailyLoginTask()
+    public function dailySigninTask()
     {
-        $first_registration = false;
-        $if_undo_daily_registration_task = false;
+        $is_done_signin = false;
+        $is_undo_daily_signin_task = false;
         $daily = array();
         if (isset($this->rightBarInfo['daily_task'])) {
             foreach ($this->rightBarInfo['daily_task'] as $key => $value) {
                 $daily[] = $value['ename'];
             }
         }
-        if (in_array('registration', $daily)) {
-            $if_undo_daily_registration_task = true;
+        if (in_array('signin', $daily)) {
+            $is_undo_daily_signin_task = true;
         }
-        if (isset($_SESSION['first_registration']) && $_SESSION['first_registration']) {
-            $first_registration = true;
-            unset($_SESSION['first_registration']);
+        if (isset($_SESSION['is_done_signin']) && $_SESSION['is_done_signin']) {
+            $is_done_signin = true;
+            unset($_SESSION['is_done_signin']);
         }
-        $signed_day = $this->model->Task->getSignedDay($this->uid);
+        $keep_signin_day = $this->model->Task->getKeepSigninDay($this->uid);
         $this->rightBarInfo['rightBar'] = array('myInfo');
-        $this->view->assign('signed_day', $signed_day)->assign('first_registration', $first_registration)->assign('if_undo_daily_registration_task', $if_undo_daily_registration_task)->assign('rightBarInfo', $this->rightBarInfo)->display('Mission/dailyRegistration');
+        $this->view->assign('keep_signin_day', $keep_signin_day)->assign('is_done_signin', $is_done_signin)->assign('is_undo_daily_signin_task', $is_undo_daily_signin_task)->assign('rightBarInfo', $this->rightBarInfo)->display('Mission/dailySignin');
     }
 
     public function redeemDailyTask($daily_task_name)
@@ -38,13 +38,13 @@ class Task extends Base
             $this->model->Task->doneTask($task_info);
             $update_info = array(
                 'coin[+]' => $task_info['event_coin'],
-                'last_signed_at' => strtotime(date('Y-m-d')),
+                'last_signin_at' => strtotime(date('Y-m-d')),
             );
-            $this->model->Task->updateKeepSignedDay($this->uid);
+            $this->model->Task->updateKeepSigninDay($this->uid);
             $this->model->User->updateUserRecord($update_info, $this->uid);
         }
         $url = $this->route->url('mission/daily');
-        $_SESSION['first_registration'] = true;
+        $_SESSION['is_done_signin'] = true;
         $this->response->redirect($url, true);
     }
 

@@ -129,33 +129,33 @@ class Task_model extends Kotori_Model
         );
     }
 
-    public function getSignedDay($user_id)
+    public function getKeepSigninDay($user_id)
     {
-        $signed_day = $this->db->select('user_record',
+        $keep_signin_day = $this->db->select('user_record',
             array(
-                'signed_day',
+                'keep_signin_day',
             ),
             array(
                 'user_id' => $user_id,
             )
         );
-        return $signed_day[0]['signed_day'];
+        return $keep_signin_day[0]['keep_signin_day'];
     }
 
-    public function updateKeepSignedDay($user_id)
+    public function updateKeepSigninDay($user_id)
     {
-        $last_signed_at = $this->db->select('user_record',
+        $last_signin_at = $this->db->select('user_record',
             array(
-                'last_signed_at',
+                'last_signin_at',
             ),
             array(
                 'user_id' => $user_id,
             )
         );
-        if (($last_signed_at[0]['last_signed_at'] + 24 * 60 * 60) == strtotime(date('Y-m-d'))) {
+        if (($last_signin_at[0]['last_signin_at'] + 24 * 60 * 60) == strtotime(date('Y-m-d'))) {
             $this->db->update('user_record',
                 array(
-                    'signed_day[+]' => 1,
+                    'keep_signin_day[+]' => 1,
                 ),
                 array(
                     'user_id' => $user_id,
@@ -164,7 +164,7 @@ class Task_model extends Kotori_Model
         } else {
             $this->db->update('user_record',
                 array(
-                    'signed_day' => 1,
+                    'keep_signin_day' => 1,
                 ),
                 array(
                     'user_id' => $user_id,

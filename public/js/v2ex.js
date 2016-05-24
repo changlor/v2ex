@@ -56,7 +56,7 @@ function replyOne(username){
 function thankReply(replyId, token) {
     $.post('/thank/reply/' + replyId + "?t=" + token, function() {
         $('#thank_area_' + replyId).addClass("thanked").html("感谢已发送");
-        refreshMoney();
+        //refreshMoney();
     });
 }
 
@@ -64,7 +64,7 @@ function thankReply(replyId, token) {
 function thankTopic(topicId, token) {
     $.post('/thank/topic/' + topicId + "?t=" + token, function(data) {
         $('#topic_thank').html('<span class="f11 gray" style="text-shadow: 0px 1px 0px #fff;">感谢已发送</span>');
-        refreshMoney();
+        //refreshMoney();
     });
 }
 

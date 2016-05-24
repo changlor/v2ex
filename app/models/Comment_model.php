@@ -60,7 +60,7 @@ class Comment_model extends Kotori_Model
                 '[><]user' => array('user_id' => 'id'),
             ),
             array(
-                'comment.id',
+                'comment.id(comment_id)',
                 'comment.user_id',
                 'comment.content',
                 'comment.created_at',
@@ -96,5 +96,21 @@ class Comment_model extends Kotori_Model
             $event = 'undefined';
         }
         return eventGenerate('comment', $event, $content);
+    }
+
+    public function getCommentInfo($comment_id)
+    {
+        $comment_info = $this->db->select('comment',
+            array(
+                '[><]topic' => array('topic_id' => 'id'),
+            ),
+            array(
+                'topic.title(topic_title)',
+            ),
+            array(
+                'comment.id' => $comment_id,
+            )
+        );
+        return $comment_info[0];
     }
 }

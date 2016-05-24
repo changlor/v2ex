@@ -109,8 +109,19 @@ class Topic_model extends Kotori_Model
         );
     }
 
-    public function getTopicInfo($topic_id = '')
+    public function getTopicInfo($topic_id = '', $type = '')
     {
+        if ($topic_id != '' && $type == 'simplified') {
+            $topic_info = $this->db->select('topic',
+                array(
+                    'title',
+                ),
+                array(
+                    'id' => $topic_id,
+                )
+            );
+            return $topic_info[0];
+        }
         if ($topic_id != '') {
             $topic_info = $this->db->select('topic',
                 array(
@@ -126,7 +137,7 @@ class Topic_model extends Kotori_Model
                     'author',
                 ),
                 array(
-                    'topic.id' => $topic_id,
+                    'id' => $topic_id,
                 )
             );
             return $topic_info[0];
@@ -282,5 +293,23 @@ class Topic_model extends Kotori_Model
             $event = 'undefined';
         }
         return eventGenerate('topic', $event, $topic_id);
+    }
+
+    public function getAuthorInfo($topic_id)
+    {
+        $author_info = $this->db->select('topic',
+            array(
+                '[><]user' => array('topic.user_id' => 'id'),
+                '[><]user_record' => array('user.id' => 'user_id'),
+            ),
+            array(
+                'user.id(user_id)',
+                'user_record.coin',
+            ),
+            array(
+                'topic.id' => $topic_id,
+            )
+        );
+        return $author_info[0];
     }
 }

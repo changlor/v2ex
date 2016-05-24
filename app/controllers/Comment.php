@@ -14,7 +14,7 @@ class Comment extends Base
             $user_id = $this->uid;
             $handler['topic'] = $this->model->Topic->validateTopicId($topic_id);
             $handler['comment'] = $this->model->Comment->validateComment($topic_id, $user_id, $content);
-             $handler['coin'] = $this->model->User->validateUserCoin($this->rightBarInfo['user_record']['coin'], $user_id);
+            $handler['coin'] = $this->model->User->validateUserCoin($this->rightBarInfo['user_record']['coin'], $user_id);
             $isPass = false;
             foreach ($handler as $key => $value) {
                 if ($value['msg'] != 'pass') {
@@ -65,11 +65,21 @@ class Comment extends Base
                 $updateInfo = array('comment_count[+]' => 1);
                 $this->model->User->updateUserRecord($updateInfo, $user_id);
                 $insert_comment_count = $this->model->Comment->addComment($comment);
+                //创建回复用户的消费
                 $consunmption['event_coin'] = -5;
                 $consunmption['coin'] = $this->rightBarInfo['user_record']['coin'] + $consunmption['event_coin'];
                 $consunmption['user_id'] = $this->uid;
                 $consunmption['about'] = '创建了长度为' . count($comment['content']) . '个字符的回复' . ' › ' . '%comment' . $comment['content'] . '%';
                 $this->model->Consumption->commentCost($consunmption);
+                //创建回复主题用户的收益
+                $topic_info = $this->model->Topic->getTopicInfo($topic_id, 'simplified');
+                $author_info = $this->model->Topic->getAuthorInfo($topic_id);
+                $username = rcookie('NA');
+                $profit['event_coin'] = 5;
+                $profit['coin'] = $author_info['coin'] + $profit['event_coin'];
+                $profit['user_id'] = $author_info['user_id'];
+                $profit['about'] = '收到 %username' . $username . '% 的回复 › ' . $topic_info['title'];
+                $this->model->Profit->getCommentProfit($profit);
                 $url = $this->route->url('t/' . $topic_id . '#reply' . $insert_comment_count);
                 $this->response->redirect($url, true);
             } else {

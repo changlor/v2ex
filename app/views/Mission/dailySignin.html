@@ -28,13 +28,13 @@
                 <div class="sep20"></div>
                 <div class="box">
                     <div class="cell"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> 日常任务</div>
-                    <?php if ($if_undo_daily_registration_task): ?>
+                    <?php if ($is_undo_daily_signin_task): ?>
                     <div class="cell">
                         <h1>每日登录奖励 <?=date('Ymd');?></h1>
                         <input type="button" class="super normal button" value="领取 X 铜币" onclick="location.href = '/mission/daily/redeem';">
                     </div>
                     <?php else: ?>
-                    <?php if ($first_registration): ?>
+                    <?php if ($is_done_signin): ?>
                     <div class="message" onclick="$(this).slideUp('fast');">已成功领取每日登录奖励</div>
                     <?php endif;?>
                     <div class="cell">
@@ -43,7 +43,7 @@
                         <input type="button" class="super normal button" value="查看我的账户余额" onclick="location.href = '/balance';">
                     </div>
                     <?php endif;?>
-                    <div class="cell">已连续登录 <?=$signed_day;?> 天</div>
+                    <div class="cell">已连续登录 <?=$keep_signin_day;?> 天</div>
                 </div>
             </div>
         </div>

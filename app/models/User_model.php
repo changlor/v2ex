@@ -265,4 +265,17 @@ class User_model extends Kotori_Model
             )
         );
     }
+
+    public function getUserCoin($user_id)
+    {
+        $coin = $this->db->select('user_record',
+            array(
+                'coin',
+            ),
+            array(
+                'user_id' => $user_id,
+            )
+        );
+        return $coin[0]['coin'];
+    }
 }
