@@ -194,11 +194,23 @@ class Topic_model extends Kotori_Model
         return $topic_id[0]['id'];
     }
 
-    public function validateTopic($field, $value)
+    public function validateTopic($field, $value, $topic_id = '')
     {
-        return $this->db->has('topic',
-            array($field => $value)
-        );
+        if ($field == 'id') {
+            return $this->db->has('topic',
+                array($field => $value)
+            );
+        }
+        if ($topic_id != '') {
+            return $this->db->has('topic',
+                array(
+                    'AND' => array(
+                        $field => $value,
+                        'id' => $topic_id,
+                    ),
+                )
+            );
+        }
     }
 
     public function validateTitle($title)

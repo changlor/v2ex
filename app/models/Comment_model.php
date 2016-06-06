@@ -98,19 +98,47 @@ class Comment_model extends Kotori_Model
         return eventGenerate('comment', $event, $content);
     }
 
-    public function getCommentInfo($comment_id)
+    public function validateExistComment($topic_id, $comment_id)
     {
-        $comment_info = $this->db->select('comment',
+        return $this->db->has('comment',
             array(
-                '[><]topic' => array('topic_id' => 'id'),
-            ),
-            array(
-                'topic.title(topic_title)',
-            ),
-            array(
-                'comment.id' => $comment_id,
+                'AND' => array(
+                    'topic_id' => $topic_id,
+                    'id' => $comment_id,
+                ),
             )
         );
+    }
+
+    public function getCommentInfo($comment_id, $type = '')
+    {
+        if ($type == 'user_info') {
+            $comment_info = $this->db->select('comment',
+                array(
+                    '[><]user' => array('user_id' => 'id'),
+                ),
+                array(
+                    'user.username',
+                    'comment.user_id',
+                ),
+                array(
+                    'comment.id' => $comment_id,
+                )
+            );
+        }
+        if ($type == 'topic_info') {
+            $comment_info = $this->db->select('comment',
+                array(
+                    '[><]topic' => array('topic_id' => 'id'),
+                ),
+                array(
+                    'topic.title(topic_title)',
+                ),
+                array(
+                    'comment.id' => $comment_id,
+                )
+            );
+        }
         return $comment_info[0];
     }
 }
