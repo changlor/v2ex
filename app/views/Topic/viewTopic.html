@@ -72,14 +72,22 @@
                         <a href="javascript:;" onclick="window.open('http://service.weibo.com/share/share.php?url=<?php echo $this->route->url('t/' . $topic['id']); ?>?r\u003D<?=rcookie('NA');?>&title=V2EX%20-%20<?=$topic['title'];?>', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');" class="tb">
                                 Weibo
                             </a> &nbsp;
+                        <?php if (rcookie('NA') != '' && rcookie('NA') != $topic['author']): ?>
                         <a href="javascript:;" onclick="if (confirm('确定不想再看到这个主题？')) { location.href = '/ignore/topic/248521?once=88529'; }" class="tb">
                                 忽略主题
                             </a> &nbsp;
+                        <?php endif;?>
+                        <?php if (rcookie('NA') && rcookie('NA') != $topic['author']): ?>
                         <div id="topic_thank">
+                            <?php if ($topic['id'] == $thank_record['topic']): ?>
+                            <span class="f11 gray" style="text-shadow: 0px 1px 0px #fff;">感谢已发送</span>
+                            <?php else: ?>
                             <a href="javascript:;" onclick="if (confirm('你确定要向本主题创建者发送谢意？')) { thankTopic('<?=$topic['author'];?>', '<?=$topic['id'];?>'); }" class="tb">
                                     感谢
                                 </a>
+                            <?php endif;?>
                         </div>
+                        <?php endif;?>
                     </div>
                 </div>
                 <div class="sep20">
@@ -140,12 +148,18 @@
                                     <td width="10" valign="top"></td>
                                     <td width="auto" valign="top" align="left">
                                         <div class="fr">
-                                            <div id="thank_area_<?=$value['comment_id'];?>" class="thank_area">
+                                        <?php if (rcookie('NA') != '' && rcookie('NA') != $value['username']): ?>
+                                            <div id="thank_area_<?=$value['comment_id'];?>" class="thank_area <?php echo (in_array($value['comment_id'], $thank_record['comment'])) ? 'thanked' : '' ?>">
+                                            <?php if (in_array($value['comment_id'], $thank_record['comment'])): ?>
+                                                感谢已发射
+                                            <?php else: ?>
                                                 <a href="javascript:;" onclick="if (confirm('确认要不再显示来自 @<?=$value['username'];?> 的这条回复？')) { ignoreReply(2445799, '95308'); }" class="thank" style="color: #ccc;">隐藏</a> &nbsp; &nbsp; &nbsp;
                                                 <a href="javascript:;" onclick="if (confirm('确认花费 10 个铜币向 @<?=$value['username'];?> 的这条回复发送感谢？')) { thankReply('<?=$value['comment_id'];?>', '<?=$topic['id'];?>'); }" class="thank">
                                                         感谢回复者
                                                     </a>
+                                            <?php endif;?>
                                             </div>
+                                        <?php endif;?>
                                             &nbsp;
                                             <a href="javascript:;" onclick="replyOne('<?=$value['username'];?>');"><img src="<?php echo PUBLIC_DIR; ?>/img/reply.png" align="absmiddle" border="0" alt="Reply"></a> &nbsp;&nbsp;
                                             <span class="no"><?=$value['position'];?></span>

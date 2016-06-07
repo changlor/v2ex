@@ -27,6 +27,12 @@ class Profit extends Base
             $handler['describe'] = '你无法感谢自己的回复';
             $this->response->throwJson($handler);
         }
+        if ($this->model->Consumption->ifThankComment($comment_id, $this->uid, $comment_user_id)) {
+            $handler['status'] = 'error';
+            $handler['event'] = 'repeat';
+            $handler['describe'] = '你已经感谢过了，请不要重复感谢';
+            $this->response->throwJson($handler);
+        }
         if ($thank_user_coin < 10) {
             $handler['status'] = 'error';
             $handler['event'] = 'lack';
@@ -36,16 +42,19 @@ class Profit extends Base
         if ($this->request->isAjax()) {
             $coin = $this->model->User->getUserCoin($comment_user_id);
             $topic_info = $this->model->Topic->getTopicInfo($topic_id, 'simplified');
+            $deal['deal_id'] = $comment_id;
             $profit['user_id'] = $comment_user_id;
             $profit['event_coin'] = 10;
             $profit['coin'] = $coin + $profit['event_coin'];
             $profit['about'] = '%username' . $thank_user_name . '感谢你在 %title' . $topic_info['title'] . '% 的回复';
-            $this->model->Profit->getThankReplyProfit($profit);
+            $deal['user_id'] = $this->uid;
+            $this->model->Profit->getThankReplyProfit($profit, $deal);
             $consunmption['event_coin'] = -10;
             $consunmption['coin'] = $thank_user_coin + $consunmption['event_coin'];
             $consunmption['user_id'] = $this->uid;
             $consunmption['about'] = '感谢' . $comment_user_name . '的回复' . ' › ' . '%title' . $topic_info['title'] . '%';
-            $this->model->Consumption->thankCommentCost($consunmption);
+            $deal['user_id'] = $comment_user_id;
+            $this->model->Consumption->thankCommentCost($consunmption, $deal);
             $handler['status'] = 'success';
             $handler['event'] = 'pass';
             $handler['describe'] = '感谢已发送';
@@ -81,6 +90,12 @@ class Profit extends Base
             $handler['describe'] = '你无法感谢自己的主题';
             $this->response->throwJson($handler);
         }
+        if ($this->model->Consumption->ifThankTopic($topic_id, $this->uid, $author_id)) {
+            $handler['status'] = 'error';
+            $handler['event'] = 'repeat';
+            $handler['describe'] = '你已经感谢过了，请不要重复感谢';
+            $this->response->throwJson($handler);
+        }
         if ($thank_user_coin < 10) {
             $handler['status'] = 'error';
             $handler['event'] = 'lack';
@@ -90,16 +105,19 @@ class Profit extends Base
         if ($this->request->isAjax()) {
             $coin = $this->model->User->getUserCoin($author_id);
             $topic_info = $this->model->Topic->getTopicInfo($topic_id, 'simplified');
+            $deal['deal_id'] = $topic_id;
             $profit['user_id'] = $author_id;
             $profit['event_coin'] = 10;
             $profit['coin'] = $coin + $profit['event_coin'];
             $profit['about'] = '%username' . $thank_user_name . '%感谢你发布的 ' . $topic_info['title'] . ' 主题';
-            $this->model->Profit->getThankTopicProfit($profit);
+            $deal['user_id'] = $this->uid;
+            $this->model->Profit->getThankTopicProfit($profit, $deal);
             $consunmption['event_coin'] = -10;
             $consunmption['coin'] = $this->model->User->getUserCoin($this->uid) + $consunmption['event_coin'];
             $consunmption['user_id'] = $this->uid;
             $consunmption['about'] = '感谢' . $author . '的主题' . ' › ' . '%title' . $topic_info['title'] . '%';
-            $this->model->Consumption->thankTopicCost($consunmption);
+            $deal['user_id'] = $author_id;
+            $this->model->Consumption->thankTopicCost($consunmption, $deal);
             $handler['status'] = 'success';
             $handler['event'] = 'pass';
             $handler['describe'] = '感谢已发送';

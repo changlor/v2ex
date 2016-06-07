@@ -278,4 +278,58 @@ class User_model extends Kotori_Model
         );
         return $coin[0]['coin'];
     }
+
+    public function getUserThankRecord($user_id, $topic_id = '')
+    {
+        if ($topic_id != '') {
+            $comment_thank_record = $this->db->select('cash_flow',
+                array(
+                    '[><]comment' => array('deal_id' => 'id'),
+                ),
+                array(
+                    'cash_flow.deal_id',
+                ),
+                array(
+                    'AND' => array(
+                        'cash_flow.source_id' => $user_id,
+                        'cash_flow.type' => 'thank_comment_cost',
+                        'comment.topic_id' => $topic_id,
+                    ),
+                )
+            );
+            $topic_thank_record = $this->db->select('cash_flow',
+                array(
+                    'deal_id',
+                ),
+                array(
+                    'AND' => array(
+                        'source_id' => $user_id,
+                        'type' => 'thank_topic_cost',
+                        'deal_id' => $topic_id,
+                    ),
+                )
+            );
+            foreach ($comment_thank_record as $key => $value) {
+                $thank_record['comment'][] = $value['deal_id'];
+            }
+            $thank_record['topic'] = (isset($topic_thank_record[0]['deal_id'])) ? $topic_thank_record[0]['deal_id'] : '';
+            return $thank_record;
+        }
+        $thank_record['comment'] = $this->db->select('cash_flow',
+            array(
+                'deal_id',
+            ),
+            array(
+                'soucre_id' => $user_id,
+                'type' => 'thank_comment_cost',
+            )
+        );
+        $thank_record['topic'] = $this->db->has('cash_flow',
+            array(
+                'soucre_id' => $user_id,
+                'type' => 'thank_topic_cost',
+            )
+        );
+        return $thank_record;
+    }
 }

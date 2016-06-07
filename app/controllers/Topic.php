@@ -38,7 +38,8 @@ class Topic extends Base
             $page = new Page($topic['comment_count'], $pagination_rows);
             $page_link = $page->show($current_page);
             $this->rightBarInfo['rightBar'] = array('myInfo');
-            $this->view->assign('comment', $comment)->assign('page_rows', $page_rows)->assign('current_page', $current_page)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->assign('topic_tags', $topic_tags)->assign('page_link', $page_link)->display();
+            $thank_record = $this->model->User->getUserThankRecord($this->uid, $topic_id);
+            $this->view->assign('comment', $comment)->assign('thank_record', $thank_record)->assign('page_rows', $page_rows)->assign('current_page', $current_page)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->assign('topic_tags', $topic_tags)->assign('page_link', $page_link)->display();
         } else {
             $this->response->setStatus('404');
             $this->rightBarInfo['rightBar'] = array('myInfo');
@@ -113,7 +114,9 @@ class Topic extends Base
                 $consunmption['coin'] = $this->rightBarInfo['user_record']['coin'] + $consunmption['event_coin'];
                 $consunmption['user_id'] = $this->uid;
                 $consunmption['about'] = '创建了长度为' . count($topic['content']) . '个字符的主题' . ' › ' . '%title' . $topic['title'] . '%';
-                $this->model->Consumption->topicCost($consunmption);
+                $deal['user_id'] = 0;
+                $deal['deal_id'] = $insert_topic_id;
+                $this->model->Consumption->topicCost($consunmption, $deal);
                 $url = $this->route->url('t/' . $insert_topic_id);
                 $this->response->redirect($url, true);
             } else {
