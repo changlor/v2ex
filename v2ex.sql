@@ -17,6 +17,19 @@ CREATE TABLE `auth` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `cash_flow`;
+CREATE TABLE `cash_flow` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` int(10) unsigned NOT NULL,
+  `target_id` mediumint(8) unsigned NOT NULL,
+  `source_id` mediumint(8) unsigned NOT NULL,
+  `coin` mediumint(8) NOT NULL,
+  `deal_id` int(10) unsigned NOT NULL,
+  `type` varchar(24) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `id` int(10) unsigned NOT NULL,
@@ -95,8 +108,9 @@ CREATE TABLE `node` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `node` (`id`, `created_at`, `updated_at`, `topic_count`, `favorite_count`, `name`, `ename`, `about`) VALUES
-(1, 0,  0,  0,  0,  '一锅粥',  'mass', '散落凡间的主题'),
-(2, 0,  0,  0,  0,  '随感', 'feel', '星星点点的夜空');
+(1, 0,  0,  5,  0,  '一锅粥',  'mass', '散落凡间的主题'),
+(2, 0,  0,  0,  0,  '随感', 'feel', '星星点点的夜空'),
+(3, 0,  0,  0,  0,  'php',  'php',  'php是世界上最好的语言');
 
 DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice` (
@@ -155,7 +169,8 @@ CREATE TABLE `tab` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `tab` (`id`, `name`, `ename`) VALUES
-(1, 'the king of chaos',  'chaos');
+(1, 'the king of chaos',  'chaos'),
+(2, '程序员',  'programmer');
 
 DROP TABLE IF EXISTS `tab_node`;
 CREATE TABLE `tab_node` (
@@ -168,7 +183,8 @@ CREATE TABLE `tab_node` (
 
 INSERT INTO `tab_node` (`id`, `node_id`, `tab_id`) VALUES
 (1, 1,  '1'),
-(2, 2,  '1');
+(2, 2,  '1'),
+(3, 3,  '2');
 
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag` (
@@ -191,6 +207,23 @@ CREATE TABLE `tag_topic` (
   UNIQUE KEY `tag_topic` (`tag_id`,`topic_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
+DROP TABLE IF EXISTS `task`;
+CREATE TABLE `task` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` int(10) unsigned NOT NULL,
+  `type` varchar(12) NOT NULL,
+  `ename` varchar(12) NOT NULL,
+  `coin` int(10) unsigned NOT NULL,
+  `about` varchar(60) NOT NULL,
+  `role` varchar(12) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_created_at_type_coid_about` (`id`,`created_at`,`type`,`coin`,`about`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `task` (`id`, `created_at`, `type`, `ename`, `coin`, `about`, `role`) VALUES
+(1, 0,  '初始资本', 'base', 2000, '获得初始资本 2000 铜币', 'default'),
+(2, 0,  '每日登录奖励', 'signin', 30, '每日登录奖励', 'daily');
 
 DROP TABLE IF EXISTS `token`;
 CREATE TABLE `token` (
@@ -256,8 +289,6 @@ CREATE TABLE `type` (
   KEY `ename_id` (`ename`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `type` (`id`, `ename`) VALUES
-(1, 'reply');
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -278,12 +309,27 @@ CREATE TABLE `user` (
   KEY `username_id` (`username`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `user` (`id`, `created_at`, `updated_at`, `status`, `role`, `username`, `email`, `password_hash`, `auth_key`, `avatar`) VALUES
-(1, 1459584513, 0,  8,  0,  'changle',  '958142428@qq.com', '$T$6Tb823kHdab94858c2aeee519bc33777489632f81', '6Tb823kHd',  'avatar/0_{size}.png');
+
+DROP TABLE IF EXISTS `user_asset`;
+CREATE TABLE `user_asset` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` int(10) unsigned NOT NULL,
+  `coin` int(10) unsigned NOT NULL,
+  `user_id` mediumint(8) unsigned NOT NULL,
+  `event_id` int(10) unsigned NOT NULL,
+  `type` varchar(12) NOT NULL,
+  `event_type` varchar(12) NOT NULL,
+  `about` varchar(60) NOT NULL,
+  `event_coin` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_user_id_created_at` (`id`,`user_id`,`created_at`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `user_record`;
 CREATE TABLE `user_record` (
   `user_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `coin` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `last_login_at` int(10) unsigned NOT NULL,
   `last_login_ip` int(10) unsigned NOT NULL,
   `reg_ip` int(10) unsigned NOT NULL,
@@ -297,10 +343,10 @@ CREATE TABLE `user_record` (
   `about` varchar(255) NOT NULL DEFAULT '',
   `notice_count` smallint(6) unsigned NOT NULL DEFAULT '0',
   `unread_notice_count` smallint(6) unsigned NOT NULL DEFAULT '0',
+  `keep_signin_day` smallint(6) unsigned NOT NULL,
+  `last_signin_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `user_record` (`user_id`, `last_login_at`, `last_login_ip`, `reg_ip`, `topic_count`, `comment_count`, `favorite_count`, `favorite_node_count`, `favorite_topic_count`, `favorite_user_count`, `website`, `about`, `notice_count`, `unread_notice_count`) VALUES
-(1, 0,  2130706433, 0,  0,  0,  0,  0,  0,  0,  '', '', 0,  0);
 
--- 2016-04-02 08:13:01
+-- 2016-06-07 08:16:20
