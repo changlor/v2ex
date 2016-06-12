@@ -108,7 +108,7 @@ CREATE TABLE `node` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `node` (`id`, `created_at`, `updated_at`, `topic_count`, `favorite_count`, `name`, `ename`, `about`) VALUES
-(1, 0,  0,  5,  0,  '一锅粥',  'mass', '散落凡间的主题'),
+(1, 0,  0,  0,  0,  '一锅粥',  'mass', '散落凡间的主题'),
 (2, 0,  0,  0,  0,  '随感', 'feel', '星星点点的夜空'),
 (3, 0,  0,  0,  0,  'php',  'php',  'php是世界上最好的语言');
 
@@ -349,4 +349,18 @@ CREATE TABLE `user_record` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
--- 2016-06-07 08:16:20
+DROP TABLE IF EXISTS `user_setting`;
+CREATE TABLE `user_setting` (
+  `user_id` int(11) unsigned NOT NULL,
+  `email` char(60) NOT NULL,
+  `website` char(90) NOT NULL,
+  `company` char(90) NOT NULL,
+  `job` char(30) NOT NULL,
+  `location` char(60) NOT NULL,
+  `signature` char(60) NOT NULL,
+  `introduction` char(200) NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- 2016-06-12 08:48:23
