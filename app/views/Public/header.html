@@ -22,7 +22,7 @@
                         <?php
                             $menu = array(
                                 '首页' => $this->route->url('/'),
-                                '老金' => 'javascript:;',
+                                rcookie('NA') => $this->route->url('member/' . rcookie('NA')),
                                 '工作空间' => 'javascript:;',
                                 '记事本' => 'javascript:;', 
                                 '时间轴' => 'javascript:;', 

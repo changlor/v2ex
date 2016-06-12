@@ -125,9 +125,17 @@ class User_model extends Kotori_Model
             $user
         );
     }
+
     public function createUserRecord($user_id)
     {
         return $this->db->insert('user_record',
+            array('user_id' => $user_id)
+        );
+    }
+
+    public function createUserSetting($user_id)
+    {
+        return $this->db->insert('user_setting',
             array('user_id' => $user_id)
         );
     }
@@ -203,7 +211,7 @@ class User_model extends Kotori_Model
         return eventGenerate('username', $event, $username);
     }
 
-    public function validateEmail($email)
+    public function validateEmail($email, $allowExist = false)
     {
         $event = 'legal';
         //邮箱格式错误
@@ -216,7 +224,7 @@ class User_model extends Kotori_Model
             array(
                 'email' => $email,
             )
-        )) {
+        ) && !$allowExist) {
             $event = 'exist';
         }
         //未输入邮箱
@@ -331,5 +339,105 @@ class User_model extends Kotori_Model
             )
         );
         return $thank_record;
+    }
+
+    public function validateWebsite($website)
+    {
+        $event = 'legal';
+        $pattern = '/^((https?|ftp|news):\/\/)?([a-z]([a-z0-9\-]*[\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$/i';
+        if (!preg_match($pattern, $website)) {
+            $event = 'illegal';
+        }
+        if ($website == '') {
+            $event = 'undefined';
+        }
+        return eventGenerate('website', $event);
+    }
+
+    public function validateCompany($company)
+    {
+        $event = 'legal';
+        if (strlen($company) > 90) {
+            $event = 'long';
+        }
+        if ($company == '') {
+            $event = 'undefined';
+        }
+        return eventGenerate('company', $event);
+    }
+
+    public function validateJob($job)
+    {
+        $event = 'legal';
+        if (strlen($job) > 30) {
+            $event = 'long';
+        }
+        if ($job == '') {
+            $event = 'undefined';
+        }
+        return eventGenerate('job', $event);
+    }
+
+    public function validateLocation($location)
+    {
+        $event = 'legal';
+        if (strlen($location) > 60) {
+            $event = 'long';
+        }
+        if ($location == '') {
+            $event = 'undefined';
+        }
+        return eventGenerate('location', $event);
+    }
+
+    public function validateSignature($signature)
+    {
+        $event = 'legal';
+        if (strlen($signature) > 60) {
+            $event = 'long';
+        }
+        if ($signature == '') {
+            $event = 'undefined';
+        }
+        return eventGenerate('signature', $event);
+    }
+
+    public function validateIntroduction($introduction)
+    {
+        $event = 'legal';
+        if (strlen($introduction) > 60) {
+            $event = 'long';
+        }
+        if ($introduction == '') {
+            $event = 'undefined';
+        }
+        return eventGenerate('introduction', $event);
+    }
+
+    public function updateUserSetting($updateInfo, $uid)
+    {
+        return $this->db->update('user_setting',
+            $updateInfo,
+            array('user_id' => $uid)
+        );
+    }
+
+    public function getUserSetting($user_id)
+    {
+        $user_setting = $this->db->select('user_setting',
+            array(
+                'email',
+                'website',
+                'company',
+                'job',
+                'location',
+                'signature',
+                'introduction',
+            ),
+            array(
+                'user_id' => $user_id,
+            )
+        );
+        return $user_setting[0];
     }
 }

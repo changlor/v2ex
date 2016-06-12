@@ -46,6 +46,36 @@ function custom_error($level, $event, $value = '')
         'legal' => 'pass',
         'long' => '主题内容不能超过 2000 个字符',
     );
+    $errors['website'] = array(
+        'legal' => 'pass',
+        'illegal' => '你输入的网址格式不正确',
+        'undefined' => 'pass',
+    );
+    $errors['company'] = array(
+        'legal' => 'pass',
+        'long' => '你输入的公司名过长，请精简',
+        'undefined' => 'pass',
+    );
+    $errors['job'] = array(
+        'legal' => 'pass',
+        'long' => '你输入的职位名过长，请精简',
+        'undefined' => 'pass',
+    );
+    $errors['location'] = array(
+        'legal' => 'pass',
+        'long' => '你输入的地址过长，请精简',
+        'undefined' => 'pass',
+    );
+    $errors['signature'] = array(
+        'legal' => 'pass',
+        'long' => '你输入的签名过长，请精简',
+        'undefined' => 'pass',
+    );
+    $errors['introduction'] = array(
+        'legal' => 'pass',
+        'long' => '你输入的简介过长，请精简',
+        'undefined' => 'pass',
+    );
     return $errors[$level][$event];
 }
 function rcookie($key = '', $value = '', $expire = 36000, $path = '/')

@@ -11,6 +11,10 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
+    'settings' => array(
+        'get' => 'User/setting',
+        'post' => 'User/userSetting',
+    ),
     'thank/reply/([^/]+)' => 'Profit/thankReply/$1',
     'thank/topic/([^/]+)' => 'Profit/thankTopic/$1',
     'mission/daily' => 'Task/dailySigninTask',

@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="private" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/neo.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/select2.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="header"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> 设置</div>
+                    <?php if (isset($is_done_setting) && $is_done_setting): ?>
+                        <div class="message" onclick="$(this).slideUp('fast');">设置已成功保存</div>
+                    <?php endif;?>
+                    <?php if (isset($problem)): ?>
+                        <?=$problem;?>
+                    <?php endif;?>
+                    <div class="inner">
+                        <form method="post" action="/settings">
+                            <table cellpadding="5" cellspacing="0" border="0" width="100%">
+                                <tr>
+                                    <td width="120" align="right">用户名</td>
+                                    <td width="auto" align="left"><?=rcookie('NA');?></td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">电子邮件</td>
+                                    <td width="auto" align="left">
+                                        <input type="email" class="sl" name="email" value="<?=$user_setting['email'];?>" autocomplete="off" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">个人网站</td>
+                                    <td width="auto" align="left">
+                                        <input maxlength="90" type="text" class="sl" name="website" value="<?=$user_setting['website'];?>" autocomplete="off" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">所在公司</td>
+                                    <td width="auto" align="left">
+                                        <input type="text" class="sl" name="company" value="<?=$user_setting['company'];?>" maxlength="90" autocomplete="off" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">工作职位</td>
+                                    <td width="auto" align="left">
+                                        <input type="text" class="sl" name="company_title" value="<?=$user_setting['job'];?>" maxlength="30" autocomplete="off" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">所在地</td>
+                                    <td width="auto" align="left">
+                                        <input type="text" maxlength="60" class="sl" name="location" value="<?=$user_setting['location'];?>" autocomplete="off" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">签名</td>
+                                    <td width="auto" align="left">
+                                        <input type="text" maxlength="60" class="sl" name="tagline" value="<?=$user_setting['signature'];?>" autocomplete="off" />
+                                    </td>
+                                </tr>
+                                <?php $this->need('Public/friendSite');?>
+                                <tr>
+                                    <td width="120" align="right">个人简介</td>
+                                    <td width="auto" align="left">
+                                        <textarea maxlength="200" class="ml" name="bio"><?=$user_setting['introduction'];?></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">谁可以看我的状态更新</td>
+                                    <td width="auto" align="left">
+                                        <select name="who_can_view_my_t">
+                                            <option value="0" selected="selected">所有人</option>
+                                            <option value="1">已登录用户</option>
+                                            <option value="2">只有我自己</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">社区财富排行榜</td>
+                                    <td width="auto" align="left">
+                                        <select name="list_rich">
+                                            <option value="1">参与</option>
+                                            <option value="0" selected="selected">不参与</option>
+                                        </select>&nbsp; &nbsp; <a href="/top/rich" target="_blank">查看当前排行榜 ›</a></td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right"></td>
+                                    <td width="auto" align="left"><span class="gray">参与此排行榜将会公开你的个人资产状况。默认是不参与的。</span></td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">显示余额</td>
+                                    <td width="auto" align="left">
+                                        <select name="show_balance">
+                                            <option value="1" selected="selected">显示</option>
+                                            <option value="0">不显示</option>
+                                        </select>&nbsp; &nbsp; <a href="/balance" target="_blank">查看我的当前余额 ›</a></td>
+                                </tr>
+                                <!--
+            <tr>
+                <td width="120" align="right">显示首页顶部</td>
+                <td width="auto" align="left"><select name="show_home_top">
+
+                    <option value="1" selected="selected">显示</option>
+                    <option value="0">不显示</option>
+
+                </select></td>
+            </tr>
+            <tr>
+                <td width="120" align="right">显示首页节点导航</td>
+                <td width="auto" align="left"><select name="show_home_categories">
+
+                    <option value="1" selected="selected">显示</option>
+                    <option value="0">不显示</option>
+
+                </select></td>
+            </tr>-->
+                                <tr>
+                                    <td width="120" align="right">使用高精度头像</td>
+                                    <td width="auto" align="left">
+                                        <select name="show_hi_dpi">
+                                            <option value="1">使用</option>
+                                            <option value="0" selected="selected">不使用</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">在首页显示收藏节点</td>
+                                    <td width="auto" align="left">
+                                        <select name="show_my_nodes">
+                                            <option value="1" selected="selected">显示</option>
+                                            <option value="0">不显示</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">自定义首页跳转位置</td>
+                                    <td width="auto" align="left">
+                                        <input type="text" class="sl" name="my_home" value="" autocomplete="off" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">使用自定义 CSS</td>
+                                    <td width="auto" align="left">
+                                        <select name="use_my_css">
+                                            <option value="1">使用</option>
+                                            <option value="0" selected="selected">不使用</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">自定义 CSS</td>
+                                    <td width="auto" align="left">
+                                        <textarea class="ml" name="my_css"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">
+                                        <li class="fa fa-unlock"></li>&nbsp; 浏览器连接方式</td>
+                                    <td width="auto" align="left">
+                                        <select name="always_ssl">
+                                            <option value="1">永远使用 TLS</option>
+                                            <option value="0" selected="selected">默认</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right"></td>
+                                    <td width="auto" align="left"><span class="gray">如果开启永远使用 TLS，则在返回首页时，V2EX 会向浏览器发送 max-age 为一周的 HSTS 头来提示浏览器使用 TLS 方式连接。推荐使用最新版本的 Chrome 或者 Firefox 访问。</span></td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">偏好正文英文字体</td>
+                                    <?php $this->need('Public/fonts');?>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">时区</td>
+                                    <?php $this->need('Public/timeZone');?>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right"></td>
+                                    <td width="auto" align="left">
+                                        <input type="hidden" value="1" name="show_ads" />
+                                        <input type="hidden" value="89517" name="once" />
+                                        <input type="submit" class="super normal button" value="保存设置" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <!--
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="cell">
+                        <div class="fr"><span class="gray">增强版个人主页</span></div>My Profiles</div>
+                    <div class="inner">
+                        如果你是专业的软件开发者，那么非常推荐你使用 V2EX 的 Developer Profile 功能来更好地向整个互联网展示你的才华，从而获得更多关注和机会。
+                        <div class="sep20"></div>
+                        <input type="button" class="super normal button" value="填写我的 Developer Profile" onclick="location.href = '/profile/developer';" />
+                    </div>
+                </div>
+                -->
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="cell">
+                        <div class="fr"><a href="#;" onclick="if (confirm('确定要取消当前的头像？')) { location.href = '/settings/avatar/unset?once=89517'; }">取消当前头像</a></div>头像上传</div>
+                    <div class="cell">
+                        <table cellpadding="5" cellspacing="0" border="0" width="100%">
+                            <tr>
+                                <td width="120" align="right">当前头像</td>
+                                <td width="auto" align="left"><img src="<?php echo PUBLIC_DIR; ?>/img/default_big.jpeg" class="avatar" border="0" align="default" /> &nbsp; <img src="<?php echo PUBLIC_DIR; ?>/img/default_middle.jpeg" class="avatar" border="0" align="default" /> &nbsp; <img src="<?php echo PUBLIC_DIR; ?>/img/default_small.jpeg" class="avatar" border="0" align="default" /></td>
+                            </tr>
+                            <tr>
+                                <td width="120" align="right"></td>
+                                <td width="auto" align="left">
+                                    <input type="hidden" value="89517" name="once" />
+                                    <input type="button" onclick="location.href = '/settings/avatar';" class="super normal button" value="上传新头像" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="inner">
+                        关于头像的规则
+                        <ul>
+                            <li>V2EX 禁止使用任何低俗或者敏感图片作为头像</li>
+                            <li>如果你是男的，请不要用女人的照片作为头像，这样可能会对其他会员产生误导</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="cell">
+                        <div class="fr"><span class="fade">如果你不打算更改密码，请留空以下区域</span></div>更改密码</div>
+                    <div class="inner">
+                        <form method="post" action="/settings/password">
+                            <table cellpadding="5" cellspacing="0" border="0" width="100%">
+                                <tr>
+                                    <td width="120" align="right">当前密码</td>
+                                    <td width="auto" align="left">
+                                        <input type="password" class="sl" name="password_current" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">新密码</td>
+                                    <td width="auto" align="left">
+                                        <input type="password" class="sl" name="password_new" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right">再次输入新密码</td>
+                                    <td width="auto" align="left">
+                                        <input type="password" class="sl" name="password_again" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120" align="right"></td>
+                                    <td width="auto" align="left">
+                                        <input type="hidden" value="89517" name="once" />
+                                        <input type="submit" class="super normal button" value="更改密码" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="c">
+        </div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer');?>
+    <script>
+    var LOCAL = "<?php echo $this->route->url(); ?>";
+    </script>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/codemirror.js"></script>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/markdown.js"></script>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/select2.min.js"></script>
+    <script type="text/javascript" src="<?php echo PUBLIC_DIR; ?>/js/v2ex.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#timezones").select2();
+        $("#fonts").select2();
+    });
+    </script>
+</body>
+
+</html>

@@ -106,6 +106,10 @@ class User extends Base
                 $ip = new Ip($_SERVER['REMOTE_ADDR']);
                 $update_info = array('last_login_ip' => $ip->ip2int());
                 $this->model->User->updateUserRecord($update_info, $user_id);
+                $this->model->User->createUserSetting($user_id);
+                $update_info = array('email' => $email)
+                ;
+                $this->model->User->updateUserSetting($update_info, $user_id);
                 $url = $this->route->url('balance');
                 rcookie('NA', $username);
                 $this->response->redirect($url, true);
@@ -126,5 +130,65 @@ class User extends Base
         $this->view->assign('rightBarInfo', $this->rightBarInfo);
         $task = $this->model->User->getUserAsset($this->uid);
         $this->view->assign('task', $task)->display();
+    }
+
+    public function setting()
+    {
+        $user_setting = $this->model->User->getUserSetting($this->uid);
+        $is_done_setting = false;
+        if (isset($_SESSION['is_done_setting']) && $_SESSION['is_done_setting']) {
+            $is_done_setting = true;
+            unset($_SESSION['is_done_setting']);
+        }
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('is_done_setting', $is_done_setting)->assign('user_setting', $user_setting)->display();
+    }
+
+    public function userSetting()
+    {
+        $user_setting = $this->model->User->getUserSetting($this->uid);
+        $email = $this->request->input('post.email');
+        $website = $this->request->input('post.website');
+        $company = $this->request->input('post.company');
+        $job = $this->request->input('post.company_title');
+        $location = $this->request->input('post.location');
+        $signature = $this->request->input('post.tagline');
+        $introduction = $this->request->input('post.bio');
+        if ($user_setting['email'] != $email) {
+            $handler['email'] = $this->model->User->validateEmail($email);
+        }
+        $handler['website'] = $this->model->User->validateWebsite($website);
+        $handler['company'] = $this->model->User->validateCompany($company);
+        $handler['job'] = $this->model->User->validateJob($job);
+        $handler['location'] = $this->model->User->validateLocation($location);
+        $handler['signature'] = $this->model->User->validateSignature($signature);
+        $handler['introduction'] = $this->model->User->validateIntroduction($introduction);
+        $isPass = false;
+        foreach ($handler as $key => $value) {
+            if ($value['msg'] != 'pass') {
+                $isPass = false;
+                break;
+            }
+            $isPass = true;
+        }
+        if ($isPass) {
+            $update_info['email'] = $email;
+            $update_info['website'] = $website;
+            $update_info['company'] = $company;
+            $update_info['job'] = $job;
+            $update_info['location'] = $location;
+            $update_info['signature'] = $signature;
+            $update_info['introduction'] = $introduction;
+            $this->model->User->updateUserSetting($update_info, $this->uid);
+            $update_info = array('email' => $email);
+            $this->model->User->updateUserInfo($update_info, $this->uid);
+            $_SESSION['is_done_setting'] = true;
+            $url = $this->route->url('settings');
+            $this->response->redirect($url, true);
+        } else {
+            $problem = $this->model->Error->userSetting_error($handler);
+            $this->rightBarInfo['rightBar'] = array('myInfo');
+            $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('problem', $problem)->display('User/setting');
+        }
     }
 }

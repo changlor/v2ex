@@ -79,4 +79,18 @@ class Error_model extends Kotori_Model
         $problem .= '</div>';
         return $problem;
     }
+
+    public function userSetting_error($handler)
+    {
+        $problem = '<div class="problem">保存设置的过程中遇到一些问题：';
+        $problem .= '<ul>';
+        foreach ($handler as $key => $value) {
+            if ($value['msg'] != 'pass') {
+                $problem .= '<li>' . $value['msg'] . '</li>';
+            }
+        }
+        $problem .= '</ul>';
+        $problem .= '</div>';
+        return $problem;
+    }
 }
