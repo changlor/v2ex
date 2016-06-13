@@ -59,9 +59,9 @@ class User extends Base
                 $url = $this->route->url($referer);
                 rcookie('NA', $username);
                 $ip = new Ip($_SERVER['REMOTE_ADDR']);
-                $update_info = array('last_login_ip' => $ip->ip2int());
+                $update_user_record_info = array('last_login_ip' => $ip->ip2int());
                 $user_id = $this->model->User->getUserId('username', $username);
-                $this->model->User->updateUserRecord($update_info, $user_id);
+                $this->model->User->updateUserRecord($update_user_record_info, $user_id);
                 $this->response->redirect($url, true);
             } else {
                 $handler['password'] = eventGenerate('password', 'unmatch');
@@ -104,12 +104,12 @@ class User extends Base
                 $user_id = $this->model->User->getUserId('username', $username);
                 $this->model->User->createUserRecord($user_id);
                 $ip = new Ip($_SERVER['REMOTE_ADDR']);
-                $update_info = array('last_login_ip' => $ip->ip2int());
-                $this->model->User->updateUserRecord($update_info, $user_id);
+                $update_user_record_info = array('last_login_ip' => $ip->ip2int());
+                $this->model->User->updateUserRecord($update_user_record_info, $user_id);
                 $this->model->User->createUserSetting($user_id);
-                $update_info = array('email' => $email)
+                $update_user_setting_info = array('email' => $email)
                 ;
-                $this->model->User->updateUserSetting($update_info, $user_id);
+                $this->model->User->updateUserSetting($update_user_setting_info, $user_id);
                 $url = $this->route->url('balance');
                 rcookie('NA', $username);
                 $this->response->redirect($url, true);
@@ -172,16 +172,16 @@ class User extends Base
             $isPass = true;
         }
         if ($isPass) {
-            $update_info['email'] = $email;
-            $update_info['website'] = $website;
-            $update_info['company'] = $company;
-            $update_info['job'] = $job;
-            $update_info['location'] = $location;
-            $update_info['signature'] = $signature;
-            $update_info['introduction'] = $introduction;
-            $this->model->User->updateUserSetting($update_info, $this->uid);
-            $update_info = array('email' => $email);
-            $this->model->User->updateUserInfo($update_info, $this->uid);
+            $update_user_setting_info['email'] = $email;
+            $update_user_setting_info['website'] = $website;
+            $update_user_setting_info['company'] = $company;
+            $update_user_setting_info['job'] = $job;
+            $update_user_setting_info['location'] = $location;
+            $update_user_setting_info['signature'] = $signature;
+            $update_user_setting_info['introduction'] = $introduction;
+            $this->model->User->updateUserSetting($update_user_setting_info, $this->uid);
+            $update_user_info = array('email' => $email);
+            $this->model->User->updateUserInfo($update_user_info, $this->uid);
             $_SESSION['is_done_setting'] = true;
             $url = $this->route->url('settings');
             $this->response->redirect($url, true);

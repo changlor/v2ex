@@ -44,6 +44,11 @@
                                     <div class="fr">
                                     </div>
                                     <h1 style="margin-bottom: 5px;"><?=$username;?></h1>
+                                    <span class="bigger"><?=$user_setting['signature'];?></span>
+                                    <?php if (!empty($user_setting['company'])): ?>
+                                    <div class="sep10"></div>
+                                    <span><li class="fa fa-building"></li> &nbsp; <strong><?=$user_setting['company'];?></strong><?php echo empty($user_setting['job']) ? '' : ' /  ' . $user_setting['job']; ?></span>
+                                    <?php endif;?>
                                     <div class="sep10"></div>
                                     <span class="gray"><li class="fa fa-time"></li> &nbsp; V2EX 第 105350 号会员，加入于 2015-03-18 17:18:44 +08:00，今日活跃度排名 <a href="/top/dau">737</a></span>
                                 </td>
@@ -52,11 +57,23 @@
                         <div class="sep5"></div>
                     </div>
                     <div class="cell markdown_body">
+                        <?php if (!empty($user_setting['website'])): ?>
+                        <a href="http://v2ex.ml" class="social_label" target="_blank" rel="nofollow"><img src="<?php echo PUBLIC_DIR; ?>/img/social_home.png" width="24" alt="Website" align="absmiddle"> &nbsp;v2ex.ml</a>
+                        <?php endif;?>
+                        <?php if (!empty($user_setting['location'])): ?>
+                        <a href="http://www.google.com/maps?q=汕头" class="social_label" target="_blank" rel="nofollow"><img src="<?php echo PUBLIC_DIR; ?>/img/social_geo.png" width="24" alt="Geo" align="absmiddle"> &nbsp;汕头</a>
+                        <?php endif;?>
                     </div>
+                    <?php if (!empty($user_setting['introduction'])): ?>
+                    <div class="cell">
+                        <?=$user_setting['introduction'];?>
+                    </div>
+                    <?php endif;?>
                 </div>
                 <div class="sep20"></div>
                 <div class="box">
-                    <div class="cell_tabs"><div class="fl"><img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" width="24" style="border-radius: 24px; margin-top: -2px;" border="0" /></div>
+                    <div class="cell_tabs">
+                        <div class="fl"><img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" width="24" style="border-radius: 24px; margin-top: -2px;" border="0" /></div>
                         <a href="/member/<?=$username;?>" class="cell_tab_current">
                             <?=$username;?> 创建的所有主题</a><a href="/member/<?=$username;?>/qna" class="cell_tab">提问</a><a href="/member/<?=$username;?>/tech" class="cell_tab">技术话题</a><a href="/member/<?=$username;?>/play" class="cell_tab">好玩</a><a href="/member/<?=$username;?>/jobs" class="cell_tab">工作信息</a><a href="/member/<?=$username;?>/deals" class="cell_tab">交易信息</a><a href="/member/<?=$username;?>/city" class="cell_tab">城市相关</a></div>
                     <?php foreach ($recent_topics as $key => $value): ?>

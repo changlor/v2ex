@@ -440,4 +440,15 @@ class User_model extends Kotori_Model
         );
         return $user_setting[0];
     }
+
+    public function getUserSignature($uid)
+    {
+        $signature = $this->db->select('user_setting',
+            array('signature'),
+            array(
+                'user_id' => $uid,
+            )
+        );
+        return $signature[0]['signature'];
+    }
 }

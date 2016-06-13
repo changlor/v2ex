@@ -21,6 +21,8 @@ class Base extends Kotori_Controller
                 'previewTopic' => '%2F',
                 'addTopic' => 'new',
                 'insertComment' => '%2F',
+                'setting' => 'settings',
+                'userSetting' => '%2F',
             );
             foreach ($need_login_method as $key => $value) {
                 if (ACTION_NAME == $key) {
@@ -45,6 +47,7 @@ class Base extends Kotori_Controller
             $this->rightBarInfo['user_record'] = $this->model->User->getUserRecord($this->uid);
             $this->rightBarInfo['user_role'] = $this->model->User->getUserRole($this->uid);
             $this->rightBarInfo['daily_task'] = $this->model->Task->getDailyTask($this->uid);
+            $this->rightBarInfo['signature'] = $this->model->User->getUserSignature($this->uid);
         }
     }
 

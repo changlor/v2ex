@@ -26,7 +26,7 @@
                                 '工作空间' => 'javascript:;',
                                 '记事本' => 'javascript:;', 
                                 '时间轴' => 'javascript:;', 
-                                '设置' => 'javascript:;',
+                                '设置' => $this->route->url('settings'),
                             );
                             if (rcookie('NA') == '') {
                                 $menu = array(

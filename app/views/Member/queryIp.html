@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="private" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/codemirror.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/neo.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/select2.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="cell">
+                        <div class="fr">1 / 30</div><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> IP 地址查询</div>
+                    <div class="cell">
+                        请输入要查询的 IP 地址或域名
+                        <div class="sep10"></div>
+                        <form method="get" action="/ip">
+                            <input type="text" class="sl" name="ip" placeholder="请输入要查询的 IP 地址" autofocus="autofocus" value="<?=$ip;?>" />
+                            <div class="sep10"></div>
+                            <input type="submit" value="查询" class="super normal button" />
+                            <?php if ($ip_info < 0): ?>
+                            <span style="color: red">&nbsp;&nbsp;输入的域名无法解析</span>
+                            <?php endif;?>
+                        </form>
+                    </div>
+                    <?php if (is_array($ip_info) && !empty($ip)): ?>
+                    <div class="cell">
+                        <table cellpadding="5" cellspacing="0" border="0" width="100%" style="border: 1px solid #ccc; border-radius: 3px;">
+                            <tr>
+                                <td width="auto" style="border-bottom: 1px solid #ccc; background-color: #f5f5f5;"><strong>Range</strong></th>
+                                    <td width="150" style="border-bottom: 1px solid #ccc; background-color: #f5f5f5;" align="left"><strong>Country</strong></th>
+                                        <td width="140" style="border-bottom: 1px solid #ccc; background-color: #f5f5f5;" align="left"><strong>Region</strong></th>
+                                            <td width="100" style="border-bottom: 1px solid #ccc; background-color: #f5f5f5;" align="left"><strong>City</strong></th>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid #ccc;"></td>
+                                <td style="border-bottom: 1px solid #ccc;">
+                                    <?=$ip_info['country'];?>
+                                </td>
+                                <td style="border-bottom: 1px solid #ccc;"></td>
+                                <td style="border-bottom: 1px solid #ccc;">
+                                    <?=$ip_info['city'];?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="auto" style="border-bottom: 1px solid #ccc; background-color: #f5f5f5;"><strong>Postal Code</strong></th>
+                                    <td width="150" style="border-bottom: 1px solid #ccc; background-color: #f5f5f5;" align="left"><strong>Longitude</strong></th>
+                                        <td width="140" style="border-bottom: 1px solid #ccc; background-color: #f5f5f5;" align="left"><strong>Latitude</strong></th>
+                                            <td width="100" style="border-bottom: 1px solid #ccc; background-color: #f5f5f5;" align="left"><strong>Area Code</strong></th>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="inner">
+                        <strong>See also</strong>
+                        <div class="sep5"></div>
+                        <span class="chevron">›</span> <a href="http://bgp.he.net/ip/163.179.46.122" target="_blank">bgp.he.net/ip/163.179.46.122</a>
+                    </div>
+                    <?php endif;?>
+                </div>
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="cell">
+                        <span class="chevron">›</span> 查询我的当前 IP <a href="/ip?ip=<?=$this->request->getClientIp();?>"><?=$this->request->getClientIp();?></a>
+                    </div>
+                    <div class="cell">
+                        <span class="chevron">›</span> 我的浏览器字符串
+                        <?=$_SERVER["HTTP_USER_AGENT"];?>
+                    </div>
+                </div>
+                <div class="c"></div>
+                <div class="sep20"></div>
+            </div>
+            <?php $this->need('Public/footer');?>
+</body>
+
+</html>

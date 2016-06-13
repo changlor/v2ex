@@ -16,7 +16,8 @@ class Member extends Base
             }
             $comment_keys = array_keys($recent_activity['comment']);
             $comment_last_key = end($comment_keys);
-            $this->view->assign('username', $username)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('recent_topics', $recent_activity['topic'])->display();
+            $user_setting = $this->model->User->getUserSetting($user_id);
+            $this->view->assign('username', $username)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('recent_topics', $recent_activity['topic'])->assign('user_setting', $user_setting)->display();
         } else {
             $this->response->setStatus(404);
             $this->view->display('Member/memberNotFound');
@@ -89,5 +90,14 @@ class Member extends Base
         } else {
             $this->view->display('Member/memberNotFound');
         }
+    }
+
+    public function queryIp()
+    {
+        $user_ip = $this->request->input('get.ip');
+        $ip = new Ip($user_ip);
+        $ip_info = $ip->addr();
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('ip', $user_ip)->assign('ip_info', $ip_info)->display();
     }
 }

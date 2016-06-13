@@ -14,7 +14,7 @@ class Ip
     public function addr()
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->ip_api . $ip);
+        curl_setopt($ch, CURLOPT_URL, $this->ip_api . $this->ip);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $this->ip_addr = curl_exec($ch);
