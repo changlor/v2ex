@@ -20,35 +20,35 @@
                             </div>
                         </td>
                         <?php
+                        $menu = array(
+                            '首页' => $this->route->url('/'),
+                            rcookie('NA') => $this->route->url('member/' . rcookie('NA')),
+                            '工作空间' => 'javascript:;',
+                            '记事本' => 'javascript:;',
+                            '时间轴' => 'javascript:;',
+                            '设置' => $this->route->url('settings'),
+                        );
+                        if (rcookie('NA') == '') {
                             $menu = array(
                                 '首页' => $this->route->url('/'),
-                                rcookie('NA') => $this->route->url('member/' . rcookie('NA')),
-                                '工作空间' => 'javascript:;',
-                                '记事本' => 'javascript:;', 
-                                '时间轴' => 'javascript:;', 
-                                '设置' => $this->route->url('settings'),
+                                '注册' => $this->route->url('signup'),
+                                '登录' => $this->route->url('signin'),
                             );
-                            if (rcookie('NA') == '') {
-                                $menu = array(
-                                    '首页' => $this->route->url('/'),
-                                    '注册' => $this->route->url('signup'),
-                                    '登录' => $this->route->url('signin'),
-                                );
-                            }
+                        }
                         ?>
                         <td width="570" align="right" style="padding-top: 2px;">
                         <?php foreach ($menu as $key => $value): ?>
-                            <a href="<?=$value; ?>" class="top">
-                                <?=$key; ?>
+                            <a href="<?=$value;?>" title="<?=($value == 'javascript:;') ? '该功能尚未开放' : ''?>" <?=($value == 'javascript:;') ? 'style="color:#aaa;cursor:default;"' : ''?> class="top">
+                                <?=$key;?>
                                 &nbsp;
                             </a>
-                        <?php endforeach; ?>
+                        <?php endforeach;?>
                         <?php if (rcookie('NA') != ''): ?>
                             <a href="javascript:;" onclick="if (confirm('确定要从 V2EX 登出？')) { location.href= '/signout'; }"
                             class="top">
                                 登出
                             </a>
-                        <?php endif; ?>
+                        <?php endif;?>
                         </td>
                     </tr>
                 </tbody>

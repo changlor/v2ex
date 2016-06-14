@@ -149,8 +149,8 @@
                                     <td width="auto" valign="top" align="left">
                                         <div class="fr">
                                         <?php if (rcookie('NA') != '' && rcookie('NA') != $value['username']): ?>
-                                            <div id="thank_area_<?=$value['comment_id'];?>" class="thank_area <?php echo (in_array($value['comment_id'], $thank_record['comment'])) ? 'thanked' : '' ?>">
-                                            <?php if (in_array($value['comment_id'], $thank_record['comment'])): ?>
+                                            <div id="thank_area_<?=$value['comment_id'];?>" class="thank_area <?php echo (!empty($thank_record['comment']) && in_array($value['comment_id'], $thank_record['comment'])) ? 'thanked' : '' ?>">
+                                            <?php if (!empty($thank_record['comment']) && in_array($value['comment_id'], $thank_record['comment'])): ?>
                                                 感谢已发射
                                             <?php else: ?>
                                                 <a href="javascript:;" onclick="if (confirm('确认要不再显示来自 @<?=$value['username'];?> 的这条回复？')) { ignoreReply(2445799, '95308'); }" class="thank" style="color: #ccc;">隐藏</a> &nbsp; &nbsp; &nbsp;
@@ -171,7 +171,15 @@
                                         <span class="fade small"><?=fadeTime($value['created_at']);?></span>
                                         <div class="sep5"></div>
                                         <div class="reply_content">
-                                            <?=$value['content'];?>
+                                        <?php 
+                                            foreach ($comment as $ke => $val) {
+                                                if ($value['content'] == $val['content'] && $value > $val) {
+                                                    $value['content'] = '<font color="red">是这样的，该用户可能没和小金jy过又喜欢水贴，因此该评论不予显示</font>';
+                                                    break;
+                                                }
+                                            }
+                                        ?>
+                                        <?=$value['content'];?>
                                         </div>
                                     </td>
                                 </tr>

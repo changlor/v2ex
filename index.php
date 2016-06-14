@@ -11,6 +11,7 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
+    'ip' => 'Member/queryIp',
     'settings' => array(
         'get' => 'User/setting',
         'post' => 'User/userSetting',

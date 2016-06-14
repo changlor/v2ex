@@ -76,6 +76,7 @@
                         <div class="fl"><img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" width="24" style="border-radius: 24px; margin-top: -2px;" border="0" /></div>
                         <a href="/member/<?=$username;?>" class="cell_tab_current">
                             <?=$username;?> 创建的所有主题</a><a href="/member/<?=$username;?>/qna" class="cell_tab">提问</a><a href="/member/<?=$username;?>/tech" class="cell_tab">技术话题</a><a href="/member/<?=$username;?>/play" class="cell_tab">好玩</a><a href="/member/<?=$username;?>/jobs" class="cell_tab">工作信息</a><a href="/member/<?=$username;?>/deals" class="cell_tab">交易信息</a><a href="/member/<?=$username;?>/city" class="cell_tab">城市相关</a></div>
+                    <?php if (count($recent_topics) > 0): ?>
                     <?php foreach ($recent_topics as $key => $value): ?>
                     <div class="cell item" style="border-top-left-radius: 3px; border-top-right-radius: 3px;">
                         <div style="position: absolute; margin: -10px -10px 0px 650px;"></div>
@@ -107,8 +108,10 @@
                         <a href="/member/<?=$username;?>/topics">
                             <?=$username;?> 创建的更多主题</a>
                     </div>
+                    <?php endif;?>
                 </div>
                 <div class="sep20"></div>
+                <?php if (count($recent_comments) > 0): ?>
                 <div class="box">
                     <div class="cell"><span class="gray"><?=$username;?> 最近回复了</span></div>
                     <?php foreach ($recent_comments as $key => $value): ?>
@@ -139,6 +142,7 @@
                             <?=$username;?> 创建的更多回复</a>
                     </div>
                 </div>
+                <?php endif;?>
             </div>
         </div>
         <div class="c">

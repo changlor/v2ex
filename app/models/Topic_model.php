@@ -324,4 +324,22 @@ class Topic_model extends Kotori_Model
         );
         return $author_info[0];
     }
+
+    public function getHotTopic($date = '')
+    {
+        return $this->db->select('topic',
+            array(
+                'title',
+                'author',
+                'id(topic_id)',
+            ),
+            array(
+                'AND' => array(
+                    'created_at[>]' => strtotime(date('Y-m-d H:i:s')) - 24 * 60 * 60,
+                ),
+                'ORDER' => 'comment_count DESC',
+                'LIMIT' => array(0, 10),
+            )
+        );
+    }
 }
