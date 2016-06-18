@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8">
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/selectboxit.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <?php if($hasRight): ?>
+                <div class="box">
+                    <div class="header"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/notes">记事本</a> <span class="chevron">&nbsp;›&nbsp;</span> 查看文件</div>
+                    <div class="cell note">
+                        <h1 style="margin-bottom: 20px;"><?=$note['content'];?></h1>
+                    </div>
+                    <div class="inner">
+                        <div class="fr">
+                            <input type="button" class="super normal button" value="发布" onclick="location.href = '/notes/publish/24153';" />
+                        </div>
+                        <input type="button" class="super normal button" value="编辑" onclick="location.href = '/notes/edit/24153';" /> &nbsp;
+                        <input type="button" class="super normal button" value="删除" onclick="if (confirm('确认彻底删除标题为 测试 的文件？')) { location.href = '/notes/delete/24153?t=1426670324'; }" />
+                    </div>
+                </div>
+                <?php else: ?>
+                <div class="box">
+                    <div align="center">
+                        <div class="sep20"></div>
+                        <div class="sep20"></div>
+                        <span class="bigger">Sorry, you can't do this :(</span>
+                        <div class="sep20"></div>
+                        <div class="sep20"></div>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="c"></div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer');?>
+</body>
+
+</html>

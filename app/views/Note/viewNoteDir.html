@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8">
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="header">
+                        <div class="fr">
+                            <input type="button" onclick="location.href = '/notes/new';" class="super normal button" value="新建" style="margin: -4px -2px 0px 0px;" /> &nbsp;
+                            <input type="button" onclick="location.href = '/notes/mkdir';" class="super normal button" value="新建文件夹" style="margin: -4px -2px 0px 0px;" />
+                        </div><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> 记事本</div>
+                    <?php if ($is_mk_note_dir): ?>
+                    <div class="message" onclick="$(this).slideUp('fast');">新文件夹
+                        <?=$note_dir_name;?> 创建完成</div>
+                    <?php endif;?>
+                    <?php if (!empty($note_dir)): ?>
+                    <?php foreach ($note_dir as $key => $value): ?>
+                    <div class="note_item">
+                        <div class="note_item_info"></div>
+                        <div class="note_item_icon_folder"></div>
+                        <div class="note_item_title">
+                            <a href="/notes/list/<?=$value['dir_name'];?>" class="black">
+                                <?=$value['dir_title'];?>
+                            </a>
+                        </div>
+                    </div>
+                    <?php endforeach;?>
+                    <?php foreach ($root_dir_note as $key => $value): ?>
+                    <div class="note_item">
+                        <div class="note_item_info">3 字符 &nbsp;·&nbsp; 2 天前</div>
+                        <div class="note_item_icon_note"></div>
+                        <div class="note_item_title"><a href="/notes/<?=$value['note_id'];?>" class="black"><?=$value['title'];?></a></div>
+                    </div>
+                    <?php endforeach;?>
+                    <?php else: ?>
+                    <div class="inner">
+                        <div align="center">
+                            <div class="sep20"></div>
+                            <div class="sep20"></div>
+                            <img src="<?php echo PUBLIC_DIR; ?>/img/cloud.png" />
+                            <div class="sep20"></div>
+                            <div class="sep20"></div>
+                            <span class="fade">V2EX Notes 是一个简单可靠的云端记事本，你的数据绝对安全，随时可以访问。</span>
+                            <div class="sep20"></div>
+                        </div>
+                    </div>
+                    <?php endif;?>
+                </div>
+            </div>
+        </div>
+        <div class="c"></div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer');?>
+</body>
+
+</html>

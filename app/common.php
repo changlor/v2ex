@@ -76,6 +76,27 @@ function custom_error($level, $event, $value = '')
         'long' => '你输入的简介过长，请精简',
         'undefined' => 'pass',
     );
+    $errors['dir_name'] = array(
+        'legal' => 'pass',
+        'long' => '你的文件名过长，请精简',
+        'illegal' => '为了便于兼容管理，请输入英文与数字的组合',
+        'undefined' => '请输入文件名',
+    );
+    $errors['dir_title'] = array(
+        'legal' => 'pass',
+        'long' => '你的标题过长，请精简',
+        'undefined' => '请输入标题',
+    );
+    $errors['dir_content'] = array(
+        'legal' => 'pass',
+        'long' => '你的内容过长，请精简',
+        'undefined' => '请输入内容',
+    );
+    $errors['dir_description'] = array(
+        'legal' => 'pass',
+        'long' => '你的简介过长，请精简',
+        'undefined' => 'pass',
+    );
     return $errors[$level][$event];
 }
 function rcookie($key = '', $value = '', $expire = 36000, $path = '/')

@@ -58,7 +58,7 @@ class User extends Base
             if ($userpass['password_hash'] == $password['hash']) {
                 $url = $this->route->url($referer);
                 rcookie('NA', $username);
-                $ip = new Ip($_SERVER['REMOTE_ADDR']);
+                $ip = new Ip($this->request->getClientIp());
                 $update_user_record_info = array('last_login_ip' => $ip->ip2int());
                 $user_id = $this->model->User->getUserId('username', $username);
                 $this->model->User->updateUserRecord($update_user_record_info, $user_id);
