@@ -34,10 +34,10 @@
                                 <tr>
                                     <td style="float: left;">
                                         <select name="parent_id" class="super normal button editor_syntax">
-                                        <option value="0" selected="selected">/</option>
-                                        <?php foreach($note_dir as $key =>$value): ?>
-                                            <option value="<?=$value['dir_id'];?>">/<?=$value['dir_name'];?></option>
-                                        <?php endforeach; ?>
+                                        <option value="0" <?php (!$current_dir_id) ? 'selected="selected"' : ''?>>/</option>
+                                        <?php foreach ($note_dir as $key => $value): ?>
+                                            <option value="<?=$value['dir_id'];?>" <?php echo ($current_dir_id == $value['dir_id']) ? 'selected="selected"' : ''?>>/<?=$value['dir_name'];?></option>
+                                        <?php endforeach;?>
                                         </select><span class="editor_syntax_label_right">文件夹</span><span style="clean: both;"></span>
                                     </td>
                                     <td style="float: right;">

@@ -37,20 +37,28 @@ class Note extends Base
         }
         $dir_id = $this->model->Note->getDirId($dir_name);
         $dir_note = $this->model->Note->getDirNote($dir_id, $this->uid);
-        $this->view->assign('dir_note', $dir_note)->display();
+        $this->view->assign('dir_note', $dir_note)->assign('dir_id', $dir_id)->display();
     }
 
     public function addNote()
     {
         $note_dir = $this->model->Note->getNoteDir($this->uid);
-        $this->view->assign('note_dir', $note_dir)->display();
+        $folder_id = $this->request->input('get.folder_id');
+        $current_dir_id = false;
+        foreach ($note_dir as $key => $value) {
+            if ($value['dir_id'] == $folder_id) {
+                $current_dir_id = $folder_id;
+                break;
+            }
+        }
+        $this->view->assign('note_dir', $note_dir)->assign('current_dir_id', $current_dir_id)->display();
     }
 
     public function insertNote()
     {
         $note_content = $this->request->input('post.content');
         $note_dir_id = $this->request->input('post.parent_id');
-        $note_dir = $this->model->Note->getNoteDir();
+        $note_dir = $this->model->Note->getNoteDir($this->uid);
         $exist_note_dir_id = false;
         foreach ($note_dir as $key => $value) {
             if ($value['dir_id'] == $note_dir_id) {
@@ -69,6 +77,8 @@ class Note extends Base
             $isPass = true;
         }
         if ($isPass) {
+            $note_title_index = strpos($note_content, chr(10));
+            $note['title'] = trim(substr($note_content, 0, $note_title_index));
             $note['dir_id'] = $note_dir_id;
             $note['content'] = $note_content;
             $note['created_at'] = strtotime(date('Y-m-d H:i:s'));

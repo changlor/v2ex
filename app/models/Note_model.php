@@ -114,7 +114,10 @@ class Note_model extends Kotori_Model
                 'id(note_id)',
             ),
             array(
-                'user_id' => $user_id,
+                'AND' => array(
+                    'user_id' => $user_id,
+                    'dir_id' => 0,
+                ),
             )
         );
     }
@@ -136,10 +139,13 @@ class Note_model extends Kotori_Model
         return $this->db->select('note',
             array(
                 'title',
+                'id(dir_id)',
             ),
             array(
-                'dir_id' => $dir_id,
-                'user_id' => $user_id,
+                'AND' => array(
+                    'dir_id' => $dir_id,
+                    'user_id' => $user_id,
+                ),
             )
         );
     }
