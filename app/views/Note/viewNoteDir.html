@@ -48,7 +48,7 @@
                     <?php if (!empty($root_dir_note)): ?>
                     <?php foreach ($root_dir_note as $key => $value): ?>
                     <div class="note_item">
-                        <div class="note_item_info">3 字符 &nbsp;·&nbsp; 2 天前</div>
+                        <div class="note_item_info"><?=$value['note_length'];?> 字符 &nbsp;·&nbsp; <?=fadeTime($value['created_at']);?></div>
                         <div class="note_item_icon_note"></div>
                         <div class="note_item_title"><a href="/notes/<?=$value['note_id'];?>" class="black"><?=$value['title'];?></a></div>
                     </div>

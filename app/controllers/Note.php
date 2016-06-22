@@ -10,6 +10,11 @@ class Note extends Base
             $hasRight = true;
         }
         $this->rightBarInfo['rightBar'] = array('note_info');
+        $this->rightBarInfo['is_publish'] = $note['is_publish'];
+        $this->rightBarInfo['created_at'] = $note['created_at'];
+        $this->rightBarInfo['updated_at'] = $note['updated_at'];
+        $this->rightBarInfo['updated_record'] = $note['updated_record'];
+        $this->rightBarInfo['note_length'] = $note['note_length'];
         $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('hasRight', $hasRight)->assign('note', $note)->display();
     }
 
@@ -26,6 +31,8 @@ class Note extends Base
             unset($_SESSION['note_dir_name']);
         }
         $this->rightBarInfo['rightBar'] = array('note');
+        $this->rightBarInfo['note_count'] = count($root_dir_note);
+        $this->rightBarInfo['note_dir_count'] = count($note_dir);
         $this->view->assign('is_mk_note_dir', $is_mk_note_dir)->assign('root_dir_note', $root_dir_note)->assign('note_dir', $note_dir)->assign('note_dir_name', $note_dir_name)->assign('rightBarInfo', $this->rightBarInfo)->display();
     }
 
@@ -84,6 +91,7 @@ class Note extends Base
             }
             $note['dir_id'] = $note_dir_id;
             $note['content'] = $note_content;
+            $note['str_length'] = strlen($note_content);
             $note['created_at'] = strtotime(date('Y-m-d H:i:s'));
             $note['user_id'] = $this->uid;
             $note_id = $this->model->Note->insertNote($note);
@@ -163,6 +171,7 @@ class Note extends Base
             }
             $update_note_info['dir_id'] = $note_dir_id;
             $update_note_info['content'] = $note_content;
+            $update_note_info['str_length'] = strlen($note_content);
             $update_note_info['updated_at'] = strtotime(date('Y-m-d H:i:s'));
             $update_note_info['updated_record[+]'] = 1;
             $this->model->Note->updateNoteInfo($update_note_info, $note_id);

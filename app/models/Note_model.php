@@ -111,6 +111,11 @@ class Note_model extends Kotori_Model
                 'content',
                 'id(note_id)',
                 'dir_id',
+                'str_length(note_length)',
+                'is_publish',
+                'created_at',
+                'updated_at',
+                'updated_record',
             ),
             array(
                 'id' => $note_id,
@@ -125,6 +130,8 @@ class Note_model extends Kotori_Model
             array(
                 'title',
                 'id(note_id)',
+                'str_length(note_length)',
+                'created_at',
             ),
             array(
                 'AND' => array(
@@ -153,6 +160,8 @@ class Note_model extends Kotori_Model
             array(
                 'title',
                 'id(dir_id)',
+                'str_length(note_length)',
+                'created_at',
             ),
             array(
                 'AND' => array(

@@ -15,6 +15,9 @@ class Base extends Kotori_Controller
     public function redirectLogin()
     {
         if (rcookie('NA') == '') {
+            $need_login_controller = array(
+                'Note' => 'notes',
+            );
             $need_login_method = array(
                 'balance' => 'balance',
                 'insertTopic' => '%2F',
@@ -24,6 +27,12 @@ class Base extends Kotori_Controller
                 'setting' => 'settings',
                 'userSetting' => '%2F',
             );
+            foreach ($need_login_controller as $key => $value) {
+                if (CONTROLLER_NAME == $key) {
+                    $url = $this->route->url('signin?referer=' . $need_login_controller[CONTROLLER_NAME]);
+                    $this->response->redirect($url, true);
+                }
+            }
             foreach ($need_login_method as $key => $value) {
                 if (ACTION_NAME == $key) {
                     $url = $this->route->url('signin?referer=' . $need_login_method[ACTION_NAME]);

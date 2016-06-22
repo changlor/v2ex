@@ -362,25 +362,32 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
     </div>
 </div>
 <?php endif;?>
-<?php if(in_array('note',$rightBar)): ?>
+<?php if (in_array('note', $rightBar)): ?>
 <div class="sep20"></div>
 <div class="box">
     <div class="cell">
         <table cellpadding="5" cellspacing="0" border="0" width="100%">
             <tbody>
-                <tr>
-                    <td width="50" align="right"><span class="gray">文件数</span></td>
-                    <td width="auto" align="left"><strong>0</strong></td>
-                </tr>
-            </tbody>
-        </table>
+            <?php if ($note_count != 0): ?>
+            <tr>
+                <td width="50" align="right"><span class="gray">文件数</span></td>
+                <td width="auto" align="left"><strong><?=$note_count;?></strong></td>
+            </tr>
+            <?php endif;?>
+            <?php if ($note_dir_count != 0): ?>
+            <tr>
+                <td width="50" align="right"><span class="gray">文件夹数</span></td>
+                <td width="auto" align="left"><strong><?=$note_dir_count;?></strong></td>
+            </tr>
+            <?php endif;?>
+        </tbody></table>
     </div>
     <div class="cell_ops">
         <li class="fa fa-comments gray"></li>&nbsp; <a href="/go/notes">讨论 V2EX 的记事本功能</a>
     </div>
 </div>
-<?php endif; ?>
-<?php if(in_array('note_info',$rightBar)): ?>
+<?php endif;?>
+<?php if (in_array('note_info', $rightBar)): ?>
 <div class="sep20"></div>
 <div class="box">
     <div class="cell">
@@ -389,18 +396,18 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
                 <td width="60" align="right"><span class="gray">发布状态</span></td>
                 <td width="auto" align="left"><div style="width: 7px; height: 7px; border-radius: 10px; display: inline-block; background-color: #f0f0f0; border: 2px solid #e2e2e2; vertical-align: baseline;"></div>&nbsp; 未发布</td>
             </tr>
-            
+
             <tr>
                 <td width="60" align="right"><span class="gray">创建时间</span></td>
-                <td width="auto" align="left">2016-06-16 09:13:21 +08:00</td>
+                <td width="auto" align="left"><?=date('Y-m-d H:i:s', $created_at);?> +08:00</td>
             </tr>
             <tr>
                 <td width="60" align="right"><span class="gray">最后修改</span></td>
-                <td width="auto" align="left">2016-06-16 09:13:21 +08:00</td>
+                <td width="auto" align="left"><?php echo empty($updated_at) ? '文件尚未有修改记录' : date('Y-m-d H:i:s', $updated_at) . ' +08:00'; ?></td>
             </tr>
             <tr>
                 <td width="60" align="right"><span class="gray">修改次数</span></td>
-                <td width="auto" align="left">1</td>
+                <td width="auto" align="left"><?php echo ($updated_record == 0) ? '文件尚未有修改记录' : $updated_record; ?></td>
             </tr>
             <tr>
                 <td width="60" align="right"><span class="gray">文件格式</span></td>
@@ -408,9 +415,9 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
             </tr>
             <tr>
                 <td width="60" align="right"><span class="gray">文件长度</span></td>
-                <td width="auto" align="left">2 字符</td>
+                <td width="auto" align="left"><?=$note_length;?> 字符</td>
             </tr>
         </table>
     </div>
 </div>
-<?php endif; ?>
+<?php endif;?>
