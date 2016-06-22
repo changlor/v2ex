@@ -24,7 +24,7 @@
                             '首页' => $this->route->url('/'),
                             rcookie('NA') => $this->route->url('member/' . rcookie('NA')),
                             '工作空间' => 'javascript:;',
-                            '记事本' => 'javascript:;',
+                            '记事本' => $this->route->url('notes'),
                             '时间轴' => 'javascript:;',
                             '设置' => $this->route->url('settings'),
                         );

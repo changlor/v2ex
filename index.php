@@ -11,7 +11,17 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
+    'notes/edit/([^/]+)' => array(
+        'get' => 'Note/editNote/$1',
+        'post' => 'Note/updateNote/$1',
+    ),
+    'notes/delete/([0-9]+)' => 'Note/deleteNote/$1',
+    'notes/rmdir/([^/]+)' => 'Note/deleteNoteDir/$1',
     'notes/list/([^/]+)' => 'Note/viewDirNote/$1',
+    'notes/manage/([^/]+)' => array(
+        'get' => 'Note/editNoteDir/$1',
+        'post' => 'Note/updateNoteDir/$1',
+    ),
     'notes/([0-9]+)' => 'Note/viewNote/$1',
     'notes' => 'Note/viewNoteDir',
     'notes/mkdir' => array(

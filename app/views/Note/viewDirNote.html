@@ -45,9 +45,9 @@
                     <?php endif;?>
                     <div class="cell_ops" style="text-align: right;">
                         <div class="fl">
-                            <input type="button" class="super normal button" value="管理文件夹" onclick="location.href = '/notes/manage/heiheihei';" />
+                            <input type="button" class="super normal button" value="管理文件夹" onclick="location.href = '/notes/manage/<?=$dir_name;?>';" />
                         </div>
-                        <input type="button" class="super normal button" value="删除文件夹" onclick="if (confirm('你确认要删除这个标题为 xxx 的文件夹吗？')) { location.href = '/notes/rmdir/heiheihei?once=38280'; }" />
+                        <input type="button" class="super normal button" value="删除文件夹" onclick="if (confirm('你确认要删除这个标题为 <?=$dir_name;?> 的文件夹吗？')) { location.href = '/notes/rmdir/<?=$dir_name;?>'; }" />
                     </div>
                 </div>
             </div>

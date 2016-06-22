@@ -44,6 +44,8 @@
                         </div>
                     </div>
                     <?php endforeach;?>
+                    <?php endif;?>
+                    <?php if (!empty($root_dir_note)): ?>
                     <?php foreach ($root_dir_note as $key => $value): ?>
                     <div class="note_item">
                         <div class="note_item_info">3 字符 &nbsp;·&nbsp; 2 天前</div>
@@ -51,7 +53,8 @@
                         <div class="note_item_title"><a href="/notes/<?=$value['note_id'];?>" class="black"><?=$value['title'];?></a></div>
                     </div>
                     <?php endforeach;?>
-                    <?php else: ?>
+                    <?php endif;?>
+                    <?php if (empty($note_dir) && empty($root_dir_note)): ?>
                     <div class="inner">
                         <div align="center">
                             <div class="sep20"></div>

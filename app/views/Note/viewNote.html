@@ -31,10 +31,10 @@
                     </div>
                     <div class="inner">
                         <div class="fr">
-                            <input type="button" class="super normal button" value="发布" onclick="location.href = '/notes/publish/24153';" />
+                            <input type="button" class="super normal button" value="发布" onclick="location.href = '/notes/publish/<?=$note['note_id'];?>';" />
                         </div>
-                        <input type="button" class="super normal button" value="编辑" onclick="location.href = '/notes/edit/24153';" /> &nbsp;
-                        <input type="button" class="super normal button" value="删除" onclick="if (confirm('确认彻底删除标题为 测试 的文件？')) { location.href = '/notes/delete/24153?t=1426670324'; }" />
+                        <input type="button" class="super normal button" value="编辑" onclick="location.href = '/notes/edit/<?=$note['note_id'];?>';" /> &nbsp;
+                        <input type="button" class="super normal button" value="删除" onclick="if (confirm('确认彻底删除标题为 测试 的文件？')) { location.href = '/notes/delete/<?=$note['note_id'];?>'; }" />
                     </div>
                 </div>
                 <?php else: ?>

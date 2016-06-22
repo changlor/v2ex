@@ -108,9 +108,37 @@ CREATE TABLE `node` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `node` (`id`, `created_at`, `updated_at`, `topic_count`, `favorite_count`, `name`, `ename`, `about`) VALUES
-(1, 0,  0,  0,  0,  '一锅粥',  'mass', '散落凡间的主题'),
+(1, 0,  0,  3,  0,  '一锅粥',  'mass', '散落凡间的主题'),
 (2, 0,  0,  0,  0,  '随感', 'feel', '星星点点的夜空'),
 (3, 0,  0,  0,  0,  'php',  'php',  'php是世界上最好的语言');
+
+DROP TABLE IF EXISTS `note`;
+CREATE TABLE `note` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `dir_id` int(11) unsigned NOT NULL,
+  `user_id` mediumint(8) unsigned NOT NULL,
+  `content` text NOT NULL,
+  `title` char(32) NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  `updated_at` int(10) unsigned NOT NULL,
+  `updated_record` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `note_dir`;
+CREATE TABLE `note_dir` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` mediumint(8) unsigned NOT NULL,
+  `name` char(18) NOT NULL,
+  `title` char(60) NOT NULL,
+  `description` char(120) NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  `updated_at` int(10) unsigned NOT NULL,
+  `updated_record` smallint(6) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice` (
@@ -224,6 +252,7 @@ CREATE TABLE `task` (
 INSERT INTO `task` (`id`, `created_at`, `type`, `ename`, `coin`, `about`, `role`) VALUES
 (1, 0,  '初始资本', 'base', 2000, '获得初始资本 2000 铜币', 'default'),
 (2, 0,  '每日登录奖励', 'signin', 30, '每日登录奖励', 'daily');
+
 
 DROP TABLE IF EXISTS `token`;
 CREATE TABLE `token` (
@@ -363,4 +392,4 @@ CREATE TABLE `user_setting` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
--- 2016-06-12 08:48:23
+-- 2016-06-20 13:15:38

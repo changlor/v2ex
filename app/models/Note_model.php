@@ -93,11 +93,24 @@ class Note_model extends Kotori_Model
         );
     }
 
-    public function getNote($note_id)
+    public function getNote($note_id, $field = '')
     {
+        if (!empty($field)) {
+            $field_info = $this->db->select('note',
+                array(
+                    $field,
+                ),
+                array(
+                    'id' => $note_id,
+                )
+            );
+            return $field_info[0][$field];
+        }
         $note = $this->db->select('note',
             array(
                 'content',
+                'id(note_id)',
+                'dir_id',
             ),
             array(
                 'id' => $note_id,
@@ -150,6 +163,43 @@ class Note_model extends Kotori_Model
         );
     }
 
+    public function updateNoteDirInfo($update_note_dir_info, $user_id)
+    {
+        return $this->db->update('note_dir',
+            $update_note_dir_info,
+            array(
+                'user_id' => $user_id,
+            )
+        );
+    }
+
+    public function deleteNoteDir($dir_name, $user_id)
+    {
+        $dir_id = $this->getDirId($dir_name);
+        $this->db->delete('note_dir',
+            array(
+                'AND' => array(
+                    'name' => $dir_name,
+                    'user_id' => $user_id,
+                ),
+            )
+        );
+        $this->db->delete('note',
+            array(
+                'dir_id' => $dir_id,
+            )
+        );
+    }
+
+    public function deleteNote($note_id)
+    {
+        return $this->db->delete('note',
+            array(
+                'id' => $note_id,
+            )
+        );
+    }
+
     public function getDirId($dir_name)
     {
         $dir_id = $this->db->select('note_dir',
@@ -161,5 +211,33 @@ class Note_model extends Kotori_Model
             )
         );
         return $dir_id[0]['id'];
+    }
+
+    public function getNoteDirInfo($dir_name, $user_id)
+    {
+        $note_dir_info = $this->db->select('note_dir',
+            array(
+                'title',
+                'description',
+                'name',
+            ),
+            array(
+                'AND' => array(
+                    'name' => $dir_name,
+                    'user_id' => $user_id,
+                ),
+            )
+        );
+        return $note_dir_info[0];
+    }
+
+    public function updateNoteInfo($update_note_info, $note_id)
+    {
+        return $this->db->update('note',
+            $update_note_info,
+            array(
+                'id' => $note_id,
+            )
+        );
     }
 }
