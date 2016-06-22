@@ -122,6 +122,17 @@ class Topic_model extends Kotori_Model
             );
             return $topic_info[0];
         }
+        if ($topic_id != '' && $type == 'author') {
+            $topic_info = $this->db->select('topic',
+                array(
+                    'user_id',
+                ),
+                array(
+                    'id' => $topic_id,
+                )
+            );
+            return $topic_info[0]['user_id'];
+        }
         if ($topic_id != '') {
             $topic_info = $this->db->select('topic',
                 array(

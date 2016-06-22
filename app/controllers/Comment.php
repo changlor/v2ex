@@ -29,6 +29,7 @@ class Comment extends Base
                 $comment['created_at'] = strtotime(date('Y-m-d H:i:s'));
                 $comment['user_id'] = $user_id;
                 $comment['topic_id'] = $topic_id;
+                //@回复提醒记录
                 if (preg_match_all('/@([a-z0-9]+)/i', $comment['content'], $matches)) {
                     $notice_username = false;
                     foreach ($matches[1] as $key => $value) {
@@ -42,17 +43,39 @@ class Comment extends Base
                     if (count($notice_username) >= 1) {
                         $notice_necessary_info = $this->model->Notice->getNoticeNecessaryInfo('reply', $notice_username);
                         foreach ($notice_username as $key => $value) {
-                            $notice[$key]['content'] = $comment['content'];
-                            $notice[$key]['topic_id'] = $topic_id;
-                            $notice[$key]['source_id'] = $user_id;
-                            $notice[$key]['target_id'] = $notice_necessary_info['user_id'][$key]['id'];
-                            $notice[$key]['type'] = $notice_necessary_info['type_id'];
-                            $notice[$key]['created_at'] = $comment['created_at'];
-                            $updateInfo = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
-                            $this->model->User->updateUserRecord($updateInfo, $notice[$key]['target_id']);
+                            $target_id = $notice_necessary_info['user_id'][$key]['id'];
+                            $source_id = $user_id;
+                            if ($target_id != $source_id) {
+                                $notice[$key]['content'] = $comment['content'];
+                                $notice[$key]['topic_id'] = $topic_id;
+                                $notice[$key]['source_id'] = $source_id;
+                                $notice[$key]['target_id'] = $target_id;
+                                $notice[$key]['type'] = $notice_necessary_info['type_id'];
+                                $notice[$key]['created_at'] = $comment['created_at'];
+                                $updateInfo = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
+                                $this->model->User->updateUserRecord($updateInfo, $notice[$key]['target_id']);
+                            }
                         }
-                        $this->model->Notice->addNotice($notice);
+                        if (isset($notice) && !empty($notice)) {
+                            $this->model->Notice->addNotice($notice);
+                        }
                     }
+                }
+                //主题回复提醒记录
+                $author_id = $this->model->Topic->getTopicInfo($topic_id, 'author');
+                $target_id = $author_id;
+                $source_id = $this->uid;
+                if ($target_id != $source_id) {
+                    $notice = false;
+                    $notice['content'] = $comment['content'];
+                    $notice['topic_id'] = $topic_id;
+                    $notice['source_id'] = $source_id;
+                    $notice['target_id'] = $target_id;
+                    $notice['type'] = 1;
+                    $notice['created_at'] = $comment['created_at'];
+                    $updateInfo = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
+                    $this->model->User->updateUserRecord($updateInfo, $notice['target_id']);
+                    $this->model->Notice->addNotice($notice);
                 }
                 $updateInfo = array(
                     'reply_id' => $user_id,
