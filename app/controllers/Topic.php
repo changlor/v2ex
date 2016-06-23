@@ -92,7 +92,6 @@ class Topic extends Base
                 $isPass = true;
             }
             if ($isPass) {
-                $topic['author'] = rcookie('NA');
                 $topic['title'] = $title;
                 $topic['user_id'] = $this->uid;
                 $topic['content'] = $content;

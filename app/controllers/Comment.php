@@ -69,7 +69,7 @@ class Comment extends Base
                 $author_id = $this->model->Topic->getTopicInfo($topic_id, 'author');
                 $target_id = $author_id;
                 $source_id = $this->uid;
-                  = $this->model->Notice->getNoticeTypeId('reply');
+                $notice_type_id = $this->model->Notice->getNoticeTypeId('reply');
                 if ($target_id != $source_id) {
                     $notice['content'] = $comment['content'];
                     $notice['topic_id'] = $topic_id;
