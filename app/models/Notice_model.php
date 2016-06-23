@@ -11,7 +11,7 @@ class Notice_model extends Kotori_Model
             array(
                 'notice.id(notice_id)',
                 'notice.created_at',
-                'notice.type',
+                'notice.type_id',
                 'notice.status',
                 'notice.source_id',
                 'notice.topic_id',
@@ -29,9 +29,9 @@ class Notice_model extends Kotori_Model
         );
     }
 
-    public function getNoticeNecessaryInfo($type, $username)
+    public function getNoticeNecessaryInfo($username, $type)
     {
-        $notice_type_id = $this->db->select('type',
+        $notice_type_id = $this->db->select('notice_type',
             array('id'),
             array('ename' => $type)
         );
@@ -41,15 +41,66 @@ class Notice_model extends Kotori_Model
                 'username' => $username,
             )
         );
+        $info = false;
+        foreach ($notice_id as $key => $value) {
+            $info['user_id'][$key] = $value['id'];
+        }
         $info['type_id'] = $notice_type_id[0]['id'];
-        $info['user_id'] = $notice_id;
         return $info;
     }
 
     public function addNotice($notice)
     {
         return $this->db->insert('notice',
-        	$notice
+            $notice
         );
+    }
+
+    public function getNoticeTypeId($notice_type)
+    {
+        $notice_type_id = $this->db->select('notice_type',
+            array('id'),
+            array('ename' => $notice_type)
+        );
+        return $notice_type_id[0]['id'];
+    }
+
+    public function getMemberNoticeMessage($notice_info)
+    {
+        $notice_type = $this->db->select('notice_type',
+            array(
+                'ename',
+            ),
+            array(
+                'id' => $notice_info['notice_type_id'],
+            )
+        );
+        if ($notice_type[0]['ename'] == 'mention') {
+            $notice_message = '<a href="/member/';
+            $notice_message .= $notice_info['username'];
+            $notice_message .= '"><strong>';
+            $notice_message .= $notice_info['username'];
+            $notice_message .= '</strong></a> 在回复 <a href="/t/';
+            $notice_message .= $notice_info['topic_id'];
+            $notice_message .= '#reply';
+            $notice_message .= $notice_info['comment_count'];
+            $notice_message .= '">';
+            $notice_message .= $notice_info['title'];
+            $notice_message .= '</a> 时提到了你';
+        }
+        if ($notice_type[0]['ename'] == 'reply') {
+            $notice_message = '<a href="/member/';
+            $notice_message .= $notice_info['username'];
+            $notice_message .= '"><strong>';
+            $notice_message .= $notice_info['username'];
+            $notice_message .= '</strong></a> 在 <a href="/t/';
+            $notice_message .= $notice_info['topic_id'];
+            $notice_message .= '#reply';
+            $notice_message .= $notice_info['comment_count'];
+            $notice_message .= '">';
+            $notice_message .= $notice_info['title'];
+            $notice_message .= '</a> 回复了你';
+        }
+        return $notice_message;
     }
 }

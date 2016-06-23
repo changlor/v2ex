@@ -31,7 +31,7 @@
                                     <td width="32" align="left" valign="top">
                                         <a href="/member/<?=$value['username'];?>"><img src="<?php echo PUBLIC_DIR; ?>/img/default.jpeg" width="24px" class="avatar" border="0" align="default"></a>
                                     </td>
-                                    <td valign="middle"><span class="fade"><a href="/member/<?=$value['username'];?>"><strong><?=$value['username'];?></strong></a> 在回复 › <a href="/t/<?=$value['topic_id'];?>#reply<?=$value['comment_count'];?>"><?=$value['title'];?></a> 时提到了你</span> &nbsp; <span class="snow"><?=fadeTime($value['created_at']);?></span> &nbsp; <a href="#;" onclick="deleteNotification(4023256, 24759)" class="node">删除</a>
+                                    <td valign="middle"><span class="fade"><?=$value['notice_message'];?></span> &nbsp; <span class="snow"><?=fadeTime($value['created_at']);?></span> &nbsp; <a href="#;" onclick="deleteNotification(4023256, 24759)" class="node">删除</a>
                                         <div class="sep5"></div>
                                         <div class="payload"><?=$value['content'];?></div>
                                     </td>

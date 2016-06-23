@@ -38,7 +38,7 @@ class Topic_model extends Kotori_Model
 
     public function getTabTopic($tabname)
     {
-        return $this->db->select('tab',
+        $topic = $this->db->select('tab',
             array(
                 '[><]tab_node' => array('tab.id' => 'tab_id'),
                 '[><]node' => array('tab_node.node_id' => 'id'),
@@ -48,20 +48,34 @@ class Topic_model extends Kotori_Model
                 'node.ename',
                 'node.name',
                 'topic.id',
-                'topic.user_id',
+                'topic.user_id(author_id)',
                 'topic.title',
                 'topic.created_at',
                 'topic.comment_count',
                 'topic.replied_at',
                 'topic.reply_id',
-                'topic.author',
-                'topic.last_reply_username',
             ),
             array(
                 'tab.ename' => $tabname,
                 'ORDER' => 'topic.ranked_at DESC',
             )
         );
+        $user_id = false;
+        foreach ($topic as $key => $value) {
+            $user_id[] = $value['author_id'];
+            $user_id[] = $value['reply_id'];
+        }
+        $user_id = array_flip(array_flip($user_id));
+        $user_info = $this->model->User->getUserInfo($user_id);
+        $user_id_to_name = false;
+        foreach ($user_info as $key => $value) {
+            $user_id_to_name[$value['id']] = $value['username'];
+        }
+        foreach ($topic as $key => $value) {
+            $topic[$key]['author'] = $user_id_to_name[$value['author_id']];
+            $topic[$key]['last_reply_username'] = $user_id_to_name[$value['reply_id']];
+        }
+        return $topic;
     }
 
     public function getNodeTopic($node_id, $pagination, $pagination_rows)
@@ -133,43 +147,48 @@ class Topic_model extends Kotori_Model
             );
             return $topic_info[0]['user_id'];
         }
-        if ($topic_id != '') {
+        if ($topic_id != '' && $type == '') {
             $topic_info = $this->db->select('topic',
                 array(
-                    'id',
-                    'user_id',
-                    'title',
-                    'client',
-                    'comment_count',
-                    'reply_id',
-                    'replied_at',
-                    'created_at',
-                    'hits',
-                    'author',
+                    '[><]user' => array('user_id' => 'id'),
                 ),
                 array(
-                    'id' => $topic_id,
+                    'topic.id',
+                    'topic.user_id',
+                    'topic.title',
+                    'topic.client',
+                    'topic.comment_count',
+                    'topic.reply_id',
+                    'topic.replied_at',
+                    'topic.created_at',
+                    'topic.hits',
+                    'user.username(author)',
+                ),
+                array(
+                    'topic.id' => $topic_id,
                 )
             );
             return $topic_info[0];
         }
-        $topic = $this->db->select('topic',
-            array(
-                'id',
-                'user_id',
-                'title',
-                'created_at',
-                'comment_count',
-                'replied_at',
-                'reply_id',
-                'author',
-                'last_reply_username',
-            ),
-            array(
-                'ORDER' => 'ranked_at DESC',
-            )
-        );
-        return $topic;
+        if ($topic_id == '' && $type == '') {
+            $topic = $this->db->select('topic',
+                array(
+                    'id',
+                    'user_id',
+                    'title',
+                    'created_at',
+                    'comment_count',
+                    'replied_at',
+                    'reply_id',
+                    'author',
+                    'last_reply_username',
+                ),
+                array(
+                    'ORDER' => 'ranked_at DESC',
+                )
+            );
+            return $topic;
+        }
     }
 
     public function getTopicContent($topic_id = '')
@@ -205,7 +224,7 @@ class Topic_model extends Kotori_Model
         return $topic_id[0]['id'];
     }
 
-    public function validateTopic($field, $value, $topic_id = '')
+    public function validateTopicInfo($field, $value, $topic_id = '')
     {
         if ($field == 'id') {
             return $this->db->has('topic',

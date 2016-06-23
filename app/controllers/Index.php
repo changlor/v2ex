@@ -8,12 +8,12 @@ class Index extends Base
 
     public function index()
     {
-        $tabname = $this->request->input('get.tab');
-        $tabname = empty($tabname) ? 'chaos' : $tabname;
-        $tab_node = $this->model->Node->getTabNode($tabname);
-        $topic = $this->model->Topic->getTabTopic($tabname);
-        $topic_keys = array_keys($topic);
-        $topic_first_key = reset($topic_keys);
-        $this->view->assign('topic_first_key', $topic_first_key)->assign('tab_node', $tab_node)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->display();
+        //获取tab名和tab下的主题
+        $tab_name = $this->request->input('get.tab');
+        $tab_name = empty($tab_name) ? 'chaos' : $tab_name;
+        $topic = $this->model->Topic->getTabTopic($tab_name);
+        //获取tab下的结点
+        $tab_node = $this->model->Node->getTabNode($tab_name);
+        $this->view->assign('tab_node', $tab_node)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->display();
     }
 }

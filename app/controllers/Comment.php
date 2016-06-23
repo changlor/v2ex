@@ -9,9 +9,11 @@ class Comment extends Base
     public function insertComment($topic_id = '')
     {
         if ($this->request->isPost()) {
+            //获取评论信息
             $content = $this->request->input('post.content');
             $content = trim($content);
             $user_id = $this->uid;
+            //验证评论是否非法以及是否具有权限
             $handler['topic'] = $this->model->Topic->validateTopicId($topic_id);
             $handler['comment'] = $this->model->Comment->validateComment($topic_id, $user_id, $content);
             $handler['coin'] = $this->model->User->validateUserCoin($this->rightBarInfo['user_record']['coin'], $user_id);
@@ -24,6 +26,7 @@ class Comment extends Base
                 $isPass = true;
             }
             if ($isPass) {
+                //组装评论信息
                 $comment['id'] = $this->model->Comment->addCommentId();
                 $comment['content'] = $content;
                 $comment['created_at'] = strtotime(date('Y-m-d H:i:s'));
@@ -31,19 +34,19 @@ class Comment extends Base
                 $comment['topic_id'] = $topic_id;
                 //@回复提醒记录
                 if (preg_match_all('/@([a-z0-9]+)/i', $comment['content'], $matches)) {
-                    $notice_username = false;
+                    $notice_user_name = false;
                     foreach ($matches[1] as $key => $value) {
                         if ($this->model->User->validateUser('username', $value)) {
-                            $notice_username[] = $value;
+                            $notice_user_name[] = $value;
                             $comment['content'] = str_replace('%' . $value . '%', $value, $comment['content']);
                             $comment['content'] = str_replace($value, '%' . $value . '%', $comment['content']);
                         }
                     }
-                    $notice_username = array_values(array_flip(array_flip($notice_username)));
-                    if (count($notice_username) >= 1) {
-                        $notice_necessary_info = $this->model->Notice->getNoticeNecessaryInfo('reply', $notice_username);
-                        foreach ($notice_username as $key => $value) {
-                            $target_id = $notice_necessary_info['user_id'][$key]['id'];
+                    $notice_user_name = array_values(array_flip(array_flip($notice_user_name)));
+                    if (count($notice_user_name) >= 1) {
+                        $notice_necessary_info = $this->model->Notice->getNoticeNecessaryInfo($notice_user_name, 'mention');
+                        foreach ($notice_user_name as $key => $value) {
+                            $target_id = $notice_necessary_info['user_id'][$key];
                             $source_id = $user_id;
                             if ($target_id != $source_id) {
                                 $notice[$key]['content'] = $comment['content'];
@@ -52,12 +55,13 @@ class Comment extends Base
                                 $notice[$key]['target_id'] = $target_id;
                                 $notice[$key]['type'] = $notice_necessary_info['type_id'];
                                 $notice[$key]['created_at'] = $comment['created_at'];
-                                $updateInfo = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
-                                $this->model->User->updateUserRecord($updateInfo, $notice[$key]['target_id']);
+                                $user_record_update_info = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
+                                $this->model->User->updateUserRecord($user_record_update_info, $notice[$key]['target_id']);
                             }
                         }
                         if (isset($notice) && !empty($notice)) {
                             $this->model->Notice->addNotice($notice);
+                            unset($notice);
                         }
                     }
                 }
@@ -65,28 +69,27 @@ class Comment extends Base
                 $author_id = $this->model->Topic->getTopicInfo($topic_id, 'author');
                 $target_id = $author_id;
                 $source_id = $this->uid;
+                  = $this->model->Notice->getNoticeTypeId('reply');
                 if ($target_id != $source_id) {
-                    $notice = false;
                     $notice['content'] = $comment['content'];
                     $notice['topic_id'] = $topic_id;
                     $notice['source_id'] = $source_id;
                     $notice['target_id'] = $target_id;
-                    $notice['type'] = 1;
+                    $notice['type'] = $notice_type_id;
                     $notice['created_at'] = $comment['created_at'];
-                    $updateInfo = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
-                    $this->model->User->updateUserRecord($updateInfo, $notice['target_id']);
+                    $user_record_update_info = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
+                    $this->model->User->updateUserRecord($user_record_update_info, $notice['target_id']);
                     $this->model->Notice->addNotice($notice);
                 }
-                $updateInfo = array(
+                $topic_update_info = array(
                     'reply_id' => $user_id,
-                    'last_reply_username' => rcookie('NA'),
                     'replied_at' => $comment['created_at'],
                     'ranked_at' => $comment['created_at'],
                     'comment_count[+]' => 1,
                 );
-                $this->model->Topic->updateTopicInfo($updateInfo, $topic_id);
-                $updateInfo = array('comment_count[+]' => 1);
-                $this->model->User->updateUserRecord($updateInfo, $user_id);
+                $this->model->Topic->updateTopicInfo($topic_update_info, $topic_id);
+                $user_record_update_info = array('comment_count[+]' => 1);
+                $this->model->User->updateUserRecord($user_record_update_info, $user_id);
                 $insert_comment_count = $this->model->Comment->addComment($comment);
                 //获取收费收益记录的数据
                 $reply_user_name = rcookie('NA');

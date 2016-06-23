@@ -52,6 +52,7 @@ class Member extends Base
     {
         $this->rightBarInfo['rightBar'] = array('myInfo');
         $member_notice_count = $this->model->User->getMemberNoticeCount($this->uid);
+        //设置提醒分页
         $pagination_rows = 6;
         $page_rows = ceil($member_notice_count / $pagination_rows);
         $p = $this->request->input('get.p');
@@ -59,12 +60,24 @@ class Member extends Base
             $p = '';
         }
         $current_page = empty($p) ? 1 : $p;
+        //获取提醒分页信息
         $notice = $this->model->Notice->getMemberNotice($this->uid, $current_page, $pagination_rows);
         foreach ($notice as $key => $value) {
             $notice[$key] = preg_replace('/@%([a-z0-9]+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value);
         }
+        //获取提醒分页链接
         $page = new Page($member_notice_count, $pagination_rows);
         $page_link = $page->show($current_page);
+        //获取提醒信息
+        foreach ($notice as $key => $value) {
+            $notice_message = false;
+            $notice_message['username'] = $value['username'];
+            $notice_message['comment_count'] = $value['comment_count'];
+            $notice_message['title'] = $value['title'];
+            $notice_message['topic_id'] = $value['topic_id'];
+            $notice_message['notice_type_id'] = $value['type_id'];
+            $notice[$key]['notice_message'] = $this->model->Notice->getMemberNoticeMessage($notice_message);
+        }
         $this->view->assign('member_notice_count', $member_notice_count)->assign('rightBarInfo', $this->rightBarInfo)->assign('page_link', $page_link)->assign('notice', $notice)->display();
     }
 

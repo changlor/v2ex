@@ -8,20 +8,24 @@ class Topic extends Base
 
     public function viewTopic($topic_id)
     {
-        if ($this->model->Topic->validateTopic('id', $topic_id)) {
-            $updateInfo = array('hits[+]' => 1);
-            $this->model->Topic->updateTopicInfo($updateInfo, $topic_id);
+        if ($this->model->Topic->validateTopicInfo('id', $topic_id)) {
+            //每次访问点击数+1
+            $update_topic_info = array('hits[+]' => 1);
+            $this->model->Topic->updateTopicInfo($update_topic_info, $topic_id);
+            //获取主题相关信息
             $topic_tags = $this->model->Tag->getTopicTag($topic_id);
             $topic_info = $this->model->Topic->getTopicInfo($topic_id);
             $topic_content = $this->model->Topic->getTopicContent($topic_id);
-            $topic = false;
+            //组装主题信息
             $topic = $topic_info;
+            //markdown解析主题内容
             $topic['content'] = $topic_content[0]['content'];
             $md = $this->model->Topic->mdTagParse($topic['content']);
             $md = $this->model->Topic->mdAttributeParse($md);
             $md = Markdown::convert($md);
             $md = str_replace('&amp;gt;', '&gt;', $md);
             $topic['content'] = str_replace('&amp;lt;', '&lt;', $md);
+            //主题评论分页
             $pagination_rows = 6;
             $page_rows = ceil($topic['comment_count'] / $pagination_rows);
             $p = $this->request->input('get.p');
@@ -29,16 +33,19 @@ class Topic extends Base
                 $p = '';
             }
             $current_page = empty($p) ? $page_rows : $p;
+            //获取分页评论信息
             $comment = $this->model->Comment->getTopicComment($topic_id, $current_page, $pagination_rows);
             $comment = empty($comment) ? array() : $comment;
             foreach ($comment as $key => $value) {
                 $comment[$key]['content'] = preg_replace('/@%([a-z0-9]+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value['content']);
                 $comment[$key]['content'] = nl2br($comment[$key]['content']);
             }
+            //生成分页链接
             $page = new Page($topic['comment_count'], $pagination_rows);
             $page_link = $page->show($current_page);
-            $this->rightBarInfo['rightBar'] = array('myInfo');
+            //获取主题感谢信息
             $thank_record = $this->model->User->getUserThankRecord($this->uid, $topic_id);
+            $this->rightBarInfo['rightBar'] = array('myInfo');
             $this->view->assign('comment', $comment)->assign('thank_record', $thank_record)->assign('page_rows', $page_rows)->assign('current_page', $current_page)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->assign('topic_tags', $topic_tags)->assign('page_link', $page_link)->display();
         } else {
             $this->response->setStatus('404');

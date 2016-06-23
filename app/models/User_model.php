@@ -16,7 +16,7 @@ class User_model extends Kotori_Model
 
     public function getUserInfo($user_id)
     {
-        $user_info = $this->db->select('user',
+        return $user_info = $this->db->select('user',
             array(
                 'id', 'username',
             ),
