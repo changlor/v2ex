@@ -48,7 +48,7 @@
                                             <?php else: ?>
                                                 &nbsp; • &nbsp;<?=fadeTime($value['replied_at']);?>&nbsp;
                                             <?php endif;?>
-                                                <?php if (isset($value['last_reply_username']) && $value['last_reply_username']): ?>
+                                                <?php if (isset($value['last_reply_username']) && $value['last_reply_username'] != ''): ?>
                                                 • &nbsp;最后回复来自
                                                 <strong>
                                                     <a href="<?php echo $this->route->url('member/' . $value['last_reply_username']); ?>"><?=$value['last_reply_username'];?></a>

@@ -11,7 +11,7 @@ class Topic_model extends Kotori_Model
 
     public function getTagTopic($tag_id)
     {
-        return $this->db->select('tag_topic',
+        $topic = $this->db->select('tag_topic',
             array(
                 '[><]topic' => array('tag_topic.topic_id' => 'id'),
                 '[><]node' => array('topic.node_id' => 'id'),
@@ -20,20 +20,34 @@ class Topic_model extends Kotori_Model
                 'node.ename',
                 'node.name',
                 'topic.id',
-                'topic.user_id',
+                'topic.user_id(author_id)',
                 'topic.title',
                 'topic.created_at',
                 'topic.comment_count',
                 'topic.replied_at',
                 'topic.reply_id',
-                'topic.author',
-                'topic.last_reply_username',
             ),
             array(
                 'tag_topic.tag_id' => $tag_id,
                 'ORDER' => 'topic.ranked_at DESC',
             )
         );
+        $user_id = false;
+        foreach ($topic as $key => $value) {
+            $user_id[] = $value['author_id'];
+            $user_id[] = $value['reply_id'];
+        }
+        $user_id = array_flip(array_flip($user_id));
+        $user_info = $this->model->User->getUserInfo($user_id);
+        $user_id_to_name = false;
+        foreach ($user_info as $key => $value) {
+            $user_id_to_name[$value['id']] = $value['username'];
+        }
+        foreach ($topic as $key => $value) {
+            $topic[$key]['author'] = $user_id_to_name[$value['author_id']];
+            $topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+        }
+        return $topic;
     }
 
     public function getTabTopic($tabname)
@@ -73,22 +87,22 @@ class Topic_model extends Kotori_Model
         }
         foreach ($topic as $key => $value) {
             $topic[$key]['author'] = $user_id_to_name[$value['author_id']];
-            $topic[$key]['last_reply_username'] = $user_id_to_name[$value['reply_id']];
+            $topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
         }
         return $topic;
     }
 
     public function getNodeTopic($node_id, $pagination, $pagination_rows)
     {
-        return $this->db->select('topic',
+        $topic = $this->db->select('topic',
             array(
                 'title',
-                'author',
+                'user_id(author_id)',
                 'replied_at',
                 'created_at',
                 'id',
                 'comment_count',
-                'last_reply_username',
+                'reply_id',
             ),
             array(
                 'node_id' => $node_id,
@@ -96,21 +110,37 @@ class Topic_model extends Kotori_Model
                 'LIMIT' => array($pagination_rows * ($pagination - 1), $pagination_rows),
             )
         );
+        $user_id = false;
+        foreach ($topic as $key => $value) {
+            $user_id[] = $value['author_id'];
+            $user_id[] = $value['reply_id'];
+        }
+        $user_id = array_flip(array_flip($user_id));
+        $user_info = $this->model->User->getUserInfo($user_id);
+        $user_id_to_name = false;
+        foreach ($user_info as $key => $value) {
+            $user_id_to_name[$value['id']] = $value['username'];
+        }
+        foreach ($topic as $key => $value) {
+            $topic[$key]['author'] = $user_id_to_name[$value['author_id']];
+            $topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+        }
+        return $topic;
     }
 
     public function getUserTopic($user_id, $pagination, $pagination_rows)
     {
         $current_time = strtotime(date('Y-m-d H:i:s'));
         $recent_time = 7 * 24 * 60 * 60;
-        return $this->db->select('topic',
+        $topic = $this->db->select('topic',
             array(
                 'title',
-                'author',
+                'user_id(author_id)',
                 'replied_at',
                 'created_at',
                 'id',
                 'comment_count',
-                'last_reply_username',
+                'reply_id',
             ),
             array(
                 'AND' => array(
@@ -121,6 +151,22 @@ class Topic_model extends Kotori_Model
                 'LIMIT' => array($pagination_rows * ($pagination - 1), $pagination_rows),
             )
         );
+        $user_id = false;
+        foreach ($topic as $key => $value) {
+            $user_id[] = $value['author_id'];
+            $user_id[] = $value['reply_id'];
+        }
+        $user_id = array_flip(array_flip($user_id));
+        $user_info = $this->model->User->getUserInfo($user_id);
+        $user_id_to_name = false;
+        foreach ($user_info as $key => $value) {
+            $user_id_to_name[$value['id']] = $value['username'];
+        }
+        foreach ($topic as $key => $value) {
+            $topic[$key]['author'] = $user_id_to_name[$value['author_id']];
+            $topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+        }
+        return $topic;
     }
 
     public function getTopicInfo($topic_id = '', $type = '')
@@ -174,19 +220,32 @@ class Topic_model extends Kotori_Model
             $topic = $this->db->select('topic',
                 array(
                     'id',
-                    'user_id',
+                    'user_id(author_id)',
                     'title',
                     'created_at',
                     'comment_count',
                     'replied_at',
                     'reply_id',
-                    'author',
-                    'last_reply_username',
                 ),
                 array(
                     'ORDER' => 'ranked_at DESC',
                 )
             );
+            $user_id = false;
+            foreach ($topic as $key => $value) {
+                $user_id[] = $value['author_id'];
+                $user_id[] = $value['reply_id'];
+            }
+            $user_id = array_flip(array_flip($user_id));
+            $user_info = $this->model->User->getUserInfo($user_id);
+            $user_id_to_name = false;
+            foreach ($user_info as $key => $value) {
+                $user_id_to_name[$value['id']] = $value['username'];
+            }
+            foreach ($topic as $key => $value) {
+                $topic[$key]['author'] = $user_id_to_name[$value['author_id']];
+                $topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+            }
             return $topic;
         }
     }
@@ -359,13 +418,16 @@ class Topic_model extends Kotori_Model
     {
         return $this->db->select('topic',
             array(
-                'title',
-                'author',
-                'id(topic_id)',
+                '[><]user' => array('user_id' => 'id'),
+            ),
+            array(
+                'topic.title',
+                'user.username(author)',
+                'topic.id(topic_id)',
             ),
             array(
                 'AND' => array(
-                    'created_at[>]' => strtotime(date('Y-m-d H:i:s')) - 24 * 60 * 60,
+                    'topic.created_at[>]' => strtotime(date('Y-m-d H:i:s')) - 24 * 60 * 60,
                 ),
                 'ORDER' => 'comment_count DESC',
                 'LIMIT' => array(0, 10),
