@@ -53,7 +53,7 @@ class Comment extends Base
                                 $notice[$key]['topic_id'] = $topic_id;
                                 $notice[$key]['source_id'] = $source_id;
                                 $notice[$key]['target_id'] = $target_id;
-                                $notice[$key]['type'] = $notice_necessary_info['type_id'];
+                                $notice[$key]['type_id'] = $notice_necessary_info['type_id'];
                                 $notice[$key]['created_at'] = $comment['created_at'];
                                 $user_record_update_info = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
                                 $this->model->User->updateUserRecord($user_record_update_info, $notice[$key]['target_id']);
@@ -75,7 +75,7 @@ class Comment extends Base
                     $notice['topic_id'] = $topic_id;
                     $notice['source_id'] = $source_id;
                     $notice['target_id'] = $target_id;
-                    $notice['type'] = $notice_type_id;
+                    $notice['type_id'] = $notice_type_id;
                     $notice['created_at'] = $comment['created_at'];
                     $user_record_update_info = array('notice_count[+]' => 1, 'unread_notice_count[+]' => 1);
                     $this->model->User->updateUserRecord($user_record_update_info, $notice['target_id']);
