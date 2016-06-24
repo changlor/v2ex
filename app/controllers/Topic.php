@@ -38,7 +38,11 @@ class Topic extends Base
             $comment = empty($comment) ? array() : $comment;
             foreach ($comment as $key => $value) {
                 $comment[$key]['content'] = preg_replace('/@%([a-z0-9]+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value['content']);
-                $comment[$key]['content'] = nl2br($comment[$key]['content']);
+                $md = $this->model->Comment->mdTagParse($comment[$key]['content']);
+                $md = $this->model->Comment->mdAttributeParse($md);
+                $md = Markdown::convert($md);
+                $md = str_replace('&amp;gt;', '&gt;', $md);
+                $comment[$key]['content'] = str_replace('&amp;lt;', '&lt;', $md);
             }
             //生成分页链接
             $page = new Page($topic['comment_count'], $pagination_rows);
