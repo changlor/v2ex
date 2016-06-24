@@ -37,7 +37,7 @@ class Topic extends Base
             $comment = $this->model->Comment->getTopicComment($topic_id, $current_page, $pagination_rows);
             $comment = empty($comment) ? array() : $comment;
             foreach ($comment as $key => $value) {
-                $comment[$key]['content'] = preg_replace('/@%([a-z0-9]+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value['content']);
+                $comment[$key]['content'] = preg_replace('/@%([^\@]\S+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value['content']);
                 $md = $this->model->Comment->mdTagParse($comment[$key]['content']);
                 $md = $this->model->Comment->mdAttributeParse($md);
                 $md = Markdown::convert($md);
