@@ -33,7 +33,7 @@ class Comment extends Base
                 $comment['user_id'] = $user_id;
                 $comment['topic_id'] = $topic_id;
                 //@回复提醒记录
-                if (preg_match_all('/@([a-z0-9]+)/i', $comment['content'], $matches)) {
+                if (preg_match_all('/@([^\@]\S+)/i', $comment['content'], $matches)) {
                     $notice_user_name = false;
                     foreach ($matches[1] as $key => $value) {
                         if ($this->model->User->validateUser('username', $value)) {
