@@ -225,7 +225,7 @@
                         <table cellpadding="5" cellspacing="0" border="0" width="100%">
                             <tr>
                                 <td width="120" align="right">当前头像</td>
-                                <td width="auto" align="left"><img src="<?php echo PUBLIC_DIR; ?>/img/default_big.jpeg" class="avatar" border="0" align="default" /> &nbsp; <img src="<?php echo PUBLIC_DIR; ?>/img/default_middle.jpeg" class="avatar" border="0" align="default" /> &nbsp; <img src="<?php echo PUBLIC_DIR; ?>/img/default_small.jpeg" class="avatar" border="0" align="default" /></td>
+                                <td width="auto" align="left"><img src="<?php echo ($rightBarInfo['use_avatar']) ? PUBLIC_DIR . '/img/avatar/' . $rightBarInfo['user_id'] . '_large.png' : PUBLIC_DIR . '/img/default_big.jpeg'; ?>" class="avatar" border="0" align="default" /> &nbsp; <img src="<?php echo ($rightBarInfo['use_avatar']) ? PUBLIC_DIR . '/img/avatar/' . $rightBarInfo['user_id'] . '_normal.png' : PUBLIC_DIR . '/img/default_middle.jpeg'; ?>" class="avatar" border="0" align="default" /> &nbsp; <img src="<?php echo ($rightBarInfo['use_avatar']) ? PUBLIC_DIR . '/img/avatar/' . $rightBarInfo['user_id'] . '_mini.png' : PUBLIC_DIR . '/img/default_small.jpeg'; ?>" border="0" align="default" /></td>
                             </tr>
                             <tr>
                                 <td width="120" align="right"></td>

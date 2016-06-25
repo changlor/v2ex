@@ -57,6 +57,8 @@ class Base extends Kotori_Controller
             $this->rightBarInfo['user_role'] = $this->model->User->getUserRole($this->uid);
             $this->rightBarInfo['daily_task'] = $this->model->Task->getDailyTask($this->uid);
             $this->rightBarInfo['signature'] = $this->model->User->getUserSignature($this->uid);
+            $this->rightBarInfo['use_avatar'] = $this->model->User->ifUseAvatar($this->uid);
+            $this->rightBarInfo['user_id'] = $this->uid;
         }
         if (ACTION_NAME == 'index') {
             $this->rightBarInfo['hot_topic'] = $this->model->Topic->getHotTopic();

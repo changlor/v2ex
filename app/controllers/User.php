@@ -144,6 +144,52 @@ class User extends Base
         $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('is_done_setting', $is_done_setting)->assign('user_setting', $user_setting)->display();
     }
 
+    public function avatar()
+    {
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        $avatar_status = false;
+        if (isset($_SESSION['avatar_status']) && !empty($_SESSION['avatar_status'])) {
+            $avatar_status = $_SESSION['avatar_status'];
+            unset($_SESSION['avatar_status']);
+        }
+        $this->view->assign('avatar_status', $avatar_status)->assign('rightBarInfo', $this->rightBarInfo)->display();
+    }
+
+    public function getUserAvatar()
+    {
+        $img_size = array('large' => 72, 'normal' => 48, 'mini' => 24);
+        $isPass = false;
+        foreach ($img_size as $key => $value) {
+            $avatar = new upload($_FILES['avatar']);
+            $avatar->file_max_size = 1024 * 1024 * 2;
+            $avatar->allowed = array('image/jpeg', 'image/pjpeg');
+            $avatar->image_convert = 'png';
+            $avatar->file_overwrite = true;
+            if ($avatar->uploaded) {
+                $avatar->file_new_name_body = $this->uid . '_' . $key;
+                $avatar->image_resize = true;
+                $avatar->image_x = $value;
+                $avatar->image_y = $value;
+                $avatar->process('./public/img/avatar/');
+                if ($avatar->processed) {
+                    $isPass = true;
+                }
+            }
+        }
+        $avatar->clean();
+        if ($isPass) {
+            $url = $this->route->url('settings/avatar');
+            $_SESSION['avatar_status'] = '新头像设置成功';
+            $update_user_setting_info = array('avatar' => 1);
+            $this->model->User->updateUserSetting($update_user_setting_info, $this->uid);
+            $this->response->redirect($url, true);
+        } else {
+            $url = $this->route->url('settings/avatar');
+            $_SESSION['avatar_status'] = '文件上传格式不正确或图片超出限制大小';
+            $this->response->redirect($url, true);
+        }
+    }
+
     public function userSetting()
     {
         $user_setting = $this->model->User->getUserSetting($this->uid);

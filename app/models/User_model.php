@@ -47,12 +47,12 @@ class User_model extends Kotori_Model
         $recentActivity['topic'] = $this->db->select('topic',
             array(
                 'title',
-                'author',
                 'replied_at',
+                'reply_id',
+                'user_id(author_id)',
                 'created_at',
                 'id',
                 'comment_count',
-                'last_reply_username',
             ),
             array(
                 'AND' => array(
@@ -63,6 +63,21 @@ class User_model extends Kotori_Model
                 'LIMIT' => [0, 3],
             )
         );
+        $user_id = false;
+        foreach ($recentActivity['topic'] as $key => $value) {
+            $user_id[] = $value['author_id'];
+            $user_id[] = $value['reply_id'];
+        }
+        $user_id = array_flip(array_flip($user_id));
+        $user_info = $this->model->User->getUserInfo($user_id);
+        $user_id_to_name = false;
+        foreach ($user_info as $key => $value) {
+            $user_id_to_name[$value['id']] = $value['username'];
+        }
+        foreach ($recentActivity['topic'] as $key => $value) {
+            $recentActivity['topic'][$key]['author'] = $user_id_to_name[$value['author_id']];
+            $recentActivity['topic'][$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+        }
         $recentActivity['comment'] = $this->db->select('comment',
             array(
                 '[><]topic' => array('topic_id' => 'id'),
@@ -73,7 +88,7 @@ class User_model extends Kotori_Model
                 'comment.content',
                 'topic.comment_count',
                 'topic.title',
-                'topic.author',
+                'topic.user_id(author_id)',
             ),
             array(
                 'AND' => array(
@@ -85,6 +100,19 @@ class User_model extends Kotori_Model
                 'LIMIT' => [0, 6],
             )
         );
+        $user_id = false;
+        foreach ($recentActivity['comment'] as $key => $value) {
+            $user_id[] = $value['author_id'];
+        }
+        $user_id = array_flip(array_flip($user_id));
+        $user_info = $this->model->User->getUserInfo($user_id);
+        $user_id_to_name = false;
+        foreach ($user_info as $key => $value) {
+            $user_id_to_name[$value['id']] = $value['username'];
+        }
+        foreach ($recentActivity['comment'] as $key => $value) {
+            $recentActivity['comment'][$key]['author'] = $user_id_to_name[$value['author_id']];
+        }
         return $recentActivity;
     }
 
@@ -450,5 +478,17 @@ class User_model extends Kotori_Model
             )
         );
         return $signature[0]['signature'];
+    }
+
+    public function ifUseAvatar($user_id)
+    {
+        return $this->db->has('user_setting',
+            array(
+                'AND' => array(
+                    'user_id' => $user_id,
+                    'avatar' => 1,
+                ),
+            )
+        );
     }
 }

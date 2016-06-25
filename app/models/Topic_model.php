@@ -57,12 +57,14 @@ class Topic_model extends Kotori_Model
                 '[><]tab_node' => array('tab.id' => 'tab_id'),
                 '[><]node' => array('tab_node.node_id' => 'id'),
                 '[><]topic' => array('tab_node.node_id' => 'node_id'),
+                '[><]user_setting' => array('topic.user_id' => 'user_id'),
             ),
             array(
                 'node.ename',
                 'node.name',
                 'topic.id',
                 'topic.user_id(author_id)',
+                'user_setting.avatar(author_avatar)',
                 'topic.title',
                 'topic.created_at',
                 'topic.comment_count',
@@ -197,6 +199,7 @@ class Topic_model extends Kotori_Model
             $topic_info = $this->db->select('topic',
                 array(
                     '[><]user' => array('user_id' => 'id'),
+                    '[><]user_setting' => array('user_id' => 'user_id'),
                 ),
                 array(
                     'topic.id',
@@ -209,6 +212,7 @@ class Topic_model extends Kotori_Model
                     'topic.created_at',
                     'topic.hits',
                     'user.username(author)',
+                    'user_setting.avatar(author_avatar)',
                 ),
                 array(
                     'topic.id' => $topic_id,

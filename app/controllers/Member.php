@@ -17,7 +17,7 @@ class Member extends Base
             $comment_keys = array_keys($recent_activity['comment']);
             $comment_last_key = end($comment_keys);
             $user_setting = $this->model->User->getUserSetting($user_id);
-            $this->view->assign('username', $username)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('recent_topics', $recent_activity['topic'])->assign('user_setting', $user_setting)->display();
+            $this->view->assign('username', $username)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('recent_topics', $recent_activity['topic'])->assign('user_id', $this->uid)->assign('use_avatar', $this->rightBarInfo['use_avatar'])->assign('user_setting', $user_setting)->display();
         } else {
             $this->response->setStatus(404);
             $this->view->display('Member/memberNotFound');

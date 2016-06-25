@@ -32,6 +32,7 @@ class Comment_model extends Kotori_Model
         return $this->db->select('comment',
             array(
                 '[><]topic' => array('topic_id' => 'id'),
+                '[><]user' => array('user_id' => 'id'),
             ),
             array(
                 'comment.created_at',
@@ -39,7 +40,7 @@ class Comment_model extends Kotori_Model
                 'comment.content',
                 'topic.comment_count',
                 'topic.title',
-                'topic.author',
+                'user.username(author)',
             ),
             array(
                 'AND' => array(
@@ -58,6 +59,7 @@ class Comment_model extends Kotori_Model
         return $this->db->select('comment',
             array(
                 '[><]user' => array('user_id' => 'id'),
+                '[><]user_setting' => array('user_id' => 'user_id'),
             ),
             array(
                 'comment.id(comment_id)',
@@ -66,6 +68,7 @@ class Comment_model extends Kotori_Model
                 'comment.created_at',
                 'comment.position',
                 'user.username',
+                'user_setting.avatar',
             ),
             array(
                 'comment.topic_id' => $topic_id,

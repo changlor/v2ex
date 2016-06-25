@@ -11,6 +11,10 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
+    'settings/avatar' => array(
+        'post' => 'User/getUserAvatar',
+        'get' => 'User/avatar',
+    ),
     'notes/edit/([^/]+)' => array(
         'get' => 'Note/editNote/$1',
         'post' => 'Note/updateNote/$1',
