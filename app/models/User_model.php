@@ -63,20 +63,22 @@ class User_model extends Kotori_Model
                 'LIMIT' => [0, 3],
             )
         );
-        $user_id = false;
-        foreach ($recentActivity['topic'] as $key => $value) {
-            $user_id[] = $value['author_id'];
-            $user_id[] = $value['reply_id'];
-        }
-        $user_id = array_flip(array_flip($user_id));
-        $user_info = $this->model->User->getUserInfo($user_id);
-        $user_id_to_name = false;
-        foreach ($user_info as $key => $value) {
-            $user_id_to_name[$value['id']] = $value['username'];
-        }
-        foreach ($recentActivity['topic'] as $key => $value) {
-            $recentActivity['topic'][$key]['author'] = $user_id_to_name[$value['author_id']];
-            $recentActivity['topic'][$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+        if (!empty($recentActivity['topic'])) {
+            $user_id = false;
+            foreach ($recentActivity['topic'] as $key => $value) {
+                $user_id[] = $value['author_id'];
+                $user_id[] = $value['reply_id'];
+            }
+            $user_id = array_flip(array_flip($user_id));
+            $user_info = $this->model->User->getUserInfo($user_id);
+            $user_id_to_name = false;
+            foreach ($user_info as $key => $value) {
+                $user_id_to_name[$value['id']] = $value['username'];
+            }
+            foreach ($recentActivity['topic'] as $key => $value) {
+                $recentActivity['topic'][$key]['author'] = $user_id_to_name[$value['author_id']];
+                $recentActivity['topic'][$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+            }
         }
         $recentActivity['comment'] = $this->db->select('comment',
             array(
@@ -100,18 +102,20 @@ class User_model extends Kotori_Model
                 'LIMIT' => [0, 6],
             )
         );
-        $user_id = false;
-        foreach ($recentActivity['comment'] as $key => $value) {
-            $user_id[] = $value['author_id'];
-        }
-        $user_id = array_flip(array_flip($user_id));
-        $user_info = $this->model->User->getUserInfo($user_id);
-        $user_id_to_name = false;
-        foreach ($user_info as $key => $value) {
-            $user_id_to_name[$value['id']] = $value['username'];
-        }
-        foreach ($recentActivity['comment'] as $key => $value) {
-            $recentActivity['comment'][$key]['author'] = $user_id_to_name[$value['author_id']];
+        if (!empty($recentActivity['comment'])) {
+            $user_id = false;
+            foreach ($recentActivity['comment'] as $key => $value) {
+                $user_id[] = $value['author_id'];
+            }
+            $user_id = array_flip(array_flip($user_id));
+            $user_info = $this->model->User->getUserInfo($user_id);
+            $user_id_to_name = false;
+            foreach ($user_info as $key => $value) {
+                $user_id_to_name[$value['id']] = $value['username'];
+            }
+            foreach ($recentActivity['comment'] as $key => $value) {
+                $recentActivity['comment'][$key]['author'] = $user_id_to_name[$value['author_id']];
+            }
         }
         return $recentActivity;
     }
