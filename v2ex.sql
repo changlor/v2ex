@@ -108,7 +108,7 @@ CREATE TABLE `node` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `node` (`id`, `created_at`, `updated_at`, `topic_count`, `favorite_count`, `name`, `ename`, `about`) VALUES
-(1, 0,  0,  4,  0,  '一锅粥',  'mass', '散落凡间的主题'),
+(1, 0,  0,  0,  0,  '一锅粥',  'mass', '散落凡间的主题'),
 (2, 0,  0,  0,  0,  '随感', 'feel', '星星点点的夜空'),
 (3, 0,  0,  0,  0,  'php',  'php',  'php是世界上最好的语言');
 
@@ -117,11 +117,13 @@ CREATE TABLE `note` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `dir_id` int(11) unsigned NOT NULL,
   `user_id` mediumint(8) unsigned NOT NULL,
+  `str_length` mediumint(8) unsigned NOT NULL,
   `content` text NOT NULL,
   `title` char(32) NOT NULL,
   `created_at` int(10) unsigned NOT NULL,
   `updated_at` int(10) unsigned NOT NULL,
   `updated_record` mediumint(8) unsigned NOT NULL,
+  `is_publish` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -145,7 +147,7 @@ CREATE TABLE `notice` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `created_at` int(10) unsigned NOT NULL,
   `updated_at` int(10) unsigned NOT NULL,
-  `type` tinyint(1) unsigned NOT NULL,
+  `type_id` tinyint(1) unsigned NOT NULL,
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `target_id` mediumint(8) unsigned NOT NULL,
   `source_id` mediumint(8) unsigned NOT NULL,
@@ -157,6 +159,18 @@ CREATE TABLE `notice` (
   KEY `source_id_target_id` (`source_id`,`target_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
+DROP TABLE IF EXISTS `notice_type`;
+CREATE TABLE `notice_type` (
+  `id` tinyint(1) unsigned NOT NULL AUTO_INCREMENT,
+  `ename` char(12) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ename_id` (`ename`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `notice_type` (`id`, `ename`) VALUES
+(1, 'mention'),
+(2, 'reply');
 
 DROP TABLE IF EXISTS `setting`;
 CREATE TABLE `setting` (
@@ -289,8 +303,6 @@ CREATE TABLE `topic` (
   `ranked_at` int(10) unsigned NOT NULL,
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `client` varchar(12) NOT NULL,
-  `author` char(16) NOT NULL,
-  `last_reply_username` char(16) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `alllist` (`alltop`,`replied_at`,`id`),
   KEY `nodelist` (`node_id`,`top`,`replied_at`,`id`),
@@ -306,15 +318,6 @@ CREATE TABLE `topic_content` (
   `topic_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `content` text NOT NULL,
   PRIMARY KEY (`topic_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `type`;
-CREATE TABLE `type` (
-  `id` tinyint(1) unsigned NOT NULL AUTO_INCREMENT,
-  `ename` varchar(6) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `ename_id` (`ename`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
@@ -387,8 +390,9 @@ CREATE TABLE `user_setting` (
   `location` char(60) NOT NULL,
   `signature` char(60) NOT NULL,
   `introduction` char(200) NOT NULL,
+  `avatar` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
--- 2016-06-22 07:25:04
+-- 2016-06-25 10:37:49
