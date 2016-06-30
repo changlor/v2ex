@@ -368,13 +368,13 @@ $rightBar = empty($rightBar) ? $defaultRightBar : $rightBar;
     <div class="cell">
         <table cellpadding="5" cellspacing="0" border="0" width="100%">
             <tbody>
-            <?php if ($note_count != 0): ?>
+            <?php if (isset($note_count) && $note_count != 0): ?>
             <tr>
                 <td width="50" align="right"><span class="gray">文件数</span></td>
                 <td width="auto" align="left"><strong><?=$note_count;?></strong></td>
             </tr>
             <?php endif;?>
-            <?php if ($note_dir_count != 0): ?>
+            <?php if (isset($note_dir_count) && $note_dir_count != 0): ?>
             <tr>
                 <td width="50" align="right"><span class="gray">文件夹数</span></td>
                 <td width="auto" align="left"><strong><?=$note_dir_count;?></strong></td>

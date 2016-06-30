@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>
+        <?=$note['title'];?> - V2EX</title>
+    <link rel="stylesheet" type="text/css" href="<?php echo PUBLIC_DIR; ?>/css/note.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo PUBLIC_DIR; ?>/css/highlight.css" />
+</head>
+
+<body>
+    <div id="Wrapper">
+        <div id="Main">
+            <div class="box">
+                <div class="cell">
+                    <h1><?=$note['title'];?></h1>
+                    <div class="note_author">
+                        <a href="/member/<?=$note['author'];?>" target="_blank"><img src="<?php echo ($note['use_avatar']) ? PUBLIC_DIR . '/img/avatar/' . $note['author_id'] . '_large.png' : PUBLIC_DIR . '/img/default_small.jpeg'; ?>" class="avatar" style="vertical-align: sub;" alt="changlers" border="0" /></a>&nbsp;
+                        <a href="/member/changlers" target="_blank">
+                            <?=$note['author'];?>
+                        </a>
+                    </div>
+                </div>
+                <?php if (!empty($note['content'])): ?>
+                <div class="cell" style="padding: 15px">
+                    <div class="note_content">
+                        <?=$note['content'];?>
+                    </div>
+                </div>
+                <?php endif;?>
+                <div class="secondary" style="text-align: right;">
+                    <span class="gray">发布于 <?=date('Y-m-d', $note['published_at']);?> &nbsp;·&nbsp; <?=$note['hits'];?> 次点击 &nbsp;·&nbsp; <a href="/">返回 V2EX</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

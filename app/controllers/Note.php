@@ -3,19 +3,83 @@ class Note extends Base
 {
     public function viewNote($note_id)
     {
+        $is_publish = false;
+        $is_unpublish = false;
         $hasRight = false;
         $note = '';
         if ($this->model->Note->ifHasRight($note_id, $this->uid)) {
             $note = $this->model->Note->getNote($note_id);
+            $note_title = $this->model->Note->getNote($note_id, 'title');
             $hasRight = true;
         }
-        $this->rightBarInfo['rightBar'] = array('note_info');
-        $this->rightBarInfo['is_publish'] = $note['is_publish'];
-        $this->rightBarInfo['created_at'] = $note['created_at'];
-        $this->rightBarInfo['updated_at'] = $note['updated_at'];
-        $this->rightBarInfo['updated_record'] = $note['updated_record'];
-        $this->rightBarInfo['note_length'] = $note['note_length'];
-        $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('hasRight', $hasRight)->assign('note', $note)->display();
+        if (isset($_SESSION['is_publish']) && $_SESSION['is_publish']) {
+            $is_publish = true;
+            unset($_SESSION['is_publish']);
+        }
+        if (isset($_SESSION['is_unpublish']) && $_SESSION['is_unpublish']) {
+            $is_unpublish = true;
+            unset($_SESSION['is_unpublish']);
+        }
+        $note_uid = false;
+        if ($note['is_publish'] == 1) {
+            $note_uid = $this->model->Note->getNoteUid($note_id);
+        }
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        if ($hasRight) {
+            $this->rightBarInfo['rightBar'] = array('note_info');
+            $this->rightBarInfo['is_publish'] = $note['is_publish'];
+            $this->rightBarInfo['created_at'] = $note['created_at'];
+            $this->rightBarInfo['updated_at'] = $note['updated_at'];
+            $this->rightBarInfo['updated_record'] = $note['updated_record'];
+            $this->rightBarInfo['note_length'] = $note['note_length'];
+        }
+        $this->view->assign('note_uid', $note_uid)->assign('note_title', $note_title)->assign('is_publish', $is_publish)->assign('is_unpublish', $is_unpublish)->assign('rightBarInfo', $this->rightBarInfo)->assign('hasRight', $hasRight)->assign('note', $note)->display();
+    }
+
+    public function viewPublishNote($note_uid)
+    {
+        $update_note_info = array('published_hits[+]' => 1);
+        $this->model->Note->updateNoteInfo($update_note_info, $note_uid, 'note_uid');
+        $note = $this->model->Note->getNoteByNoteUid($note_uid);
+        $this->view->assign('note', $note)->assign('use_avatar', $this->rightBarInfo['use_avatar'])->display();
+    }
+
+    public function publishNote($note_id)
+    {
+        if (!$this->model->Note->ifHasRight($note_id, $this->uid)) {
+            $url = $this->route->url('notes');
+            $this->response->redirect($url, true);
+        }
+        $note_title = $this->model->Note->getNote($note_id, 'title');
+        $this->rightBarInfo['rightBar'] = array('myInfo');
+        $this->view->assign('note_title', $note_title)->assign('note_id', $note_id)->assign('rightBarInfo', $this->rightBarInfo)->display();
+    }
+
+    public function insertPublishNote($note_id)
+    {
+        if (!$this->model->Note->ifHasRight($note_id, $this->uid)) {
+            $url = $this->route->url('notes');
+            $this->response->redirect($url, true);
+        }
+        $note_uid = getRandChar(12);
+        $update_note_info = array('is_publish' => 1, 'note_uid' => $note_uid, 'published_at' => strtotime(date('Y-m-d H:i:s')));
+        $this->model->Note->updateNoteInfo($update_note_info, $note_id);
+        $_SESSION['is_publish'] = true;
+        $url = $this->route->url('notes/' . $note_id);
+        $this->response->redirect($url, true);
+    }
+
+    public function unpublishNote($note_id)
+    {
+        if (!$this->model->Note->ifHasRight($note_id, $this->uid)) {
+            $url = $this->route->url('notes');
+            $this->response->redirect($url, true);
+        }
+        $update_note_info = array('is_publish' => 0, 'note_uid' => '', 'published_at' => '', 'published_hits' => 0);
+        $this->model->Note->updateNoteInfo($update_note_info, $note_id);
+        $_SESSION['is_unpublish'] = true;
+        $url = $this->route->url('notes/' . $note_id);
+        $this->response->redirect($url, true);
     }
 
     public function viewNoteDir()
@@ -44,7 +108,9 @@ class Note extends Base
         }
         $dir_id = $this->model->Note->getDirId($dir_name);
         $dir_note = $this->model->Note->getDirNote($dir_id, $this->uid);
-        $this->view->assign('dir_note', $dir_note)->assign('dir_name', $dir_name)->assign('dir_id', $dir_id)->display();
+        $this->rightBarInfo['rightBar'] = array('note');
+        $this->rightBarInfo['note_count'] = count($dir_note);
+        $this->view->assign('dir_note', $dir_note)->assign('rightBarInfo', $this->rightBarInfo)->assign('dir_name', $dir_name)->assign('dir_id', $dir_id)->display();
     }
 
     public function addNote()
@@ -90,7 +156,7 @@ class Note extends Base
                 $note['title'] = trim(substr($note_content, 0, 32));
             }
             $note['dir_id'] = $note_dir_id;
-            $note['content'] = $note_content;
+            $note['content'] = trim(str_replace($note['title'], '', $note_content));
             $note['str_length'] = strlen($note_content);
             $note['created_at'] = strtotime(date('Y-m-d H:i:s'));
             $note['user_id'] = $this->uid;

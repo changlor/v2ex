@@ -11,6 +11,12 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
+    'p/([0-9a-zA-Z]{12})' => 'Note/viewPublishNote/$1',
+    'notes/publish/([0-9]+)' => array(
+        'get' => 'Note/publishNote/$1',
+        'post' => 'Note/insertPublishNote/$1',
+    ),
+    'notes/unpublish/([0-9]+)' => 'Note/unpublishNote/$1',
     'settings/avatar' => array(
         'post' => 'User/getUserAvatar',
         'get' => 'User/avatar',

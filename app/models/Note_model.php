@@ -109,6 +109,7 @@ class Note_model extends Kotori_Model
         $note = $this->db->select('note',
             array(
                 'content',
+                'title',
                 'id(note_id)',
                 'dir_id',
                 'str_length(note_length)',
@@ -131,7 +132,9 @@ class Note_model extends Kotori_Model
                 'title',
                 'id(note_id)',
                 'str_length(note_length)',
+                'is_publish',
                 'created_at',
+                'note_uid',
             ),
             array(
                 'AND' => array(
@@ -140,6 +143,17 @@ class Note_model extends Kotori_Model
                 ),
             )
         );
+    }
+
+    public function getNoteUid($note_id)
+    {
+        $note_uid = $this->db->select('note',
+            array('note_uid'),
+            array(
+                'id' => $note_id,
+            )
+        );
+        return $note_uid[0]['note_uid'];
     }
 
     public function existDir($dir_name, $user_id)
@@ -162,6 +176,8 @@ class Note_model extends Kotori_Model
                 'id(dir_id)',
                 'str_length(note_length)',
                 'created_at',
+                'is_publish',
+                'note_uid',
             ),
             array(
                 'AND' => array(
@@ -198,6 +214,29 @@ class Note_model extends Kotori_Model
                 'dir_id' => $dir_id,
             )
         );
+    }
+
+    public function getNoteByNoteUid($note_uid)
+    {
+        $note = $this->db->select('note',
+            array(
+                '[><]user' => array('user_id' => 'id'),
+                '[><]user_setting' => array('user_id' => 'user_id'),
+            ),
+            array(
+                'note.title',
+                'note.content',
+                'user.username(author)',
+                'user_setting.avatar(use_avatar)',
+                'user.id(author_id)',
+                'note.published_at',
+                'note.published_hits(hits)',
+            ),
+            array(
+                'note.note_uid' => $note_uid,
+            )
+        );
+        return $note[0];
     }
 
     public function deleteNote($note_id)
@@ -240,12 +279,20 @@ class Note_model extends Kotori_Model
         return $note_dir_info[0];
     }
 
-    public function updateNoteInfo($update_note_info, $note_id)
+    public function updateNoteInfo($update_note_info, $note_id, $field = '')
     {
+        if (empty($field)) {
+            return $this->db->update('note',
+                $update_note_info,
+                array(
+                    'id' => $note_id,
+                )
+            );
+        }
         return $this->db->update('note',
             $update_note_info,
             array(
-                'id' => $note_id,
+                $field => $note_id,
             )
         );
     }

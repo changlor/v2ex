@@ -23,15 +23,39 @@
             </div>
             <div id="Main">
                 <div class="sep20"></div>
-                <?php if($hasRight): ?>
+                <?php if ($hasRight): ?>
                 <div class="box">
                     <div class="header"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/notes">记事本</a> <span class="chevron">&nbsp;›&nbsp;</span> 查看文件</div>
-                    <div class="cell note">
-                        <h1 style="margin-bottom: 20px;"><?=$note['content'];?></h1>
+                    <?php if (isset($is_publish) && $is_publish): ?>
+                    <div class="message" onclick="$(this).slideUp('fast');">发布完成：
+                        <?=$note_title;?>
                     </div>
+                    <?php endif;?>
+                    <?php if (isset($is_unpublish) && $is_unpublish): ?>
+                    <div class="message" onclick="$(this).slideUp('fast');">取消发布完成：
+                        <?=$note_title;?>
+                    </div>
+                    <?php endif;?>
+                    <div class="cell note">
+                        <h1 style="margin-bottom: 20px;"><?=$note['title'];?></h1>
+                        <?php if (!empty($note['content'])): ?>
+                        <?=$note['content'];?>
+                            <span></span>
+                            <?php endif;?>
+                    </div>
+                    <?php if ($rightBarInfo['is_publish'] == 1): ?>
+                    <div class="cell" style="background-color: #f9f9f9;">
+                        <div class="fr"><span class="gray">0 次点击</span></div>
+                        <div class="note_item_icon_note_arrow"></div> 已发布&nbsp; <a href="<?php echo $this->route->url('p/' . $note_uid); ?>" target="_blank"><?php echo $this->route->url('p/' . $note_uid); ?></a>
+                    </div>
+                    <?php endif;?>
                     <div class="inner">
                         <div class="fr">
+                            <?php if ($rightBarInfo['is_publish'] == 1): ?>
+                            <input type="button" class="super normal button" value="取消发布" onclick="if (confirm('你确定要取消发布这个文件？')) { location.href = '/notes/unpublish/<?=$note['note_id'];?>'; }">
+                            <?php else: ?>
                             <input type="button" class="super normal button" value="发布" onclick="location.href = '/notes/publish/<?=$note['note_id'];?>';" />
+                            <?php endif;?>
                         </div>
                         <input type="button" class="super normal button" value="编辑" onclick="location.href = '/notes/edit/<?=$note['note_id'];?>';" /> &nbsp;
                         <input type="button" class="super normal button" value="删除" onclick="if (confirm('确认彻底删除标题为 测试 的文件？')) { location.href = '/notes/delete/<?=$note['note_id'];?>'; }" />
@@ -47,7 +71,7 @@
                         <div class="sep20"></div>
                     </div>
                 </div>
-                <?php endif; ?>
+                <?php endif;?>
             </div>
         </div>
         <div class="c"></div>

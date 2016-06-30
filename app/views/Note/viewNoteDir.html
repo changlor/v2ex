@@ -48,9 +48,18 @@
                     <?php if (!empty($root_dir_note)): ?>
                     <?php foreach ($root_dir_note as $key => $value): ?>
                     <div class="note_item">
-                        <div class="note_item_info"><?=$value['note_length'];?> 字符 &nbsp;·&nbsp; <?=fadeTime($value['created_at']);?></div>
+                        <div class="note_item_info">
+                            <?=$value['note_length'];?> 字符 &nbsp;·&nbsp;
+                                <?=fadeTime($value['created_at']);?>
+                        </div>
                         <div class="note_item_icon_note"></div>
-                        <div class="note_item_title"><a href="/notes/<?=$value['note_id'];?>" class="black"><?=$value['title'];?></a></div>
+                        <div class="note_item_title">
+                            <a href="/notes/<?=$value['note_id'];?>" class="black">
+                                <?=$value['title'];?>
+                            </a>
+                            <?php if ($value['is_publish'] == 1): ?> &nbsp; <a href="<?php echo $this->route->url('p/' . $value['note_uid']); ?>" target="_blank" class="gray"><?=$value['note_uid'];?></a>
+                            <?php endif;?>
+                        </div>
                     </div>
                     <?php endforeach;?>
                     <?php endif;?>

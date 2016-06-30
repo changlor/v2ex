@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8">
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/selectboxit.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="header"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/notes">记事本</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/notes/<?=$note_id;?>">xxx</a> <span class="chevron">&nbsp;›&nbsp;</span> 发布</div>
+                    <form method="post" action="/notes/publish/<?=$note_id;?>">
+                        <div class="cell note">
+                            <span class="f12">你确定要发布：</span>
+                            <div class="sep10"></div>
+                            <div class="well">
+                                <div class="note_item_icon_note"></div> <?=$note_title;?></div>
+                            <div class="sep10"></div>
+                            <span class="f12">点击确定按钮即表示你已经读过并且完全同意下面的使用协议：</span>
+                            <div class="sep10"></div>
+                            <input type="submit" class="super normal button" value="确定" /> &nbsp;
+                            <input type="button" class="super normal button" value="取消" onclick="location.href = '/notes/<?=$note_id;?>';" />
+                        </div>
+                        <div class="cell_ops" style="line-height: 150%;">
+                            V2EX 记事本文件发布功能使用协议
+                            <div class="sep10"></div>
+                            <strong>基本概念</strong>
+                            <div class="sep10"></div>
+                            V2EX 记事本是一个简单好用的信息整理功能。默认情况下，你的记事本中的文件只有你自己可以看到。如果你使用发布功能让记事本中的某个文件变成公开，则系统会为这个文件生成一个 UUID Link，然后你就可以通过这个 UUID Link 将内容共享到 Internet。你也可以随时将一个已经发布的文件撤回到未发布状态。
+                            <div class="sep10"></div>
+                            除非文件中有特别申明，默认情况下，所有发布了的文件的版权归文件创建者。
+                            <div class="sep10"></div>
+                            <strong>使用规则</strong>
+                            <div class="sep10"></div>
+                            请不要将 V2EX 记事本的发布功能用于以下性质的内容：
+                            <ul>
+                                <li>侵犯版权的内容</li>
+                                <li>泄漏重要机密的内容</li>
+                                <li>不被中国法律允许发布的内容</li>
+                                <li>对于他人的恶意诽谤或者谣言</li>
+                                <li>具有严重争议的宗教内容</li>
+                            </ul>
+                            <div class="sep10"></div>
+                            这类内容如果被举报发现，就可能会被撤回到未发布状态。
+                            <div class="sep10"></div>
+                            <strong>鼓励内容</strong>
+                            <div class="sep10"></div>
+                            V2EX 是一个汇聚了大量创意工作者的知识社区，我们非常鼓励你使用 V2EX 记事本的发布功能来共享知识。这也是我们做这个功能的初衷。以下内容内容是非常鼓励的：
+                            <ul>
+                                <li>专业软件的安装和使用说明</li>
+                                <li>软件性能优化技巧</li>
+                                <li>大型分布式系统的运维技巧</li>
+                                <li>各种可以用于开始创业项目的 idea</li>
+                                <li>及任何你觉得可以让这个世界变得更好的知识</li>
+                            </ul>
+                            <div class="sep10"></div>
+                            <div class="sep10"></div>
+                            <span class="gray">本协议最后更新时间 - Jul 20, 2014</span>
+                        </div>
+                        <div class="inner">
+                            <input type="submit" class="super normal button" value="确定" /> &nbsp;
+                            <input type="button" class="super normal button" value="取消" onclick="location.href = '/notes/<?=$note_id;?>';" />
+                        </div>
+                        <input type="hidden" name="once" value="45005" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="c"></div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer');?>
+</body>
+
+</html>
