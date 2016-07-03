@@ -153,6 +153,11 @@ class User_model extends Kotori_Model
 
     public function signin($user)
     {
+        $user_position = $this->db->max('user',
+            'position'
+        );
+        $user_position++;
+        $user['position'] = $user_position;
         return $this->db->insert('user',
             $user
         );
@@ -458,16 +463,21 @@ class User_model extends Kotori_Model
     {
         $user_setting = $this->db->select('user_setting',
             array(
-                'email',
-                'website',
-                'company',
-                'job',
-                'location',
-                'signature',
-                'introduction',
+                '[><]user' => array('user_id' => 'id'),
             ),
             array(
-                'user_id' => $user_id,
+                'user_setting.email',
+                'user_setting.website',
+                'user_setting.company',
+                'user_setting.job',
+                'user_setting.location',
+                'user_setting.signature',
+                'user_setting.introduction',
+                'user.position',
+                'user.created_at',
+            ),
+            array(
+                'user_setting.user_id' => $user_id,
             )
         );
         return $user_setting[0];

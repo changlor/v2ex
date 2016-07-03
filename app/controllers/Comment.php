@@ -112,6 +112,9 @@ class Comment extends Base
                     $deal['user_id'] = $this->uid;
                     $this->model->Profit->getCommentProfit($profit, $deal);
                 }
+                //记录用户活跃度
+                $rank = new Rank(rcookie('NA'));
+                $rank->record();
                 $url = $this->route->url('t/' . $topic_id . '#reply' . $insert_comment_count);
                 $this->response->redirect($url, true);
             } else {

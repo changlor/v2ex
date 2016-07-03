@@ -127,6 +127,9 @@ class Topic extends Base
                 $deal['user_id'] = 0;
                 $deal['deal_id'] = $insert_topic_id;
                 $this->model->Consumption->topicCost($consunmption, $deal);
+                //记录用户活跃度
+                $rank = new Rank(rcookie('NA'));
+                $rank->record();
                 $url = $this->route->url('t/' . $insert_topic_id);
                 $this->response->redirect($url, true);
             } else {

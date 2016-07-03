@@ -50,7 +50,13 @@
                                     <span><li class="fa fa-building"></li> &nbsp; <strong><?=$user_setting['company'];?></strong><?php echo empty($user_setting['job']) ? '' : ' /  ' . $user_setting['job']; ?></span>
                                     <?php endif;?>
                                     <div class="sep10"></div>
-                                    <span class="gray"><li class="fa fa-time"></li> &nbsp; V2EX 第 105350 号会员，加入于 2015-03-18 17:18:44 +08:00，今日活跃度排名 <a href="/top/dau">737</a></span>
+                                    <span class="gray"><li class="fa fa-time"></li> &nbsp; V2EX 第 <?=$user_setting['position'];?> 号会员，加入于 <?=date('Y-m-d H:i:s', $user_setting['created_at']);?> +08:00
+                                    <?php if (empty($user_rank) || $user_rank == 0): ?>
+                                        <a href="/top/dau">该用户今日未有活跃度记录</a>
+                                    <?php else: ?>
+                                    ，今日活跃度排名 <a href="/top/dau"><?=$user_rank;?></a>
+                                    <?php endif;?>
+                                    </span>
                                 </td>
                             </tr>
                         </table>

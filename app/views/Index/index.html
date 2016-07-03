@@ -27,7 +27,13 @@
                                 the king of chaos
                             </a>
                     </div>
-                    <div class="cell" style="background-color: #f9f9f9; padding: 10px 10px 10px 20px;"><?php foreach ($tab_node as $key => $value): ?><a href="/go/<?=$value['ename'];?>"><?=$value['name'];?></a>&nbsp;&nbsp;<?php endforeach;?></div>
+                    <div class="cell" style="background-color: #f9f9f9; padding: 10px 10px 10px 20px;">
+                        <?php foreach ($tab_node as $key => $value): ?>
+                        <a href="/go/<?=$value['ename'];?>">
+                            <?=$value['name'];?>
+                        </a>&nbsp;&nbsp;
+                        <?php endforeach;?>
+                    </div>
                     <?php foreach ($topic as $key => $value): ?>
                     <div class="cell item" style="">
                         <div style="position: absolute; margin: -10px -10px 0px 650px;"></div>
@@ -58,7 +64,9 @@
                                     </td>
                                     <?php if ($value['comment_count'] != 0): ?>
                                     <td width="70" align="right" valign="middle">
-                                        <a href="<?php echo $this->route->url('t/' . $value['id']); ?>#reply<?=$value['comment_count'];?>" class="count_livid"><?=$value['comment_count'];?></a>
+                                        <a href="<?php echo $this->route->url('t/' . $value['id']); ?>#reply<?=$value['comment_count'];?>" class="count_livid">
+                                            <?=$value['comment_count'];?>
+                                        </a>
                                     </td>
                                     <?php endif;?>
                                 </tr>

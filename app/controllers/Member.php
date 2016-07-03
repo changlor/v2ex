@@ -9,6 +9,8 @@ class Member extends Base
     public function home($username)
     {
         if ($this->model->User->validateUser('username', $username)) {
+            $rank = new Rank($username);
+            $user_rank = $rank->getUserRank();
             $user_id = $this->model->User->getUserId('username', $username);
             $recent_activity = $this->model->User->getRecentActivity($user_id);
             foreach ($recent_activity['comment'] as $key => $value) {
@@ -17,7 +19,8 @@ class Member extends Base
             $comment_keys = array_keys($recent_activity['comment']);
             $comment_last_key = end($comment_keys);
             $user_setting = $this->model->User->getUserSetting($user_id);
-            $this->view->assign('username', $username)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('recent_topics', $recent_activity['topic'])->assign('user_id', $this->uid)->assign('use_avatar', $this->rightBarInfo['use_avatar'])->assign('user_setting', $user_setting)->display();
+            $use_avatar = $this->model->User->ifUseAvatar($user_id);
+            $this->view->assign('username', $username)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('user_rank', $user_rank)->assign('recent_topics', $recent_activity['topic'])->assign('user_id', $user_id)->assign('use_avatar', $use_avatar)->assign('user_setting', $user_setting)->display();
         } else {
             $this->response->setStatus(404);
             $this->view->display('Member/memberNotFound');
