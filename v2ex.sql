@@ -108,7 +108,7 @@ CREATE TABLE `node` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `node` (`id`, `created_at`, `updated_at`, `topic_count`, `favorite_count`, `name`, `ename`, `about`) VALUES
-(1, 0,  0,  0,  0,  '一锅粥',  'mass', '散落凡间的主题'),
+(1, 0,  0,  2,  0,  '一锅粥',  'mass', '散落凡间的主题'),
 (2, 0,  0,  0,  0,  '随感', 'feel', '星星点点的夜空'),
 (3, 0,  0,  0,  0,  'php',  'php',  'php是世界上最好的语言');
 
@@ -121,9 +121,12 @@ CREATE TABLE `note` (
   `content` text NOT NULL,
   `title` char(32) NOT NULL,
   `created_at` int(10) unsigned NOT NULL,
+  `published_at` int(10) unsigned NOT NULL,
   `updated_at` int(10) unsigned NOT NULL,
   `updated_record` mediumint(8) unsigned NOT NULL,
   `is_publish` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `note_uid` char(12) NOT NULL,
+  `published_hits` mediumint(8) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -333,6 +336,7 @@ CREATE TABLE `user` (
   `password_hash` char(80) NOT NULL,
   `auth_key` char(32) NOT NULL,
   `avatar` char(50) NOT NULL DEFAULT 'avatar/0_{size}.png',
+  `position` mediumint(8) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
@@ -395,4 +399,4 @@ CREATE TABLE `user_setting` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
--- 2016-06-25 10:37:49
+-- 2016-07-03 07:26:52
