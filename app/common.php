@@ -12,6 +12,11 @@ function custom_error($level, $event, $value = '')
         'legal' => 'pass',
         'undefined' => '主题未找到',
     );
+    $errors['captcha'] = array(
+        'legal' => 'pass',
+        'illegal' => '输入的验证码不正确',
+        'undefined' => '请输入验证码',
+    );
     $errors['comment'] = array(
         'legal' => 'pass',
         'undefined' => '回复内容不能为空',

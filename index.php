@@ -11,6 +11,7 @@ $config['DB_TYPE'] = 'mysql';
 $config['DB_NAME'] = 'v2ex';
 $config['URL_MODE'] = 'PATH_INFO';
 $config['URL_ROUTE'] = array(
+    'captcha.png' => 'User/captcha',
     'p/([0-9a-zA-Z]{12})' => 'Note/viewPublishNote/$1',
     'notes/publish/([0-9]+)' => array(
         'get' => 'Note/publishNote/$1',

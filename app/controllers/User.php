@@ -85,6 +85,8 @@ class User extends Base
             $username = trim($username);
             $handler['username'] = $this->model->User->validateUsername($username);
             $handler['email'] = $this->model->User->validateEmail($email);
+            $handler['verifycode'] = $this->model->User->validateCaptcha($verifycode, $_SESSION['captcha']);
+            unset($_SESSION['captcha']);
             $isPass = false;
             foreach ($handler as $key => $value) {
                 if ($value['msg'] != 'pass') {
@@ -236,5 +238,12 @@ class User extends Base
             $this->rightBarInfo['rightBar'] = array('myInfo');
             $this->view->assign('rightBarInfo', $this->rightBarInfo)->assign('problem', $problem)->display('User/setting');
         }
+    }
+
+    public function captcha()
+    {
+        $captcha = new Captcha();
+        $captcha->getImg();
+        $_SESSION['captcha'] = $captcha->getCode();
     }
 }

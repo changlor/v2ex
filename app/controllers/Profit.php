@@ -78,7 +78,7 @@ class Profit extends Base
             $handler['describe'] = '请登录后再发表感谢';
             $this->response->throwJson($handler);
         }
-        if (!$this->model->Topic->validateTopic('user_id', $author_id, $topic_id)) {
+        if (!$this->model->Topic->validateTopicInfo('user_id', $author_id, $topic_id)) {
             $handler['status'] = 'error';
             $handler['event'] = 'notfound';
             $handler['describe'] = '未找到你要感谢的主题';

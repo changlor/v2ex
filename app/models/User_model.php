@@ -295,6 +295,18 @@ class User_model extends Kotori_Model
         return eventGenerate('user', $event, $user_id);
     }
 
+    public function validateCaptcha($verifycode, $captcha)
+    {
+        $event = 'legal';
+        if ($verifycode != $captcha) {
+            $event = 'illegal';
+        }
+        if (empty($verifycode)) {
+            $event = 'undefined';
+        }
+        return eventGenerate('captcha', $event);
+    }
+
     public function getUserAsset($user_id)
     {
         return $this->db->select('user_asset',
