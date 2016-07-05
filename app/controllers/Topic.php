@@ -49,8 +49,9 @@ class Topic extends Base
             $page_link = $page->show($current_page);
             //获取主题感谢信息
             $thank_record = $this->model->User->getUserThankRecord($this->uid, $topic_id);
+            $is_favorite_topic = $this->model->Favorite->isFavoriteTopic($topic_id, $this->uid);
             $this->rightBarInfo['rightBar'] = array('myInfo');
-            $this->view->assign('comment', $comment)->assign('thank_record', $thank_record)->assign('page_rows', $page_rows)->assign('current_page', $current_page)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->assign('topic_tags', $topic_tags)->assign('page_link', $page_link)->display();
+            $this->view->assign('comment', $comment)->assign('thank_record', $thank_record)->assign('page_rows', $page_rows)->assign('is_favorite_topic', $is_favorite_topic)->assign('current_page', $current_page)->assign('rightBarInfo', $this->rightBarInfo)->assign('topic', $topic)->assign('topic_tags', $topic_tags)->assign('page_link', $page_link)->display();
         } else {
             $this->response->setStatus('404');
             $this->rightBarInfo['rightBar'] = array('myInfo');

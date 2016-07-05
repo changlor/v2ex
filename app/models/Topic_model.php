@@ -115,19 +115,21 @@ class Topic_model extends Kotori_Model
             )
         );
         $user_id = false;
-        foreach ($topic as $key => $value) {
-            $user_id[] = $value['author_id'];
-            $user_id[] = $value['reply_id'];
-        }
-        $user_id = array_flip(array_flip($user_id));
-        $user_info = $this->model->User->getUserInfo($user_id);
-        $user_id_to_name = false;
-        foreach ($user_info as $key => $value) {
-            $user_id_to_name[$value['id']] = $value['username'];
-        }
-        foreach ($topic as $key => $value) {
-            $topic[$key]['author'] = $user_id_to_name[$value['author_id']];
-            $topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+        if (!empty($topic)) {
+            foreach ($topic as $key => $value) {
+                $user_id[] = $value['author_id'];
+                $user_id[] = $value['reply_id'];
+            }
+            $user_id = array_flip(array_flip($user_id));
+            $user_info = $this->model->User->getUserInfo($user_id);
+            $user_id_to_name = false;
+            foreach ($user_info as $key => $value) {
+                $user_id_to_name[$value['id']] = $value['username'];
+            }
+            foreach ($topic as $key => $value) {
+                $topic[$key]['author'] = $user_id_to_name[$value['author_id']];
+                $topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+            }
         }
         return $topic;
     }
@@ -202,8 +204,11 @@ class Topic_model extends Kotori_Model
                 array(
                     '[><]user' => array('user_id' => 'id'),
                     '[><]user_setting' => array('user_id' => 'user_id'),
+                    '[><]node' => array('node_id' => 'id'),
                 ),
                 array(
+                    'node.ename',
+                    'node.name',
                     'topic.id',
                     'topic.user_id',
                     'topic.title',

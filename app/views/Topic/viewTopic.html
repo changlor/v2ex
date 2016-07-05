@@ -31,7 +31,9 @@
                         </div>
                         <a href="/">V2EX</a>
                         <span class="chevron">&nbsp;›&nbsp;</span>
-                        <a href="/go/programmer">程序员</a>
+                        <a href="/go/<?=$topic['ename'];?>">
+                            <?=$topic['name'];?>
+                        </a>
                         <div class="sep10"></div>
                         <h1><?=$topic['title'];?></h1>
                         <div id="topic_<?=$topic['id'];?>_votes" class="votes">
@@ -63,9 +65,12 @@
                         <div class="fr gray f11" style="line-height: 12px; padding-top: 3px; text-shadow: 0px 1px 0px #fff;">
                             <?=$topic['hits'];?> 次点击 &nbsp;
                         </div>
-                        <a href="/favorite/topic/248521?t=gorpqfesvvjfgtcjfutdwbhiqftspifx" class="tb">
-                                加入收藏
-                            </a> &nbsp;
+                        <?php if ($is_favorite_topic): ?>
+                        <a href="/unfavorite/topic/<?=$topic['id'];?>" class="tb">取消收藏</a>
+                        <?php else: ?>
+                        <a href="/favorite/topic/<?=$topic['id'];?>" class="tb">加入收藏</a>
+                        <?php endif;?>
+                        &nbsp;
                         <a href="javascript:;" onclick="window.open('https://twitter.com/share?url=<?php echo $this->route->url('t/' . $topic['id']); ?>?r\u003D<?=rcookie('NA');?>&related=v2ex&hashtags=programmer&text=<?=$topic['title'];?>', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'twitter.com');" class="tb">
                                 Tweet
                             </a> &nbsp;
@@ -136,60 +141,58 @@
                     </div>
                     <?php if ($page_rows > 1): ?>
                     <?=$page_link;?>
-                    <?php endif;?>
-                    <?php foreach ($comment as $key => $value): ?>
-                    <div id="r_2445799" class="cell">
-                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                            <tbody>
-                                <tr>
-                                    <td width="48" valign="top" align="center">
-                                        <img src="<?php echo ($value['avatar'] == 1) ? PUBLIC_DIR . '/img/avatar/' . $value['user_id'] . '_normal.png' : PUBLIC_DIR . '/img/Changle.jpeg'; ?>" class="avatar" border="0" align="default">
-                                    </td>
-                                    <td width="10" valign="top"></td>
-                                    <td width="auto" valign="top" align="left">
-                                        <div class="fr">
-                                        <?php if (rcookie('NA') != '' && rcookie('NA') != $value['username']): ?>
-                                            <div id="thank_area_<?=$value['comment_id'];?>" class="thank_area <?php echo (!empty($thank_record['comment']) && in_array($value['comment_id'], $thank_record['comment'])) ? 'thanked' : '' ?>">
-                                            <?php if (!empty($thank_record['comment']) && in_array($value['comment_id'], $thank_record['comment'])): ?>
-                                                感谢已发射
-                                            <?php else: ?>
-                                                <a href="javascript:;" onclick="if (confirm('确认要不再显示来自 @<?=$value['username'];?> 的这条回复？')) { ignoreReply(2445799, '95308'); }" class="thank" style="color: #ccc;">隐藏</a> &nbsp; &nbsp; &nbsp;
-                                                <a href="javascript:;" onclick="if (confirm('确认花费 10 个铜币向 @<?=$value['username'];?> 的这条回复发送感谢？')) { thankReply('<?=$value['comment_id'];?>', '<?=$topic['id'];?>'); }" class="thank">
+                        <?php endif;?>
+                        <?php foreach ($comment as $key => $value): ?>
+                        <div id="r_2445799" class="cell">
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td width="48" valign="top" align="center">
+                                            <img src="<?php echo ($value['avatar'] == 1) ? PUBLIC_DIR . '/img/avatar/' . $value['user_id'] . '_normal.png' : PUBLIC_DIR . '/img/Changle.jpeg'; ?>" class="avatar" border="0" align="default">
+                                        </td>
+                                        <td width="10" valign="top"></td>
+                                        <td width="auto" valign="top" align="left">
+                                            <div class="fr">
+                                                <?php if (rcookie('NA') != '' && rcookie('NA') != $value['username']): ?>
+                                                <div id="thank_area_<?=$value['comment_id'];?>" class="thank_area <?php echo (!empty($thank_record['comment']) && in_array($value['comment_id'], $thank_record['comment'])) ? 'thanked' : '' ?>">
+                                                    <?php if (!empty($thank_record['comment']) && in_array($value['comment_id'], $thank_record['comment'])): ?> 感谢已发射
+                                                    <?php else: ?>
+                                                    <a href="javascript:;" onclick="if (confirm('确认要不再显示来自 @<?=$value['username'];?> 的这条回复？')) { ignoreReply(2445799, '95308'); }" class="thank" style="color: #ccc;">隐藏</a> &nbsp; &nbsp; &nbsp;
+                                                    <a href="javascript:;" onclick="if (confirm('确认花费 10 个铜币向 @<?=$value['username'];?> 的这条回复发送感谢？')) { thankReply('<?=$value['comment_id'];?>', '<?=$topic['id'];?>'); }" class="thank">
                                                         感谢回复者
                                                     </a>
-                                            <?php endif;?>
+                                                    <?php endif;?>
+                                                </div>
+                                                <?php endif;?> &nbsp;
+                                                <a href="javascript:;" onclick="replyOne('<?=$value['username'];?>');"><img src="<?php echo PUBLIC_DIR; ?>/img/reply.png" align="absmiddle" border="0" alt="Reply"></a> &nbsp;&nbsp;
+                                                <span class="no"><?=$value['position'];?></span>
                                             </div>
-                                        <?php endif;?>
-                                            &nbsp;
-                                            <a href="javascript:;" onclick="replyOne('<?=$value['username'];?>');"><img src="<?php echo PUBLIC_DIR; ?>/img/reply.png" align="absmiddle" border="0" alt="Reply"></a> &nbsp;&nbsp;
-                                            <span class="no"><?=$value['position'];?></span>
-                                        </div>
-                                        <div class="sep3"></div>
-                                        <strong>
+                                            <div class="sep3"></div>
+                                            <strong>
                                                 <a href="/member/<?=$value['username'];?>" class="dark"><?=$value['username'];?></a>
                                             </strong> &nbsp; &nbsp;
-                                        <span class="fade small"><?=fadeTime($value['created_at']);?></span>
-                                        <div class="sep5"></div>
-                                        <div class="reply_content">
-                                        <?php 
-                                            foreach ($comment as $ke => $val) {
-                                                if ($value['content'] == $val['content'] && $value > $val) {
-                                                    $value['content'] = '<font color="red">是这样的，该用户可能没和小金jy过又喜欢水贴，因此该评论不予显示</font>';
-                                                    break;
-                                                }
-                                            }
-                                        ?>
-                                        <?=$value['content'];?>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <?php endforeach;?>
-                    <?php if ($page_rows > 1): ?>
-                    <?=$page_link;?>
-                    <?php endif;?>
+                                            <span class="fade small"><?=fadeTime($value['created_at']);?></span>
+                                            <div class="sep5"></div>
+                                            <div class="reply_content">
+                                                <?php
+foreach ($comment as $ke => $val) {
+    if ($value['content'] == $val['content'] && $value > $val) {
+        $value['content'] = '<font color="red">是这样的，该用户可能没和小金jy过又喜欢水贴，因此该评论不予显示</font>';
+        break;
+    }
+}
+?>
+                                                    <?=$value['content'];?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php endforeach;?>
+                        <?php if ($page_rows > 1): ?>
+                        <?=$page_link;?>
+                            <?php endif;?>
                 </div>
                 <?php endif;?>
                 <?php if (rcookie('NA') != ''): ?>

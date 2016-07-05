@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8">
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="header"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> 我收藏的节点</div>
+                    <?php if (empty($favorite_node)): ?>
+                    <div class="inner">
+                        <table cellpadding="20" cellspacing="0" border="0" width="100%">
+                            <tr>
+                                <td width="160" align="right"><img src="<?php echo PUBLIC_DIR; ?>/img/cat_ask.png" width="128" height="128" /></td>
+                                <td width="auto" align="center"><span class="f14">你现在还没有收藏任何节点</span>
+                                    <div class="sep10"></div><span class="f12 fade">你可以点击节点首页右上角的 加入收藏 来收藏你关注的节点</span>
+                                    <div class="sep10"></div>
+                                    <li class="fa fa-arrow-right fade"></li>&nbsp; <a href="/planes">浏览 V2EX 全部节点</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <?php else: ?>
+                    <div style="text-align: left; background-color: #f9f9f9;" id="MyNodes" class="ui-sortable">
+                        <?php foreach ($favorite_node as $key => $value): ?>
+                        <a class="grid_item" href="/go/<?=$value['ename'];?>" id="n_95886">
+                            <div style="display: table; padding: 20px 0px 20px 0px; width: 100%; text-align: center; font-size: 14px;"><img src="<?php echo PUBLIC_DIR; ?>/img/node/<?=$value['ename'];?>.png" border="0" align="default" width="73">
+                                <div class="sep10"></div><?=$value['name'];?>
+                                <div class="sep5"></div><span class="fade f12"><li class="fa fa-comments"></li> <?=$value['topic_count'];?></span></div>
+                        </a>
+                        <?php endforeach;?>
+                    </div>
+                    <?php endif;?>
+                </div>
+            </div>
+            <div class="c"></div>
+            <div class="sep20"></div>
+        </div>
+        <?php $this->need('Public/footer');?>
+</body>
+
+</html>

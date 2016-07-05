@@ -517,4 +517,5 @@ class User_model extends Kotori_Model
             )
         );
     }
+
 }

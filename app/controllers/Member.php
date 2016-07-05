@@ -20,7 +20,8 @@ class Member extends Base
             $comment_last_key = end($comment_keys);
             $user_setting = $this->model->User->getUserSetting($user_id);
             $use_avatar = $this->model->User->ifUseAvatar($user_id);
-            $this->view->assign('username', $username)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('user_rank', $user_rank)->assign('recent_topics', $recent_activity['topic'])->assign('user_id', $user_id)->assign('use_avatar', $use_avatar)->assign('user_setting', $user_setting)->display();
+            $is_follow = $this->model->Favorite->isFavoriteMember($user_id, $this->uid);
+            $this->view->assign('username', $username)->assign('is_follow', $is_follow)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('user_rank', $user_rank)->assign('recent_topics', $recent_activity['topic'])->assign('user_id', $user_id)->assign('use_avatar', $use_avatar)->assign('user_setting', $user_setting)->display();
         } else {
             $this->response->setStatus(404);
             $this->view->display('Member/memberNotFound');

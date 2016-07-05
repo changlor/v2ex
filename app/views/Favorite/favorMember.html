@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+
+<head>
+    <title>
+        V2EX
+    </title>
+    <meta charset="utf-8">
+    <link href="<?php echo PUBLIC_DIR; ?>/css/basic.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/my.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo PUBLIC_DIR; ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <?php $this->need('Public/header');?>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+            <div id="Rightbar">
+                <?php $this->need('Public/rightBar', $rightBarInfo);?>
+            </div>
+            <div id="Main">
+                <div class="sep20"></div>
+                <div class="box">
+                    <div class="header"><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span> 我关注的人的最新主题
+                        <div class="fr f12"><span class="snow">主题总数&nbsp;</span> <strong class="gray"><?=count($favorite_member_topic);?></strong></div>
+                    </div>
+                    <?php if (!empty($favorite_member_topic)): ?>
+                    <?php foreach ($favorite_member_topic as $key => $value): ?>
+                    <div class="cell item" style="">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                            <tr>
+                                <td width="48" valign="top" align="center">
+                                    <a href="/member/<?=$value['author'];?>"><img src="<?php echo ($value['author_avatar'] == 1) ? PUBLIC_DIR . '/img/avatar/' . $value['author_id'] . '_normal.png' : PUBLIC_DIR . '/img/Changle.jpeg'; ?>" class="avatar" border="0" align="default" /></a>
+                                </td>
+                                <td width="10"></td>
+                                <td width="auto" valign="middle"><span class="item_title"><a href="/t/<?=$value['id'];?>#reply<?=$value['comment_count'];?>"><?=$value['title'];?></a></span>
+                                    <div class="sep5"></div>
+                                    <span class="small fade"><div class="votes"></div><a class="node" href="/go/<?=$value['ename'];?>"><?=$value['name'];?></a>&nbsp; • &nbsp;<strong><a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><?=$value['author'];?></a></strong>
+                                            <?php if ($value['replied_at'] == '' || $value['replied_at'] == 0): ?>&nbsp; • &nbsp;<?=fadeTime($value['created_at']);?>&nbsp;
+                                            <?php else: ?>
+                                                &nbsp; • &nbsp;<?=fadeTime($value['replied_at']);?>&nbsp;
+                                            <?php endif;?>
+                                                <?php if (isset($value['last_reply_username']) && $value['last_reply_username'] != ''): ?>
+                                                • &nbsp;最后回复来自
+                                                <strong>
+                                                    <a href="<?php echo $this->route->url('member/' . $value['last_reply_username']); ?>"><?=$value['last_reply_username'];?></a>
+                                                </strong>
+                                                <?php endif;?>
+                                            </span>
+                                </td>
+                                <?php if ($value['comment_count'] != 0): ?>
+                                <td width="70" align="right" valign="middle">
+                                    <a href="<?php echo $this->route->url('t/' . $value['id']); ?>#reply<?=$value['comment_count'];?>" class="count_livid">
+                                        <?=$value['comment_count'];?>
+                                    </a>
+                                </td>
+                                <?php endif;?>
+                            </tr>
+                        </table>
+                    </div>
+                    <?php endforeach;?>
+                    <?php endif;?>
+                </div>
+            </div>
+        </div>
+        <div class="c"></div>
+        <div class="sep20"></div>
+    </div>
+    <?php $this->need('Public/footer');?>
+</body>
+
+</html>

@@ -23,9 +23,12 @@
                 </div>
                 <div class="box">
                     <div class="inner" style="background-color: #fff; border-top-left-radius: 3px; border-top-right-radius: 3px;" id="Tabs">
-                        <a href="/?tab=chaos" class="tab_current">
-                                the king of chaos
+                        <?php $tab = array('chaos' => 'the king of chaos', 'programmer' => '程序员');?>
+                        <?php foreach ($tab as $key => $value): ?>
+                        <a href="/?tab=<?=$key;?>" class="<?php echo ($tab_name == $key) ? 'tab_current' : 'tab'; ?>">
+                                <?=$value;?>
                             </a>
+                        <?php endforeach;?>
                     </div>
                     <div class="cell" style="background-color: #f9f9f9; padding: 10px 10px 10px 20px;">
                         <?php foreach ($tab_node as $key => $value): ?>
