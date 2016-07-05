@@ -17,6 +17,7 @@ class Base extends Kotori_Controller
         if (rcookie('NA') == '') {
             $need_login_controller = array(
                 'Note' => 'notes',
+                'Favorite' => '%2F',
             );
             $need_login_method = array(
                 'balance' => 'balance',

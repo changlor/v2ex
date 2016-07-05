@@ -63,6 +63,7 @@ class Topic_model extends Kotori_Model
                 'node.ename',
                 'node.name',
                 'topic.id',
+                'user_setting.email(author_email)',
                 'topic.user_id(author_id)',
                 'user_setting.avatar(author_avatar)',
                 'topic.title',

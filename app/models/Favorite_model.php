@@ -74,7 +74,7 @@ class Favorite_model extends Kotori_Model
                 'name' => 'member',
             )
         );
-        $favorite_topic = $this->db->select('favorite',
+        $favorite_member_topic = $this->db->select('favorite',
             array(
                 '[><]topic' => array('target_id' => 'user_id'),
                 '[><]node' => array('topic.node_id' => 'id'),
@@ -100,21 +100,23 @@ class Favorite_model extends Kotori_Model
             )
         );
         $user_id = false;
-        foreach ($favorite_topic as $key => $value) {
-            $user_id[] = $value['author_id'];
-            $user_id[] = $value['reply_id'];
+        if (!empty($favorite_member_topic)) {
+            foreach ($favorite_member_topic as $key => $value) {
+                $user_id[] = $value['author_id'];
+                $user_id[] = $value['reply_id'];
+            }
+            $user_id = array_flip(array_flip($user_id));
+            $user_info = $this->model->User->getUserInfo($user_id);
+            $user_id_to_name = false;
+            foreach ($user_info as $key => $value) {
+                $user_id_to_name[$value['id']] = $value['username'];
+            }
+            foreach ($favorite_member_topic as $key => $value) {
+                $favorite_member_topic[$key]['author'] = $user_id_to_name[$value['author_id']];
+                $favorite_member_topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+            }
         }
-        $user_id = array_flip(array_flip($user_id));
-        $user_info = $this->model->User->getUserInfo($user_id);
-        $user_id_to_name = false;
-        foreach ($user_info as $key => $value) {
-            $user_id_to_name[$value['id']] = $value['username'];
-        }
-        foreach ($favorite_topic as $key => $value) {
-            $favorite_topic[$key]['author'] = $user_id_to_name[$value['author_id']];
-            $favorite_topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
-        }
-        return $favorite_topic;
+        return $favorite_member_topic;
     }
 
     public function getUserFavorTopic($user_id)
@@ -152,20 +154,22 @@ class Favorite_model extends Kotori_Model
                 ),
             )
         );
-        $user_id = false;
-        foreach ($favorite_topic as $key => $value) {
-            $user_id[] = $value['author_id'];
-            $user_id[] = $value['reply_id'];
-        }
-        $user_id = array_flip(array_flip($user_id));
-        $user_info = $this->model->User->getUserInfo($user_id);
-        $user_id_to_name = false;
-        foreach ($user_info as $key => $value) {
-            $user_id_to_name[$value['id']] = $value['username'];
-        }
-        foreach ($favorite_topic as $key => $value) {
-            $favorite_topic[$key]['author'] = $user_id_to_name[$value['author_id']];
-            $favorite_topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+        if (!empty($favorite_topic)) {
+            $user_id = false;
+            foreach ($favorite_topic as $key => $value) {
+                $user_id[] = $value['author_id'];
+                $user_id[] = $value['reply_id'];
+            }
+            $user_id = array_flip(array_flip($user_id));
+            $user_info = $this->model->User->getUserInfo($user_id);
+            $user_id_to_name = false;
+            foreach ($user_info as $key => $value) {
+                $user_id_to_name[$value['id']] = $value['username'];
+            }
+            foreach ($favorite_topic as $key => $value) {
+                $favorite_topic[$key]['author'] = $user_id_to_name[$value['author_id']];
+                $favorite_topic[$key]['last_reply_username'] = (isset($user_id_to_name[$value['reply_id']])) ? $user_id_to_name[$value['reply_id']] : '';
+            }
         }
         return $favorite_topic;
     }
