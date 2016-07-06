@@ -30,7 +30,7 @@
                             <tbody>
                                 <tr>
                                     <td width="48" valign="top" align="center">
-                                        <a href="/member/<?=$value['author'];?>"><img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" class="avatar" border="0" align="default" /></a>
+                                        <a href="/member/<?=$value['author'];?>"><img src="<?php echo ($value['author_avatar'] == 1) ? PUBLIC_DIR . '/img/avatar/' . $value['author_id'] . '_normal.png' : getDefaultAvatar($value['default_avatar'], 48); ?>" class="avatar" border="0" align="default" /></a>
                                     </td>
                                     <td width="10"></td>
                                     <td width="auto" valign="middle">

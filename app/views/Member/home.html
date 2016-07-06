@@ -37,7 +37,7 @@
                     <div class="cell">
                         <table cellpadding="0" cellspacing="0" border="0" width="100%">
                             <tr>
-                                <td width="73" valign="top" align="center"><img src="<?php echo ($use_avatar) ? PUBLIC_DIR . '/img/avatar/' . $user_id . '_large.png' : PUBLIC_DIR . '/img/default_big.jpeg'; ?>" class="avatar" border="0" align="default" />
+                                <td width="73" valign="top" align="center"><img src="<?php echo ($use_avatar) ? PUBLIC_DIR . '/img/avatar/' . $user_id . '_large.png' : getDefaultAvatar($default_avatar, 72); ?>" class="avatar" border="0" align="default" />
                                     <div class="sep10"></div><strong class="online">ONLINE</strong></td>
                                 <td width="10"></td>
                                 <td width="auto" valign="top" align="left">
@@ -86,7 +86,7 @@
                 <div class="sep20"></div>
                 <div class="box">
                     <div class="cell_tabs">
-                        <div class="fl"><img src="<?php echo ($use_avatar) ? PUBLIC_DIR . '/img/avatar/' . $user_id . '_large.png' : PUBLIC_DIR . '/img/default_small.jpeg'; ?>" width="24" style="border-radius: 24px; margin-top: -2px;" border="0" /></div>
+                        <div class="fl"><img src="<?php echo ($use_avatar) ? PUBLIC_DIR . '/img/avatar/' . $user_id . '_mini.png' : getDefaultAvatar($default_avatar, 24); ?>" width="24" style="border-radius: 24px; margin-top: -2px;" border="0" /></div>
                         <a href="/member/<?=$username;?>" class="cell_tab_current">
                             <?=$username;?> 创建的所有主题</a><a href="/member/<?=$username;?>/qna" class="cell_tab">提问</a><a href="/member/<?=$username;?>/tech" class="cell_tab">技术话题</a><a href="/member/<?=$username;?>/play" class="cell_tab">好玩</a><a href="/member/<?=$username;?>/jobs" class="cell_tab">工作信息</a><a href="/member/<?=$username;?>/deals" class="cell_tab">交易信息</a><a href="/member/<?=$username;?>/city" class="cell_tab">城市相关</a></div>
                     <?php if (count($recent_topics) > 0): ?>

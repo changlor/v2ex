@@ -12,6 +12,7 @@ class Member extends Base
             $rank = new Rank($username);
             $user_rank = $rank->getUserRank();
             $user_id = $this->model->User->getUserId('username', $username);
+            $default_avatar = $this->model->User->getUserDefaultAvatar($user_id);
             $recent_activity = $this->model->User->getRecentActivity($user_id);
             foreach ($recent_activity['comment'] as $key => $value) {
                 $recent_activity['comment'][$key] = preg_replace('/@%([a-z0-9]+)%/i', '@<a href="' . $this->route->url('member/' . '$1') . '" title="$1">$1</a>', $value);
@@ -21,7 +22,7 @@ class Member extends Base
             $user_setting = $this->model->User->getUserSetting($user_id);
             $use_avatar = $this->model->User->ifUseAvatar($user_id);
             $is_follow = $this->model->Favorite->isFavoriteMember($user_id, $this->uid);
-            $this->view->assign('username', $username)->assign('is_follow', $is_follow)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('user_rank', $user_rank)->assign('recent_topics', $recent_activity['topic'])->assign('user_id', $user_id)->assign('use_avatar', $use_avatar)->assign('user_setting', $user_setting)->display();
+            $this->view->assign('default_avatar', $default_avatar)->assign('username', $username)->assign('is_follow', $is_follow)->assign('comment_last_key', $comment_last_key)->assign('recent_comments', $recent_activity['comment'])->assign('user_rank', $user_rank)->assign('recent_topics', $recent_activity['topic'])->assign('user_id', $user_id)->assign('use_avatar', $use_avatar)->assign('user_setting', $user_setting)->display();
         } else {
             $this->response->setStatus(404);
             $this->view->display('Member/memberNotFound');

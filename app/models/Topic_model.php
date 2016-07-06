@@ -15,8 +15,12 @@ class Topic_model extends Kotori_Model
             array(
                 '[><]topic' => array('tag_topic.topic_id' => 'id'),
                 '[><]node' => array('topic.node_id' => 'id'),
+                '[><]user' => array('topic.user_id' => 'id'),
+                '[><]user_setting' => array('topic.user_id' => 'user_id'),
             ),
             array(
+                'user.avatar(default_avatar)',
+                'user_setting.avatar(author_avatar)',
                 'node.ename',
                 'node.name',
                 'topic.id',
