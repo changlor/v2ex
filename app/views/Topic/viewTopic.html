@@ -27,7 +27,7 @@
                 <div class="box" style="border-bottom: 0px;">
                     <div class="header">
                         <div class="fr">
-                            <a data-id="<?=$topic['user_id'];?>" href="/member/<?=$topic['author'];?>"><img src="<?php echo ($topic['author_avatar'] == 1) ? PUBLIC_DIR . '/img/avatar/' . $topic['user_id'] . '_large.png' : PUBLIC_DIR . '/img/Changle.jpeg'; ?>" class="avatar" border="0" align="default" /></a>
+                            <a data-id="<?=$topic['user_id'];?>" href="/member/<?=$topic['author'];?>"><img src="<?php echo ($topic['author_avatar'] == 1) ? PUBLIC_DIR . '/img/avatar/' . $topic['user_id'] . '_large.png' : getDefaultAvatar($topic['default_avatar'], 48); ?>" class="avatar" border="0" align="default" /></a>
                         </div>
                         <a href="/">V2EX</a>
                         <span class="chevron">&nbsp;›&nbsp;</span>
@@ -148,7 +148,7 @@
                                 <tbody>
                                     <tr>
                                         <td width="48" valign="top" align="center">
-                                            <img src="<?php echo ($value['avatar'] == 1) ? PUBLIC_DIR . '/img/avatar/' . $value['user_id'] . '_normal.png' : PUBLIC_DIR . '/img/Changle.jpeg'; ?>" class="avatar" border="0" align="default">
+                                            <img src="<?php echo ($value['avatar'] == 1) ? PUBLIC_DIR . '/img/avatar/' . $value['user_id'] . '_normal.png' : getDefaultAvatar($value['default_avatar'], 48); ?>" class="avatar" border="0" align="default">
                                         </td>
                                         <td width="10" valign="top"></td>
                                         <td width="auto" valign="top" align="left">

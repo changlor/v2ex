@@ -30,11 +30,11 @@
                     <div class="header">
                         <div style="float: left; display: inline-block; margin-right: 10px; margin-bottom: initial!important;"><img src="<?php echo PUBLIC_DIR; ?>/img/node/<?=$node_info['ename'];?>.png" border="0" align="default" width="auto" /></div>
                         <div class="fr f12"><span class="snow">主题总数</span> <strong class="gray"><?=$node_info['topic_count'];?></strong> <span class="snow">&nbsp;•&nbsp;</span>
-                            <?php if($is_favorite_node): ?>
+                            <?php if ($is_favorite_node): ?>
                             <a href="/unfavorite/node/<?=$node_info['id'];?>">取消收藏</a>
                             <?php else: ?>
                             <a href="/favorite/node/<?=$node_info['id'];?>">加入收藏</a>
-                            <?php endif; ?>
+                            <?php endif;?>
                         </div><a href="/">V2EX</a> <span class="chevron">&nbsp;›&nbsp;</span>
                         <?=$node_info['name'];?>
                             <div class="sep10"></div>
@@ -50,7 +50,7 @@
                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                     <tr>
                                         <td width="48" valign="top" align="center">
-                                            <a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><img src="<?php echo PUBLIC_DIR; ?>/img/Changle.jpeg" class="avatar" border="0" align="default" /></a>
+                                            <a href="<?php echo $this->route->url('member/' . $value['author']); ?>"><img src="<?php echo ($value['author_avatar'] == 1) ? PUBLIC_DIR . '/img/avatar/' . $value['author_id'] . '_normal.png' : getDefaultAvatar($value['default_avatar'], 48); ?>" class="avatar" border="0" align="default" /></a>
                                         </td>
                                         <td width="10"></td>
                                         <td width="auto" valign="middle"><span class="item_title"><a href="<?php echo $this->route->url('t/' . $value['id']); ?>#reply<?=$value['comment_count'];?>"><?=$value['title'];?></a></span>

@@ -41,6 +41,7 @@ class Comment_model extends Kotori_Model
                 'topic.comment_count',
                 'topic.title',
                 'user.username(author)',
+                'user.avatar(default_avatar)',
             ),
             array(
                 'AND' => array(
@@ -69,6 +70,7 @@ class Comment_model extends Kotori_Model
                 'comment.position',
                 'user.username',
                 'user_setting.avatar',
+                'user.avatar(default_avatar)',
             ),
             array(
                 'comment.topic_id' => $topic_id,

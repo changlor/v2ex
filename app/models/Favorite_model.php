@@ -78,6 +78,7 @@ class Favorite_model extends Kotori_Model
             array(
                 '[><]topic' => array('target_id' => 'user_id'),
                 '[><]node' => array('topic.node_id' => 'id'),
+                '[><]user' => array('topic.user_id' => 'id'),
                 '[><]user_setting' => array('topic.user_id' => 'user_id'),
             ),
             array(
@@ -86,6 +87,7 @@ class Favorite_model extends Kotori_Model
                 'topic.id',
                 'topic.user_id(author_id)',
                 'user_setting.avatar(author_avatar)',
+                'user.avatar(default_avatar)',
                 'topic.title',
                 'topic.created_at',
                 'topic.comment_count',
@@ -134,6 +136,7 @@ class Favorite_model extends Kotori_Model
                 '[><]topic' => array('target_id' => 'id'),
                 '[><]node' => array('topic.node_id' => 'id'),
                 '[><]user_setting' => array('topic.user_id' => 'user_id'),
+                '[><]user' => array('topic.user_id' => 'id'),
             ),
             array(
                 'node.ename',
@@ -141,6 +144,7 @@ class Favorite_model extends Kotori_Model
                 'topic.id',
                 'topic.user_id(author_id)',
                 'user_setting.avatar(author_avatar)',
+                'user.avatar(default_avatar)',
                 'topic.title',
                 'topic.created_at',
                 'topic.comment_count',

@@ -428,3 +428,7 @@ function getRandChar($length = 30)
     }
     return $str;
 }
+function getDefaultAvatar($avatar, $size)
+{
+    return 'https://cdn.v2ex.co/gravatar/' . $avatar . '?s=' . $size . '&amp;r=X&amp;d=';
+}

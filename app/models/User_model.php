@@ -323,6 +323,19 @@ class User_model extends Kotori_Model
         );
     }
 
+    public function getUserAvatar($user_id)
+    {
+        $user_avatar = $this->db->select('user_setting',
+            array(
+                'email',
+            ),
+            array(
+                'user_id' => $user_id,
+            )
+        );
+        return 'https://cdn.v2ex.co/gravatar/' . md5($user_avatar[0]['email']) . '?amp;r=X&amp;d=';
+    }
+
     public function getUserCoin($user_id)
     {
         $coin = $this->db->select('user_record',
@@ -518,4 +531,16 @@ class User_model extends Kotori_Model
         );
     }
 
+    public function getUserDefaultAvatar($user_id)
+    {
+        $avatar = $this->db->select('user',
+            array(
+                'avatar',
+            ),
+            array(
+                'id' => $user_id,
+            )
+        );
+        return $avatar[0]['avatar'];
+    }
 }

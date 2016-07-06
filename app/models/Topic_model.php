@@ -58,14 +58,15 @@ class Topic_model extends Kotori_Model
                 '[><]node' => array('tab_node.node_id' => 'id'),
                 '[><]topic' => array('tab_node.node_id' => 'node_id'),
                 '[><]user_setting' => array('topic.user_id' => 'user_id'),
+                '[><]user' => array('topic.user_id' => 'id'),
             ),
             array(
                 'node.ename',
                 'node.name',
                 'topic.id',
-                'user_setting.email(author_email)',
                 'topic.user_id(author_id)',
                 'user_setting.avatar(author_avatar)',
+                'user.avatar(default_avatar)',
                 'topic.title',
                 'topic.created_at',
                 'topic.comment_count',
@@ -101,17 +102,23 @@ class Topic_model extends Kotori_Model
     {
         $topic = $this->db->select('topic',
             array(
-                'title',
-                'user_id(author_id)',
-                'replied_at',
-                'created_at',
-                'id',
-                'comment_count',
-                'reply_id',
+                '[><]user' => array('user_id' => 'id'),
+                '[><]user_setting' => array('user_id' => 'user_id'),
             ),
             array(
-                'node_id' => $node_id,
-                'ORDER' => 'created_at DESC',
+                'topic.title',
+                'topic.user_id(author_id)',
+                'topic.replied_at',
+                'topic.created_at',
+                'topic.id',
+                'topic.comment_count',
+                'topic.reply_id',
+                'user_setting.avatar(author_avatar)',
+                'user.avatar(default_avatar)',
+            ),
+            array(
+                'topic.node_id' => $node_id,
+                'ORDER' => 'topic.created_at DESC',
                 'LIMIT' => array($pagination_rows * ($pagination - 1), $pagination_rows),
             )
         );
@@ -220,6 +227,7 @@ class Topic_model extends Kotori_Model
                     'topic.created_at',
                     'topic.hits',
                     'user.username(author)',
+                    'user.avatar(default_avatar)',
                     'user_setting.avatar(author_avatar)',
                 ),
                 array(
@@ -431,9 +439,13 @@ class Topic_model extends Kotori_Model
         return $this->db->select('topic',
             array(
                 '[><]user' => array('user_id' => 'id'),
+                '[><]user_setting' => array('user_id' => 'user_id'),
             ),
             array(
                 'topic.title',
+                'topic.user_id(author_id)',
+                'user.avatar(default_avatar)',
+                'user_setting.avatar(author_avatar)',
                 'user.username(author)',
                 'topic.id(topic_id)',
             ),

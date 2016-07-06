@@ -101,6 +101,7 @@ class User extends Base
                 $user['auth_key'] = $password['salt'];
                 $user['username'] = $username;
                 $user['email'] = $email;
+                $user['avatar'] = md5($email);
                 $user['created_at'] = strtotime(date('Y:m:d H:i:s'));
                 $this->model->User->signin($user);
                 $user_id = $this->model->User->getUserId('username', $username);
@@ -228,7 +229,7 @@ class User extends Base
             $update_user_setting_info['signature'] = $signature;
             $update_user_setting_info['introduction'] = $introduction;
             $this->model->User->updateUserSetting($update_user_setting_info, $this->uid);
-            $update_user_info = array('email' => $email);
+            $update_user_info = array('email' => $email, 'avatar' => md5($email));
             $this->model->User->updateUserInfo($update_user_info, $this->uid);
             $_SESSION['is_done_setting'] = true;
             $url = $this->route->url('settings');

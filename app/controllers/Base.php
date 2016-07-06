@@ -1,4 +1,4 @@
-<?php
+    <?php
 class Base extends Kotori_Controller
 {
     protected $uid = '';
@@ -59,6 +59,7 @@ class Base extends Kotori_Controller
             $this->rightBarInfo['daily_task'] = $this->model->Task->getDailyTask($this->uid);
             $this->rightBarInfo['signature'] = $this->model->User->getUserSignature($this->uid);
             $this->rightBarInfo['use_avatar'] = $this->model->User->ifUseAvatar($this->uid);
+            $this->rightBarInfo['default_avatar'] = $this->model->User->getUserDefaultAvatar($this->uid);
             $this->rightBarInfo['user_id'] = $this->uid;
         }
         if (ACTION_NAME == 'index') {
